@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
     <section
       id="hero"
       aria-label="ARCHIVE Hero Exhibition"
-      className="relative w-full min-h-[calc(100vh-90px)] md:min-h-[720px] lg:min-h-[780px] flex items-center overflow-x-hidden bg-[#FAF8F4]"
+      className="relative w-full min-h-[calc(100vh-90px)] md:min-h-[720px] lg:min-h-[780px] flex items-center overflow-x-hidden bg-[#DACAB0]"
     >
       {/* =========================================================================
           BACKGROUND LAYER: Animated Nigeria Archival Collage or Static Fallback
@@ -65,7 +65,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
         aria-hidden="true"
       >
         {/* Subtle overall background tone matching the paper texture */}
-        <div className="absolute inset-0 bg-[#FAF8F4] z-0" />
+        <div className="absolute inset-0 bg-[#DACAB0] z-0" />
 
         {/* Video / Fallback Container: Positioned intentionally to align with the right-side collage */}
         <div className="absolute inset-0 z-1 flex items-center justify-end">
@@ -102,8 +102,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
           )}
 
           {/* Soft gradient wash on smaller viewports to guarantee text contrast against background imagery */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F4] via-[#FAF8F4]/80 to-transparent lg:hidden pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F4] via-transparent to-transparent sm:hidden pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#DACAB0] via-[#DACAB0]/80 to-transparent lg:hidden pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#DACAB0] via-transparent to-transparent sm:hidden pointer-events-none" />
         </div>
       </div>
 

@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateSection }) => {
         Skip to main content
       </a>
 
-      <header className="relative z-30 w-full bg-[#FAF8F4]">
+      <header className="relative z-30 w-full bg-[#DACAB0]">
         <div className="pt-6 md:pt-8 pb-4 px-6 md:px-12 lg:px-16 max-w-[1440px] mx-auto">
           <div className="grid grid-cols-3 items-center">
             {/* Left Navigation (Desktop) */}
