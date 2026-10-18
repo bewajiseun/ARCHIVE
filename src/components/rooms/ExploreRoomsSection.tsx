@@ -50,6 +50,7 @@ export const ExploreRoomsSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -65,6 +66,24 @@ export const ExploreRoomsSection: React.FC = () => {
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev === ROOMS_DATA.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    setTouchStartX(null);
   };
 
   const handleCardClick = (index: number) => {
@@ -260,8 +279,12 @@ export const ExploreRoomsSection: React.FC = () => {
             })}
           </div>
 
-          {/* Mobile Layout: Responsive Single-Active Card Stage with Smooth Carousel Feel */}
-          <div className="sm:hidden w-full flex flex-col items-center">
+          {/* Mobile Layout: Responsive Single-Active Card Stage with Smooth Carousel Feel & Touch Swipe */}
+          <div
+            className="sm:hidden w-full flex flex-col items-center"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {ROOMS_DATA.map((room, idx) => {
               if (idx !== activeIndex) return null;
 
@@ -270,36 +293,50 @@ export const ExploreRoomsSection: React.FC = () => {
                   key={room.id}
                   id={`room-mobile-${room.id}`}
                   style={{ borderRadius: '0px' }}
-                  className="w-full max-w-[320px] h-[420px] relative border border-[#E3DED5] overflow-hidden bg-[#171715] shadow-xl animate-in fade-in zoom-in-95 duration-300"
+                  className="w-full max-w-[340px] h-[450px] relative border border-[#E3DED5] overflow-hidden bg-[#171715] shadow-xl animate-in fade-in zoom-in-95 duration-300"
                 >
-                  <img
-                    src={room.image}
-                    alt={room.alt}
-                    className="w-full h-full object-cover object-center"
-                    style={{
-                      filter:
-                        room.tone === 'bw'
-                          ? 'grayscale(100%) contrast(1.08)'
-                          : 'sepia(45%) saturate(1.1) contrast(1.04)',
-                    }}
-                  />
+                  {/* Background Image Layer: Absolute container behind content */}
+                  <div className="absolute inset-0 w-full h-full bg-[#171715] overflow-hidden">
+                    <img
+                      src={room.image}
+                      alt={room.alt}
+                      className="w-full h-full object-cover object-center"
+                      style={{
+                        filter:
+                          room.tone === 'bw'
+                            ? 'grayscale(100%) contrast(1.08)'
+                            : 'sepia(45%) saturate(1.1) contrast(1.04)',
+                      }}
+                    />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#171715] via-[#171715]/60 to-transparent pointer-events-none" />
+                    {/* Gradient overlay to ensure text legibility */}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-[#171715] via-[#171715]/65 to-transparent pointer-events-none"
+                      aria-hidden="true"
+                    />
 
+                    {/* Subtle warm paper tint overlay */}
+                    <div
+                      className="absolute inset-0 bg-[#A4401F]/5 mix-blend-color-burn pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  {/* Foreground Content: Title, Description, and Action Button clearly positioned on the image frame */}
                   <div className="relative z-10 w-full h-full p-6 flex flex-col justify-end">
-                    <h3 className="font-display text-3xl text-[#FAF8F4] tracking-tight">
+                    <h3 className="font-display text-3xl text-[#FAF8F4] tracking-tight leading-tight">
                       {room.title}
                     </h3>
-                    <p className="font-sans text-xs leading-relaxed text-[#D5D0C1] mt-2">
+                    <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-[#D5D0C1] mt-2">
                       {room.description}
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-[#FAF8F4]/15 flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-full bg-[#A4401F] text-[#FAF8F4] flex items-center justify-center">
+                    <div className="mt-4 pt-3 border-t border-[#FAF8F4]/20 flex items-center justify-between">
+                      <div className="w-9 h-9 rounded-full bg-[#A4401F] text-[#FAF8F4] flex items-center justify-center shadow-md">
                         <ArrowUpRight className="w-4 h-4 stroke-[2]" />
                       </div>
                       <span className="text-[10px] font-mono tracking-widest uppercase text-[#FAF8F4]/80">
-                        ROOM 0{idx + 1}
+                        ROOM 0{idx + 1} · {room.title.toUpperCase()}
                       </span>
                     </div>
                   </div>
