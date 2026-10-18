@@ -82,13 +82,13 @@ export const ExploreRoomsSection: React.FC = () => {
     <section
       id="explore-rooms"
       aria-label="Explore the Rooms Exhibition"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 overflow-hidden select-none border-t border-[#E3DED5]"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 overflow-hidden select-none"
     >
       {/* Archival deckled paper fragments & background texture accents */}
       <div className="absolute inset-0 pointer-events-none opacity-40 select-none overflow-hidden" aria-hidden="true">
         {/* Subtle deckled archival paper slips behind card stage */}
-        <div className="absolute top-[48%] left-[8%] w-[84%] h-[240px] bg-[#F2EDE0] border border-[#E3DED5]/80 -rotate-1 transform pointer-events-none" />
-        <div className="absolute top-[52%] left-[12%] w-[78%] h-[200px] bg-[#EAE4D5]/60 border border-[#D5D0C1]/60 rotate-1 transform pointer-events-none" />
+        <div className="absolute top-[48%] left-[8%] w-[84%] h-[240px] bg-[#E3DED5]/40 border border-[#E3DED5]/80 -rotate-1 transform pointer-events-none" />
+        <div className="absolute top-[52%] left-[12%] w-[78%] h-[200px] bg-[#D5D0C1]/30 border border-[#D5D0C1]/60 rotate-1 transform pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center">

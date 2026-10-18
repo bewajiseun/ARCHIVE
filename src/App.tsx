@@ -6,7 +6,6 @@ import { ThreadsOfGenerationsSection } from './components/story/ThreadsOfGenerat
 import { ExploreRoomsSection } from './components/rooms/ExploreRoomsSection';
 import { ContributeSection } from './components/contribute/ContributeSection';
 import { SourcesCreditsSection } from './components/sources/SourcesCreditsSection';
-import { StorySection } from './components/story/StorySection';
 import { Footer } from './components/layout/Footer';
 
 export default function App() {
@@ -43,9 +42,6 @@ export default function App() {
 
         {/* Section 6: Sources & Credits — Every story has a source. (Two-Column Editorial Register) */}
         <SourcesCreditsSection />
-
-        {/* Detailed Curatorial Photographic Archive: Learning to See */}
-        <StorySection />
       </main>
 
       {/* Section 7: Minimal Editorial Footer (Quiet, Confident Conclusion) */}

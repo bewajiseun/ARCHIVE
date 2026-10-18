@@ -181,11 +181,11 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
     <section
       id="stories"
       aria-label="Threads of Generations: Aṣọ Ọ̀kè Exhibition"
-      className="relative w-full bg-[#1F140E] text-[#FAF8F4] border-t border-[#4E3629] py-16 md:py-24 overflow-hidden select-none"
+      className="relative w-full bg-[#321F18] text-[#FAF8F4] py-16 md:py-24 overflow-hidden select-none"
     >
       {/* Subtle background tactile grid texture */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#C27854_1px,transparent_1px)] [background-size:24px_24px]"
+        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#A4401F_1px,transparent_1px)] [background-size:24px_24px]"
         aria-hidden="true"
       />
 
@@ -196,14 +196,14 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 md:mb-16">
           {/* Left Column: Eyebrow + Heading */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#C27854] mb-3 font-medium">
-              <span className="w-7 h-[1.5px] bg-[#C27854] inline-block" aria-hidden="true" />
+            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-medium">
+              <span className="w-7 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
               <span>FEATURED STORY</span>
             </div>
 
             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[68px] text-[#FAF8F4] leading-[0.96] tracking-tight">
               <span>Threads of </span>
-              <span className="italic text-[#C27854] font-normal">Generations</span>
+              <span className="italic text-[#A4401F] font-normal">Generations</span>
             </h2>
           </div>
 
@@ -218,10 +218,10 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
             <div className="mt-4">
               <a
-                href="#look-closer"
-                className="inline-flex items-center font-sans text-xs sm:text-sm font-medium tracking-wide text-[#C27854] hover:text-[#FAF8F4] transition-colors border-b border-[#C27854]/50 pb-0.5"
+                href="#explore-rooms"
+                className="inline-flex items-center font-sans text-xs sm:text-sm font-medium tracking-wide text-[#A4401F] hover:text-[#FAF8F4] transition-colors border-b border-[#A4401F]/50 pb-0.5"
               >
-                <span>Explore the story</span>
+                <span>Explore the rooms</span>
                 <span className="ml-1.5" aria-hidden="true">→</span>
               </a>
             </div>
@@ -319,28 +319,28 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                     zIndex,
                     borderRadius: '0px',
                   }}
-                  className={`absolute top-0 left-0 bg-[#221610] border border-[#5A3F30] overflow-hidden will-change-transform transition-[border-color,box-shadow] duration-300 ${
+                  className={`absolute top-0 left-0 bg-[#321F18] overflow-hidden will-change-transform transition-[border-color,box-shadow] duration-300 ${
                     isLead
-                      ? 'border-[#C27854]/80 shadow-[0_16px_40px_rgba(0,0,0,0.6)]'
-                      : 'border-[#4E3629]/70 shadow-[0_8px_20px_rgba(0,0,0,0.3)]'
+                      ? 'border border-[#A4401F]/80 shadow-[0_16px_40px_rgba(0,0,0,0.6)]'
+                      : 'border border-[#E3DED5]/20 shadow-[0_8px_20px_rgba(0,0,0,0.3)]'
                   }`}
                 >
                   {/* Card Interior: Adapts fluidly between featured (horizontal split) and compact (vertical stack) */}
                   <div className="relative w-full h-full flex flex-col md:flex-row">
                     {/* Editorial Text Area */}
                     <div
-                      className={`z-10 flex flex-col justify-between p-6 sm:p-7 bg-[#221610] border-b md:border-b-0 md:border-r border-[#4E3629]/60 transition-all duration-300 ${
+                      className={`z-10 flex flex-col justify-between p-6 sm:p-7 bg-[#321F18] border-b md:border-b-0 md:border-r border-[#E3DED5]/20 transition-all duration-300 ${
                         isLead
                           ? 'w-full md:w-[48%] flex-shrink-0'
-                          : 'w-full md:w-full absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#1F140E] via-[#1F140E]/90 to-transparent p-5 sm:p-6'
+                          : 'w-full md:w-full absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#321F18] via-[#321F18]/90 to-transparent p-5 sm:p-6'
                       }`}
                     >
                       <div>
                         {/* Number Tag with terracotta accent */}
                         <div className="flex items-center space-x-2 text-xs font-mono text-[#FAF8F4] mb-2 sm:mb-3">
-                          <span className="text-[#C27854] font-semibold text-sm">{card.seq}</span>
-                          <span className="w-5 h-[1.5px] bg-[#C27854]" aria-hidden="true" />
-                          <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1]/80 font-mono">
+                          <span className="text-[#A4401F] font-semibold text-sm">{card.seq}</span>
+                          <span className="w-5 h-[1.5px] bg-[#A4401F]" aria-hidden="true" />
+                          <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1] font-mono">
                             AṢỌ Ọ̀KÈ
                           </span>
                         </div>
@@ -354,12 +354,12 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                           {card.title}
                         </h3>
 
-                        {/* Story Description */}
+                        {/* Story Description — Readable warm paper text */}
                         <p
-                          className={`font-sans text-[#D5D0C1] leading-relaxed mt-3 ${
+                          className={`font-sans text-[#FAF8F4] leading-relaxed mt-3 ${
                             isLead
                               ? 'text-xs sm:text-[13.5px] line-clamp-4'
-                              : 'text-xs line-clamp-2 text-[#D5D0C1]/90'
+                              : 'text-xs line-clamp-2 text-[#FAF8F4]/90'
                           }`}
                         >
                           {card.description}
@@ -367,11 +367,11 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                       </div>
 
                       {/* Clean bottom space - ZERO arrows inside cards as explicitly commanded */}
-                      <div className="mt-4 pt-3 border-t border-[#4E3629]/40 flex items-center justify-between">
-                        <span className="text-[10px] font-mono tracking-wider uppercase text-[#C27854]">
+                      <div className="mt-4 pt-3 border-t border-[#E3DED5]/20 flex items-center justify-between">
+                        <span className="text-[10px] font-mono tracking-wider uppercase text-[#A4401F]">
                           {isLead ? 'ACTIVE FEATURE' : 'STORY PREVIEW'}
                         </span>
-                        <span className="text-[9.5px] font-mono tracking-widest text-[#D5D0C1]/60 uppercase">
+                        <span className="text-[9.5px] font-mono tracking-widest text-[#D5D0C1]/80 uppercase">
                           ARCHIVE · 0{cardDataIndex + 1}
                         </span>
                       </div>
@@ -392,7 +392,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
                       {/* Subtle warm archival vignette */}
                       <div
-                        className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#221610]/40 via-transparent to-transparent pointer-events-none"
+                        className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#321F18]/40 via-transparent to-transparent pointer-events-none"
                         aria-hidden="true"
                       />
                     </div>
@@ -406,14 +406,14 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
         {/* =========================================================================
             C. MANUAL NAVIGATION & PROGRESS ROW (Strictly Below the Carousel)
             ========================================================================= */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-[#4E3629]/60">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-[#E3DED5]/20">
           {/* Previous and Next Buttons (Rectangular, 0px border radius, sharp corners) */}
           <div className="flex items-center space-x-3">
             <button
               type="button"
               onClick={handlePrev}
               aria-label="Previous story card"
-              className="w-11 h-11 border border-[#4E3629] bg-[#221610] text-[#FAF8F4] hover:bg-[#C27854] hover:border-[#C27854] hover:text-[#FAF8F4] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C27854]"
+              className="w-11 h-11 border border-[#E3DED5]/30 bg-[#321F18] text-[#FAF8F4] hover:bg-[#A4401F] hover:border-[#A4401F] hover:text-[#FFFFFF] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
               style={{ borderRadius: '0px' }}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -423,7 +423,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
               type="button"
               onClick={handleNext}
               aria-label="Next story card"
-              className="w-11 h-11 border border-[#4E3629] bg-[#221610] text-[#FAF8F4] hover:bg-[#C27854] hover:border-[#C27854] hover:text-[#FAF8F4] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C27854]"
+              className="w-11 h-11 border border-[#E3DED5]/30 bg-[#321F18] text-[#FAF8F4] hover:bg-[#A4401F] hover:border-[#A4401F] hover:text-[#FFFFFF] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
               style={{ borderRadius: '0px' }}
             >
               <ChevronRight className="w-4 h-4" />
@@ -432,9 +432,9 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
           {/* Thin Horizontal Progress Indicator */}
           <div className="flex-1 max-w-md w-full flex items-center space-x-4">
-            <div className="relative w-full h-[2px] bg-[#4E3629] overflow-hidden">
+            <div className="relative w-full h-[2px] bg-[#E3DED5]/20 overflow-hidden">
               <div
-                className="absolute top-0 bottom-0 bg-[#C27854] transition-all duration-300 ease-out"
+                className="absolute top-0 bottom-0 bg-[#A4401F] transition-all duration-300 ease-out"
                 style={{
                   left: `${((activeIndex) / numCards) * 100}%`,
                   width: `${(1 / numCards) * 100}%`,
@@ -452,7 +452,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
           <div className="hidden md:flex items-center space-x-2 text-[10.5px] font-mono tracking-widest text-[#D5D0C1]/80 uppercase">
             <span
               className={`w-2 h-2 rounded-full ${
-                isHovered || prefersReducedMotion ? 'bg-[#D5D0C1]' : 'bg-[#C27854] animate-pulse'
+                isHovered || prefersReducedMotion ? 'bg-[#D5D0C1]' : 'bg-[#A4401F] animate-pulse'
               }`}
             />
             <span>{isHovered ? 'PAUSED ON HOVER' : prefersReducedMotion ? 'MANUAL CONTROL' : 'CONTINUOUS CAROUSEL'}</span>

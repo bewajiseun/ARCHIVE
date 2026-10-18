@@ -80,7 +80,7 @@ export const SourcesCreditsSection: React.FC = () => {
     <section
       id="sources"
       aria-label="Sources and Credits"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 lg:py-32 overflow-hidden select-none border-t border-[#E3DED5]"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 lg:py-32 overflow-hidden select-none"
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
@@ -152,7 +152,7 @@ export const SourcesCreditsSection: React.FC = () => {
                 <article
                   key={source.id}
                   onClick={() => setActiveModalSource(source)}
-                  className="group py-6 sm:py-7 md:py-8 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-[#F2EDE0]/40 px-2 sm:px-4"
+                  className="group py-6 sm:py-7 md:py-8 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-[#E3DED5]/30 px-2 sm:px-4"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -248,7 +248,7 @@ export const SourcesCreditsSection: React.FC = () => {
                 {activeModalSource.description}
               </p>
 
-              <div className="p-4 bg-[#F2EDE0] border border-[#E3DED5] text-xs font-sans text-[#171715] space-y-2">
+              <div className="p-4 bg-[#FAF8F4] border border-[#E3DED5] text-xs font-sans text-[#171715] space-y-2">
                 <p className="font-mono font-semibold uppercase text-[#A4401F]">
                   Consulted Collections & Repositories:
                 </p>
@@ -321,7 +321,7 @@ export const SourcesCreditsSection: React.FC = () => {
 
               <div className="space-y-4">
                 {SOURCES_DATA.map((item) => (
-                  <div key={item.id} className="p-4 bg-[#F2EDE0] border border-[#E3DED5]">
+                  <div key={item.id} className="p-4 bg-[#FAF8F4] border border-[#E3DED5]">
                     <div className="flex items-center space-x-2 font-mono text-xs text-[#A4401F] font-bold uppercase mb-1">
                       <span>{item.seq}</span>
                       <span>—</span>

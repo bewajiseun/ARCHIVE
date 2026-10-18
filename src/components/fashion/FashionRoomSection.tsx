@@ -229,7 +229,7 @@ export const FashionRoomSection: React.FC = () => {
       id="rooms"
       ref={containerRef}
       aria-label="Fashion Room: Look closer"
-      className="relative w-full bg-[#1F140E] text-[#FAF8F4] border-t border-[#4E3629] overflow-clip"
+      className="relative w-full bg-[#321F18] text-[#FAF8F4] overflow-clip"
       style={{
         // 260vh height on desktop gives generous, smooth, responsive scroll-track for forward stacking
         minHeight: prefersReducedMotion ? 'auto' : '260vh',
@@ -237,7 +237,7 @@ export const FashionRoomSection: React.FC = () => {
     >
       {/* Subtle background tactile grid / texture */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#C27854_1px,transparent_1px)] [background-size:24px_24px]"
+        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#A4401F_1px,transparent_1px)] [background-size:24px_24px]"
         aria-hidden="true"
       />
 
@@ -253,11 +253,11 @@ export const FashionRoomSection: React.FC = () => {
             A. TOP INTRODUCTION: Sits horizontally ABOVE the stacked cards
             ========================================================================= */}
         <div className="w-full flex-shrink-0 mb-6 md:mb-8 pt-2">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-end pb-5 border-b border-[#4E3629]/60">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-end pb-5 border-b border-[#E3DED5]/20">
             {/* Left side: Tag identifier + Headline */}
             <div className="lg:col-span-7 flex flex-col items-start">
-              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.24em] uppercase text-[#C27854] mb-2 font-medium">
-                <span className="w-6 h-[1.5px] bg-[#C27854] inline-block" aria-hidden="true" />
+              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-2 font-medium">
+                <span className="w-6 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
                 <span>01</span>
                 <span>—</span>
                 <span>FASHION ROOM</span>
@@ -265,7 +265,7 @@ export const FashionRoomSection: React.FC = () => {
 
               <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#FAF8F4] leading-[0.98] tracking-tight">
                 <span>Look </span>
-                <span className="italic text-[#C27854] font-normal">closer.</span>
+                <span className="italic text-[#A4401F] font-normal">closer.</span>
               </h2>
             </div>
 
@@ -279,10 +279,10 @@ export const FashionRoomSection: React.FC = () => {
           </div>
 
           {/* Forward Stacking Progress Bar & Accessible Indicator */}
-          <div className="flex items-center justify-between mt-3 text-[11px] font-mono uppercase text-[#D5D0C1]/80">
+          <div className="flex items-center justify-between mt-3 text-[11px] font-mono uppercase text-[#D5D0C1]">
             <div className="flex items-center space-x-2">
-              <span className="text-[#C27854] font-semibold">STAGE:</span>
-              <span>
+              <span className="text-[#A4401F] font-semibold">STAGE:</span>
+              <span className="text-[#FAF8F4]">
                 {activeCardIndex === 0 && '01 THE GARMENT (FRONT)'}
                 {activeCardIndex === 1 && '02 THE FÌLÀ (ADVANCED FORWARD)'}
                 {activeCardIndex === 2 && '03 THE MAKING (TOPMOST LEAD)'}
@@ -300,8 +300,8 @@ export const FashionRoomSection: React.FC = () => {
                   onClick={() => jumpToCard(idx)}
                   className={`px-2.5 py-1 text-[10px] tracking-wider transition-colors cursor-pointer border ${
                     activeCardIndex === idx
-                      ? 'border-[#C27854] bg-[#C27854] text-[#FAF8F4] font-semibold'
-                      : 'border-[#4E3629] text-[#D5D0C1] hover:border-[#C27854]/60'
+                      ? 'border-[#A4401F] bg-[#A4401F] text-[#FFFFFF] font-semibold'
+                      : 'border-[#E3DED5]/30 text-[#D5D0C1] hover:border-[#A4401F]'
                   }`}
                   style={{ borderRadius: '0px' }}
                 >
@@ -325,16 +325,16 @@ export const FashionRoomSection: React.FC = () => {
                   key={card.id}
                   id={`exhibit-card-${card.id}`}
                   style={cardStyle}
-                  className="absolute inset-x-0 top-0 h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] bg-[#221610] border border-[#5A3F30] transition-transform duration-300 ease-out will-change-transform flex flex-col md:flex-row overflow-hidden"
+                  className="absolute inset-x-0 top-0 h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] bg-[#321F18] border border-[#E3DED5]/20 transition-transform duration-300 ease-out will-change-transform flex flex-col md:flex-row overflow-hidden"
                 >
                   {/* Left Column: Editorial Information (~38% width) */}
-                  <div className="w-full md:w-[40%] lg:w-[35%] p-6 sm:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#4E3629] bg-[#221610] z-10 flex-shrink-0">
+                  <div className="w-full md:w-[40%] lg:w-[35%] p-6 sm:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#E3DED5]/20 bg-[#321F18] z-10 flex-shrink-0">
                     <div>
                       {/* Sequence Identifier */}
                       <div className="flex items-center space-x-2 text-xs font-mono text-[#FAF8F4] mb-2 sm:mb-4">
-                        <span className="text-[#C27854] font-semibold text-sm">{card.seq}</span>
-                        <span className="w-5 h-[1.5px] bg-[#C27854]" aria-hidden="true" />
-                        <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1]/80 font-mono">
+                        <span className="text-[#A4401F] font-semibold text-sm">{card.seq}</span>
+                        <span className="w-5 h-[1.5px] bg-[#A4401F]" aria-hidden="true" />
+                        <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1] font-mono">
                           EXHIBIT ARTEFACT
                         </span>
                       </div>
@@ -345,22 +345,22 @@ export const FashionRoomSection: React.FC = () => {
                       </h3>
 
                       {/* Card Subtitle */}
-                      <p className="font-mono text-[11px] sm:text-[11.5px] tracking-[0.18em] uppercase text-[#D5D0C1] mt-2 pb-3 border-b border-[#4E3629]/60">
+                      <p className="font-mono text-[11px] sm:text-[11.5px] tracking-[0.18em] uppercase text-[#D5D0C1] mt-2 pb-3 border-b border-[#E3DED5]/20">
                         {card.subtitle}
                       </p>
 
-                      {/* Editorial Narrative */}
-                      <p className="font-sans text-xs sm:text-[13px] md:text-sm text-[#D5D0C1] mt-3 leading-relaxed hidden sm:block">
+                      {/* Editorial Narrative — Readable warm-paper text */}
+                      <p className="font-sans text-xs sm:text-[13px] md:text-sm text-[#FAF8F4] mt-3 leading-relaxed hidden sm:block">
                         {card.description}
                       </p>
                     </div>
 
                     {/* Metadata Tags / Micro-spec */}
-                    <div className="pt-3 border-t border-[#4E3629]/60 flex flex-wrap gap-1.5 mt-2">
+                    <div className="pt-3 border-t border-[#E3DED5]/20 flex flex-wrap gap-1.5 mt-2">
                       {card.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider text-[#FAF8F4] bg-[#2D1D15] border border-[#4E3629]"
+                          className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider text-[#FAF8F4] bg-[#321F18] border border-[#E3DED5]/30"
                           style={{ borderRadius: '0px' }}
                         >
                           {tag}
@@ -380,12 +380,12 @@ export const FashionRoomSection: React.FC = () => {
 
                     {/* Subtle warm archival vignette */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#221610]/50 via-transparent to-transparent pointer-events-none"
+                      className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#321F18]/50 via-transparent to-transparent pointer-events-none"
                       aria-hidden="true"
                     />
 
                     {/* Image Caption Watermark */}
-                    <div className="absolute bottom-3 right-4 z-10 bg-[#171715]/80 backdrop-blur-xs px-2.5 py-1 border border-[#4E3629] text-[9.5px] font-mono tracking-widest text-[#FAF8F4] uppercase">
+                    <div className="absolute bottom-3 right-4 z-10 bg-[#171715]/90 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/20 text-[9.5px] font-mono tracking-widest text-[#FAF8F4] uppercase">
                       ARCHIVE NIGERIA · 0{idx + 1}
                     </div>
                   </div>

@@ -41,7 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
     if (onCtaClick) {
       onCtaClick();
     } else {
-      const target = document.getElementById('look-closer');
+      const target = document.getElementById('rooms');
       if (target) {
         const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         target.scrollIntoView({ behavior: prefersReduce ? 'auto' : 'smooth' });
@@ -141,7 +141,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
             {/* Primary Action Button */}
             <div className="flex items-center">
               <a
-                href="#look-closer"
+                href="#rooms"
                 onClick={handleCta}
                 className="inline-flex items-center justify-center bg-[#A4401F] hover:bg-[#7F3018] text-[#FFFFFF] font-sans text-[13.5px] md:text-[14px] font-medium tracking-[0.05em] uppercase px-[20px] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#A4401F] shadow-xs cursor-pointer"
                 style={{

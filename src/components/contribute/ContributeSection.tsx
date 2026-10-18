@@ -17,7 +17,7 @@ export const ContributeSection: React.FC = () => {
     <section
       id="contribute"
       aria-label="Contribute to ARCHIVE"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 overflow-hidden select-none border-t border-[#E3DED5]"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 overflow-hidden select-none"
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
@@ -136,11 +136,11 @@ export const ContributeSection: React.FC = () => {
           <div className="lg:col-span-6 relative flex items-center justify-center min-h-[520px] md:min-h-[580px] p-4 sm:p-8">
             {/* Background Parchment Layers */}
             <div
-              className="absolute top-4 right-12 w-[320px] sm:w-[380px] h-[440px] sm:h-[480px] bg-[#F2EDE0] border border-[#E3DED5] -rotate-1 shadow-xs pointer-events-none"
+              className="absolute top-4 right-12 w-[320px] sm:w-[380px] h-[440px] sm:h-[480px] bg-[#E3DED5]/40 border border-[#E3DED5] -rotate-1 shadow-xs pointer-events-none"
               aria-hidden="true"
             />
             <div
-              className="absolute top-10 left-8 w-[280px] sm:w-[340px] h-[380px] sm:h-[420px] bg-[#EAE4D5]/80 border border-[#D5D0C1]/80 rotate-2 pointer-events-none"
+              className="absolute top-10 left-8 w-[280px] sm:w-[340px] h-[380px] sm:h-[420px] bg-[#D5D0C1]/30 border border-[#D5D0C1]/80 rotate-2 pointer-events-none"
               aria-hidden="true"
             />
 
@@ -276,7 +276,7 @@ export const ContributeSection: React.FC = () => {
                 digitising, and contextualising Nigerian creative history across photography,
                 music, fashion, and design.
               </p>
-              <div className="p-4 bg-[#F2EDE0] border border-[#E3DED5] text-xs font-sans text-[#171715] space-y-2">
+              <div className="p-4 bg-[#FAF8F4] border border-[#E3DED5] text-xs font-sans text-[#171715] space-y-2">
                 <p className="font-mono font-semibold uppercase text-[#A4401F]">
                   Ways to Participate:
                 </p>

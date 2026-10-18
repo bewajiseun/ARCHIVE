@@ -8,6 +8,10 @@ interface ArchiveLogoProps {
   showSubtitle?: boolean;
 }
 
+const CLOUDINARY_LOGO_URL =
+  'https://res.cloudinary.com/jlggrwhm/image/upload/v1792361334/Archive_Nigerian_Creative_History_Logo.png';
+const LOCAL_FALLBACK_URL = '/assets/Archive_Nigerian_Creative_History_Logo.png';
+
 export const ArchiveLogo: React.FC<ArchiveLogoProps> = ({
   className = '',
   variant = 'dark',
@@ -15,18 +19,24 @@ export const ArchiveLogo: React.FC<ArchiveLogoProps> = ({
   align = 'center',
   showSubtitle = true,
 }) => {
+  const [currentSrc, setCurrentSrc] = useState(CLOUDINARY_LOGO_URL);
   const [imageError, setImageError] = useState(false);
 
   const isLight = variant === 'light';
-  const logoSrc = isLight
-    ? '/assets/ARCHIVE_Logo_Transparent_White.png'
-    : '/assets/ARCHIVE_Logo_Transparent.png';
+
+  const handleImageError = () => {
+    if (currentSrc === CLOUDINARY_LOGO_URL) {
+      setCurrentSrc(LOCAL_FALLBACK_URL);
+    } else {
+      setImageError(true);
+    }
+  };
 
   const sizeStyles = {
     sm: 'h-7 sm:h-8',
     md: 'h-10 md:h-12',
     lg: 'h-14 sm:h-16 md:h-20',
-    xl: 'h-20 sm:h-24 md:h-28 lg:h-32',
+    xl: 'h-16 sm:h-20 md:h-24 lg:h-28',
   };
 
   const alignStyles = {
@@ -39,10 +49,12 @@ export const ArchiveLogo: React.FC<ArchiveLogoProps> = ({
     <div className={`flex flex-col justify-center select-none ${alignStyles[align]} ${className}`}>
       {!imageError ? (
         <img
-          src={logoSrc}
+          src={currentSrc}
           alt="ARCHIVE — Nigerian Creative History"
-          className={`${sizeStyles[size]} w-auto object-contain transition-opacity duration-300`}
-          onError={() => setImageError(true)}
+          className={`${sizeStyles[size]} w-auto object-contain transition-opacity duration-300 ${
+            isLight ? 'brightness-0 invert opacity-95' : ''
+          }`}
+          onError={handleImageError}
           loading="eager"
         />
       ) : (
