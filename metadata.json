@@ -1,0 +1,6 @@
+{
+  "name": "ARCHIVE — Nigerian Creative History",
+  "description": "A digital museum documenting Nigerian creative history through Photography, Music, Fashion, and Design.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

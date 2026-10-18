@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #FAF8F4;
+  --color-ink: #171715;
+  --color-terracotta: #A4401F;
+  --color-terracotta-hover: #7F3018;
+  --color-deep-brown: #321F18;
+  --color-text-secondary: #6B6B6B;
+  --color-hairline: #E3DED5;
+  --color-stone: #D5D0C1;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --color-paper: #FAF8F4;
+  --color-ink: #171715;
+  --color-terracotta: #A4401F;
+  --color-terracotta-hover: #7F3018;
+  --color-deep-brown: #321F18;
+  --color-text-secondary: #6B6B6B;
+  --color-hairline: #E3DED5;
+  --color-stone: #D5D0C1;
+  --color-white: #FFFFFF;
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-metadata: "JetBrains Mono", monospace;
+
+  --button-height: 52px;
+  --button-max-height: 54px;
+  --button-padding-inline: 20px;
+  --radius-default: 0px;
+}
+
+html {
+  background-color: #FAF8F4;
+  color: #171715;
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom utility classes matching the design system */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-metadata {
+  font-family: var(--font-metadata);
+}
+
+.font-script {
+  font-family: 'Caveat', cursive, serif;
+}
+
+/* Accessible focus styling */
+:focus-visible {
+  outline: 2px solid #A4401F;
+  outline-offset: 2px;
+}
