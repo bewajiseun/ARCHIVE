@@ -57,6 +57,59 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
       aria-label="ARCHIVE Hero Exhibition"
       className="relative w-full min-h-[calc(100vh-90px)] md:min-h-[720px] lg:min-h-[780px] flex items-center overflow-x-hidden bg-[#FAF8F4]"
     >
+      {/* =========================================================================
+          BACKGROUND LAYER: Animated Nigeria Archival Collage or Static Fallback
+          ========================================================================= */}
+      <div
+        className="absolute inset-0 pointer-events-none overflow-hidden select-none"
+        aria-hidden="true"
+      >
+        {/* Subtle overall background tone matching the paper texture */}
+        <div className="absolute inset-0 bg-[#FAF8F4] z-0" />
+
+        {/* Video / Fallback Container: Positioned intentionally to align with the right-side collage */}
+        <div className="absolute inset-0 z-1 flex items-center justify-end">
+          {/* Static Fallback (Active when video is loading, errored, or reduced motion is active) */}
+          <img
+            src="/assets/hero-fallback.jpg"
+            alt=""
+            className={`absolute inset-0 w-full h-full object-cover object-right md:object-center transition-opacity duration-700 ease-in-out ${
+              videoLoaded && !prefersReducedMotion ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
+
+          {/* Animated Video Element: Continuous loop of four creative disciplines inside the Nigeria map */}
+          {!prefersReducedMotion && !videoError && (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              onLoadedData={() => setVideoLoaded(true)}
+              onError={() => setVideoError(true)}
+              className={`w-full h-full object-cover object-right md:object-center transition-opacity duration-700 ease-in-out ${
+                videoLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <source src="/assets/hero-animation.mp4" type="video/mp4" />
+              <source
+                src="https://res.cloudinary.com/jlggrwhm/video/upload/v1792354447/Animating_Nigerian_creative_hist__20261018210826.mp4"
+                type="video/mp4"
+              />
+            </video>
+          )}
+
+          {/* Soft gradient wash on smaller viewports to guarantee text contrast against background imagery */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F4] via-[#FAF8F4]/80 to-transparent lg:hidden pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F4] via-transparent to-transparent sm:hidden pointer-events-none" />
+        </div>
+      </div>
+
+      {/* =========================================================================
+          FOREGROUND INTERFACE: Headline, Supporting Copy, Primary CTA
+          ========================================================================= */}
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-8 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Editorial Typography & Action */}
@@ -110,42 +163,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
             </div>
           </div>
 
-          {/* Right Column / Mobile: The animated Nigeria map collage — stays UNDER the text on mobile, and side-by-side on desktop */}
-          <div className="w-full lg:col-span-6 xl:col-span-7 mt-8 sm:mt-10 lg:mt-0 flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-[500px] sm:max-w-[560px] lg:max-w-none aspect-[16/10] sm:aspect-[16/9] lg:aspect-auto lg:h-[540px] xl:h-[600px] flex items-center justify-center lg:justify-end overflow-hidden select-none">
-              {/* Static Fallback (Active when video is loading, errored, or reduced motion is active) */}
-              <img
-                src="/assets/hero-fallback.jpg"
-                alt="Nigeria map shaped collage of Nigerian creative history"
-                className={`w-full h-full object-contain lg:object-right transition-opacity duration-700 ease-in-out ${
-                  videoLoaded && !prefersReducedMotion ? 'opacity-0' : 'opacity-100'
-                }`}
-              />
-
-              {/* Animated Video Element: Loop of four creative disciplines inside Nigeria map */}
-              {!prefersReducedMotion && !videoError && (
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  onLoadedData={() => setVideoLoaded(true)}
-                  onError={() => setVideoError(true)}
-                  className={`absolute inset-0 w-full h-full object-contain lg:object-right transition-opacity duration-700 ease-in-out ${
-                    videoLoaded ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <source src="/assets/hero-animation.mp4" type="video/mp4" />
-                  <source
-                    src="https://res.cloudinary.com/jlggrwhm/video/upload/v1792354447/Animating_Nigerian_creative_hist__20261018210826.mp4"
-                    type="video/mp4"
-                  />
-                </video>
-              )}
-            </div>
-          </div>
+          {/* Right Column: Generous negative space on desktop where the Nigeria-shaped collage animates */}
+          <div className="hidden lg:block lg:col-span-6 xl:col-span-7 min-h-[460px] pointer-events-none" aria-hidden="true" />
         </div>
       </div>
     </section>
