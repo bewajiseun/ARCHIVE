@@ -110,9 +110,7 @@ export const SourcesCreditsSection: React.FC = () => {
 
               {/* Supporting Copy */}
               <p className="font-sans text-[15.5px] sm:text-[16.5px] md:text-[17.5px] leading-[1.62] text-[#171715]/90 mt-8 md:mt-10 max-w-[460px]">
-                ARCHIVE brings together photographs, objects, records and research from people,
-                institutions and communities who have documented Nigeria’s creative history. We
-                acknowledge and credit their work and continue to update this list as the archive grows.
+                ARCHIVE brings together photographs, objects, records, and research from people, institutions, and collections. We credit the sources behind each story and distinguish documented history from interpretation.
               </p>
 
               {/* Single Primary CTA */}
@@ -126,7 +124,7 @@ export const SourcesCreditsSection: React.FC = () => {
                     borderRadius: '0px',
                   }}
                 >
-                  <span>VIEW FULL CREDITS</span>
+                  <span>View full credits</span>
                   <span className="ml-3 text-base leading-none" aria-hidden="true">→</span>
                 </button>
               </div>

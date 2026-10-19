@@ -172,7 +172,7 @@ export const FashionRoomSection: React.FC = () => {
         zIndex: 30, // Initially in front of Card 2 (20) & Card 3 (10)
         transform: `translateY(0px) scale(${scale})`,
         opacity,
-        boxShadow: '0 8px 30px rgba(0,0,0,0.4)',
+        boxShadow: '0 8px 30px rgba(23,23,21,0.12)',
       };
     }
 
@@ -196,8 +196,8 @@ export const FashionRoomSection: React.FC = () => {
         transform: `translateY(${y}px) scale(${scale})`,
         opacity,
         boxShadow: isTopmost
-          ? '0 16px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(194,120,84,0.3)'
-          : '0 4px 20px rgba(0,0,0,0.3)',
+          ? '0 16px 40px rgba(23,23,21,0.18), 0 0 0 1px rgba(164,64,31,0.3)'
+          : '0 4px 20px rgba(23,23,21,0.08)',
       };
     }
 
@@ -216,8 +216,8 @@ export const FashionRoomSection: React.FC = () => {
         transform: `translateY(${y}px) scale(1)`,
         opacity: 1,
         boxShadow: isTopmost
-          ? '0 20px 50px rgba(0,0,0,0.7), 0 0 0 1px rgba(194,120,84,0.4)'
-          : '0 4px 20px rgba(0,0,0,0.3)',
+          ? '0 20px 50px rgba(23,23,21,0.22), 0 0 0 1px rgba(164,64,31,0.4)'
+          : '0 4px 20px rgba(23,23,21,0.08)',
       };
     }
 
@@ -229,7 +229,7 @@ export const FashionRoomSection: React.FC = () => {
       id="rooms"
       ref={containerRef}
       aria-label="Fashion Room: Look closer"
-      className="relative w-full bg-[#321F18] text-[#FAF8F4] overflow-clip"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] overflow-clip"
       style={{
         // 260vh height on desktop gives generous, smooth, responsive scroll-track for forward stacking
         minHeight: prefersReducedMotion ? 'auto' : '260vh',
@@ -245,25 +245,23 @@ export const FashionRoomSection: React.FC = () => {
       <div
         className={`${
           prefersReducedMotion
-            ? 'relative py-16'
-            : 'sticky top-0 h-screen max-h-[1080px] flex flex-col justify-between py-6 md:py-10'
+            ? 'relative py-12'
+            : 'sticky top-0 h-screen max-h-[1080px] flex flex-col justify-start pt-5 md:pt-8 pb-4'
         } w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 overflow-hidden`}
       >
         {/* =========================================================================
             A. TOP INTRODUCTION: Sits horizontally ABOVE the stacked cards
             ========================================================================= */}
-        <div className="w-full flex-shrink-0 mb-6 md:mb-8 pt-2">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-end pb-5 border-b border-[#E3DED5]/20">
+        <div className="w-full flex-shrink-0 mb-3 sm:mb-4 pt-1">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 items-end pb-3 sm:pb-4 border-b border-[#E3DED5]">
             {/* Left side: Tag identifier + Headline */}
             <div className="lg:col-span-7 flex flex-col items-start">
-              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-2 font-medium">
+              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-1.5 font-medium">
                 <span className="w-6 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
-                <span>01</span>
-                <span>—</span>
-                <span>FASHION ROOM</span>
+                <span>FEATURED STORY</span>
               </div>
 
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#FAF8F4] leading-[0.98] tracking-tight">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#171715] leading-[0.98] tracking-tight">
                 <span>Look </span>
                 <span className="italic text-[#A4401F] font-normal">closer.</span>
               </h2>
@@ -271,18 +269,17 @@ export const FashionRoomSection: React.FC = () => {
 
             {/* Right side: Supporting narrative text aligned horizontally */}
             <div className="lg:col-span-5 flex flex-col justify-end">
-              <p className="font-sans text-[14px] sm:text-[15px] md:text-[15.5px] leading-[1.6] text-[#D5D0C1] max-w-[420px]">
-                Explore the details behind an iconic Nigerian look — from the garment and its
-                distinctive elements, to the craft and hands that bring it to life.
+              <p className="font-sans text-[14px] sm:text-[15px] md:text-[15.5px] leading-[1.6] text-[#6B6B6B] max-w-[420px]">
+                Every photograph holds more than a moment. Look closer at the people, places, and details that reveal the stories behind the image.
               </p>
             </div>
           </div>
 
           {/* Forward Stacking Progress Bar & Accessible Indicator */}
-          <div className="flex items-center justify-between mt-3 text-[11px] font-mono uppercase text-[#D5D0C1]">
+          <div className="flex items-center justify-between mt-2.5 text-[11px] font-mono uppercase text-[#6B6B6B]">
             <div className="flex items-center space-x-2">
               <span className="text-[#A4401F] font-semibold">STAGE:</span>
-              <span className="text-[#FAF8F4]">
+              <span className="text-[#171715]">
                 {activeCardIndex === 0 && '01 THE GARMENT (FRONT)'}
                 {activeCardIndex === 1 && '02 THE FÌLÀ (ADVANCED FORWARD)'}
                 {activeCardIndex === 2 && '03 THE MAKING (TOPMOST LEAD)'}
@@ -301,7 +298,7 @@ export const FashionRoomSection: React.FC = () => {
                   className={`px-2.5 py-1 text-[10px] tracking-wider transition-colors cursor-pointer border ${
                     activeCardIndex === idx
                       ? 'border-[#A4401F] bg-[#A4401F] text-[#FFFFFF] font-semibold'
-                      : 'border-[#E3DED5]/30 text-[#D5D0C1] hover:border-[#A4401F]'
+                      : 'border-[#E3DED5] bg-[#FAF8F4] text-[#6B6B6B] hover:border-[#A4401F] hover:text-[#171715]'
                   }`}
                   style={{ borderRadius: '0px' }}
                 >
@@ -315,7 +312,7 @@ export const FashionRoomSection: React.FC = () => {
         {/* =========================================================================
             B. THREE STACKED EXHIBIT CARDS: FORWARD SCROLL-DRIVEN STACKING
             ========================================================================= */}
-        <div className="relative w-full flex-1 min-h-[380px] md:min-h-[440px] max-h-[560px] pb-4">
+        <div className="relative w-full mt-2 sm:mt-3 flex-1 min-h-[380px] md:min-h-[440px] max-h-[560px] pb-4">
           <div className="relative w-full h-full">
             {EXHIBIT_CARDS.map((card, idx) => {
               const cardStyle = getCardStyle(idx);
@@ -325,42 +322,42 @@ export const FashionRoomSection: React.FC = () => {
                   key={card.id}
                   id={`exhibit-card-${card.id}`}
                   style={cardStyle}
-                  className="absolute inset-x-0 top-0 h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] bg-[#321F18] border border-[#E3DED5]/20 transition-transform duration-300 ease-out will-change-transform flex flex-col md:flex-row overflow-hidden"
+                  className="absolute inset-x-0 top-0 h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] bg-[#FAF8F4] border border-[#E3DED5] transition-transform duration-300 ease-out will-change-transform flex flex-col md:flex-row overflow-hidden"
                 >
                   {/* Left Column: Editorial Information (~38% width) */}
-                  <div className="w-full md:w-[40%] lg:w-[35%] p-6 sm:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#E3DED5]/20 bg-[#321F18] z-10 flex-shrink-0">
+                  <div className="w-full md:w-[40%] lg:w-[35%] p-6 sm:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#E3DED5] bg-[#FAF8F4] z-10 flex-shrink-0">
                     <div>
                       {/* Sequence Identifier */}
-                      <div className="flex items-center space-x-2 text-xs font-mono text-[#FAF8F4] mb-2 sm:mb-4">
+                      <div className="flex items-center space-x-2 text-xs font-mono text-[#171715] mb-2 sm:mb-4">
                         <span className="text-[#A4401F] font-semibold text-sm">{card.seq}</span>
                         <span className="w-5 h-[1.5px] bg-[#A4401F]" aria-hidden="true" />
-                        <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1] font-mono">
+                        <span className="text-[10px] tracking-[0.2em] uppercase text-[#6B6B6B] font-mono">
                           EXHIBIT ARTEFACT
                         </span>
                       </div>
 
                       {/* Card Title */}
-                      <h3 className="font-display text-3xl sm:text-4xl lg:text-[42px] text-[#FAF8F4] leading-[1.05] tracking-tight">
+                      <h3 className="font-display text-3xl sm:text-4xl lg:text-[42px] text-[#171715] leading-[1.05] tracking-tight">
                         {card.title}
                       </h3>
 
                       {/* Card Subtitle */}
-                      <p className="font-mono text-[11px] sm:text-[11.5px] tracking-[0.18em] uppercase text-[#D5D0C1] mt-2 pb-3 border-b border-[#E3DED5]/20">
+                      <p className="font-mono text-[11px] sm:text-[11.5px] tracking-[0.18em] uppercase text-[#6B6B6B] mt-2 pb-3 border-b border-[#E3DED5]">
                         {card.subtitle}
                       </p>
 
-                      {/* Editorial Narrative — Readable warm-paper text */}
-                      <p className="font-sans text-xs sm:text-[13px] md:text-sm text-[#FAF8F4] mt-3 leading-relaxed hidden sm:block">
+                      {/* Editorial Narrative — Readable dark-ink text on warm paper */}
+                      <p className="font-sans text-xs sm:text-[13px] md:text-sm text-[#171715] mt-3 leading-relaxed hidden sm:block">
                         {card.description}
                       </p>
                     </div>
 
                     {/* Metadata Tags / Micro-spec */}
-                    <div className="pt-3 border-t border-[#E3DED5]/20 flex flex-wrap gap-1.5 mt-2">
+                    <div className="pt-3 border-t border-[#E3DED5] flex flex-wrap gap-1.5 mt-2">
                       {card.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider text-[#FAF8F4] bg-[#321F18] border border-[#E3DED5]/30"
+                          className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider text-[#171715] bg-[#FAF8F4] border border-[#E3DED5]"
                           style={{ borderRadius: '0px' }}
                         >
                           {tag}
@@ -380,12 +377,12 @@ export const FashionRoomSection: React.FC = () => {
 
                     {/* Subtle warm archival vignette */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#321F18]/50 via-transparent to-transparent pointer-events-none"
+                      className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#FAF8F4]/20 via-transparent to-transparent pointer-events-none"
                       aria-hidden="true"
                     />
 
                     {/* Image Caption Watermark */}
-                    <div className="absolute bottom-3 right-4 z-10 bg-[#171715]/90 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/20 text-[9.5px] font-mono tracking-widest text-[#FAF8F4] uppercase">
+                    <div className="absolute bottom-3 right-4 z-10 bg-[#171715]/90 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/30 text-[9.5px] font-mono tracking-widest text-[#FAF8F4] uppercase">
                       ARCHIVE NIGERIA · 0{idx + 1}
                     </div>
                   </div>

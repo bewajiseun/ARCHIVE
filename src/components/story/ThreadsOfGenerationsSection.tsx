@@ -181,7 +181,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
     <section
       id="stories"
       aria-label="Threads of Generations: Aṣọ Ọ̀kè Exhibition"
-      className="relative w-full bg-[#321F18] text-[#FAF8F4] py-16 md:py-24 overflow-hidden select-none"
+      className="relative z-10 w-full bg-[#321F18] text-[#FAF8F4] py-16 md:py-24 overflow-hidden select-none"
     >
       {/* Subtle background tactile grid texture */}
       <div
@@ -210,10 +210,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
           {/* Right Column: Supporting Text + Link */}
           <div className="lg:col-span-5 flex flex-col justify-end">
             <p className="font-sans text-[14.5px] sm:text-[15.5px] md:text-[16px] leading-[1.6] text-[#D5D0C1] max-w-[460px]">
-              Explore the story of Aṣọ Ọ̀kè — a textile tradition that weaves together
-              identity, artistry and legacy across generations. From the cloth and the
-              craft, to the people who keep it alive, discover how threads carry stories,
-              communities and culture.
+              Creative knowledge travels through generations — carried in the things we make, the traditions we adapt, and the stories we pass on.
             </p>
 
             <div className="mt-4">
@@ -221,7 +218,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                 href="#explore-rooms"
                 className="inline-flex items-center font-sans text-xs sm:text-sm font-medium tracking-wide text-[#A4401F] hover:text-[#FAF8F4] transition-colors border-b border-[#A4401F]/50 pb-0.5"
               >
-                <span>Explore the rooms</span>
+                <span>Explore the stories</span>
                 <span className="ml-1.5" aria-hidden="true">→</span>
               </a>
             </div>
@@ -239,12 +236,12 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className="relative w-full cursor-grab active:cursor-grabbing overflow-visible focus:outline-none"
+          className="relative w-full cursor-grab active:cursor-grabbing overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
           tabIndex={0}
         >
           {/* Carousel Track Stage */}
           <div
-            className="relative w-full"
+            className="relative w-full overflow-hidden"
             style={{
               height: `${cardHeight}px`,
             }}

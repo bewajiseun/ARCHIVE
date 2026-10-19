@@ -1,56 +1,330 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X } from 'lucide-react';
 
 export interface RoomItem {
   id: string;
   title: string;
+}
+
+export interface CarouselImageRecord {
+  id: string;
+  displayOrder: string;
+  category: string;
+  imageUrl: string;
+  title: string;
+  shortDescription: string;
+  sourceCredit: string;
+  alt: string;
+}
+
+export interface OtherRoomPreviewData {
+  id: string;
+  title: string;
+  heading: string;
   description: string;
+  previewLabel: string;
   image: string;
   alt: string;
   tone: 'bw' | 'sepia';
+  workingTitle: string;
+  visualDescription: string;
+  provenance: string;
 }
 
-const ROOMS_DATA: RoomItem[] = [
+const ROOM_TABS: RoomItem[] = [
+  { id: 'fashion', title: 'Fashion' },
+  { id: 'photography', title: 'Photography' },
+  { id: 'music', title: 'Music' },
+  { id: 'design', title: 'Design' },
+];
+
+const FASHION_CATEGORIES_ROW_1 = [
+  'Hairstyles & Hair Artistry',
+  'Headwear & Adornment',
+  'Jewellery & Beads',
+];
+
+const FASHION_CATEGORIES_ROW_2 = [
+  'Clothing & Textiles',
+  'Grooming, Beauty & Personal Style',
+];
+
+// All 10 exact Cloudinary image records in exact preserved order
+const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
   {
-    id: 'photography',
-    title: 'Photography',
-    description: 'People, places, and moments that capture Nigeria’s story.',
-    image: '/assets/rooms-photography.jpg',
-    alt: 'Nigerian street photographer documenting everyday Lagos street life with vintage rangefinder camera',
-    tone: 'bw',
+    id: 'hair-01',
+    displayOrder: '01',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_8.jpg',
+    title: 'Sculptural Woven Arch & Plaiting',
+    shortDescription:
+      'A master study in architectural hair geometry, featuring elevated vertical arches constructed through meticulous narrow-section braiding. The intricate cornrow foundation anchors arched loops rising above the crown, illustrating the sculptural balance between structural tension and personal adornment.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Sculptural Nigerian archival hairstyle featuring woven arched loops and precise cornrow foundation',
   },
   {
-    id: 'music',
-    title: 'Music',
-    description: 'Sounds, movements, and voices that shaped generations.',
-    image: '/assets/rooms-music.jpg',
-    alt: 'Nigerian highlife musician playing saxophone in vintage Lagos club in warm sepia tone',
-    tone: 'sepia',
+    id: 'hair-02',
+    displayOrder: '02',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/Image1.jpg',
+    title: 'Radiating Threaded Crest',
+    shortDescription:
+      'Fine black thread binding techniques utilized to sculpt elongated curved spires ascending upward from radiating scalp partings. The smooth, lustrous density of the wrapped forms highlights the artisanal skill of traditional Nigerian hair threading, transforming hair into three-dimensional living sculpture.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Nigerian threaded crest hairstyle with ascending spires and radiating scalp geometric lines',
   },
   {
-    id: 'fashion',
-    title: 'Fashion',
-    description: 'Cloth, craft, and identity — from traditional roots to contemporary expressions.',
-    image: '/assets/rooms-fashion.jpg',
-    alt: 'Black and white editorial portrait of Nigerian woman in ceremonial gele headwrap and coral beads',
-    tone: 'bw',
+    id: 'hair-03',
+    displayOrder: '03',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/image9.jpg',
+    title: 'Layered Ribbed Cornrow Geometry',
+    shortDescription:
+      'Geometric scalp mapping defined by parallel curving cornrows that sweep symmetrically across the temples toward a central apex. The rhythmic repetition of raised ridges demonstrates meticulous tension control and spatial harmony, celebrating hair as an enduring medium of graphic and cultural expression.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Symmetrical ribbed cornrow hairstyle curving across the scalp toward a central apex',
   },
   {
-    id: 'design',
-    title: 'Design',
-    description: 'Ideas, objects, and spaces that reflect Nigerian creativity and innovation.',
-    image: '/assets/rooms-design.jpg',
-    alt: 'Warm sepia architectural photograph of modernist Nigerian geometric concrete facade',
-    tone: 'sepia',
+    id: 'hair-04',
+    displayOrder: '04',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/Image_5.jpg',
+    title: 'Volumetric Tiered Crown',
+    shortDescription:
+      'A multi-tiered sculptural hairstyle combining concentric cornrow foundations with dramatic ascending coiled loops. The composition balances substantial cranial volume with delicate tactile texture, showcasing the craftsperson’s ability to manipulate hair into stately, dignified crests for celebratory and everyday occasions.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Multi-tiered Nigerian sculptural hairstyle featuring concentric cornrows and raised coils',
+  },
+  {
+    id: 'hair-05',
+    displayOrder: '05',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/hairstyles-01-braided-crown-natural-puff.jpg',
+    title: 'Braided Crown with Natural Volume',
+    shortDescription:
+      'An intricate circular halo braid enclosing a voluminous natural textured puff. The clean division between tightly flat-laid perimeter plaiting and expansive crown fullness demonstrates the versatility of African natural hair textures, uniting protective technique with ceremonial elegance.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Circular halo perimeter braid surrounding a full natural textured crown puff',
+  },
+  {
+    id: 'hair-06',
+    displayOrder: '06',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/hairstyles-02-starburst-cornrow-knots.jpg',
+    title: 'Starburst Cornrow Knots',
+    shortDescription:
+      'A dynamic starburst pattern radiating outwards from a central scalp coordinate into segmented raised cornrows terminating in sculpted sculptural knots. The razor-sharp linear grid reveals mathematical precision in parting and execution, underscoring hair styling as high visual artistry.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Starburst radiating cornrows originating from a central point and terminating in sculpted knots',
+  },
+  {
+    id: 'hair-07',
+    displayOrder: '07',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422084/Image4.jpg',
+    title: 'Cantilevered Spires & Wrapped Crests',
+    shortDescription:
+      'Tall, cantilevered cylindrical spires formed using traditional black cotton thread binding. Projecting gracefully forward and backward from the crown, the dramatic silhouette captures the zenith of mid-century Nigerian studio portraiture documentation and hair sculpture traditions.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Dramatic cantilevered cylindrical spires formed with traditional black thread wrapping',
+  },
+  {
+    id: 'hair-08',
+    displayOrder: '08',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_7.png',
+    title: 'Concentric Coiled Waves',
+    shortDescription:
+      'Curvilinear cornrows swooping in concentric wave-like contours around the ear and occipital bone. The fluid, undulating tracks create a continuous visual rhythm across the head, demonstrating supreme thumb dexterity and intuitive understanding of cranial contours.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Concentric curving cornrow waves following the ear and cranial contour in fluid harmony',
+  },
+  {
+    id: 'hair-09',
+    displayOrder: '09',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image3.jpg',
+    title: 'Interlocking Basket-Weave Plaiting',
+    shortDescription:
+      'An elaborate cross-hatched surface created through overlapping three-strand plaiting and flat interlocking braids. Resembling hand-woven cane and textile structures, this style illustrates the deep cross-pollination between Nigerian textile weaving and hair craft.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Elaborate cross-hatched interlocking plaiting resembling artisanal basketry and woven textile',
+  },
+  {
+    id: 'hair-10',
+    displayOrder: '10',
+    category: 'Hairstyles & Hair Artistry',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_6.jpg',
+    title: 'Ascending Spiral Pillars',
+    shortDescription:
+      'Vertical spiral columns wound with dark cord, rising in symmetrical formation above a base of micro-cornrows. The architectural purity of the vertical pillars highlights the dialogue between head adornment, personal posture, and statuesque presence in Nigerian creative history.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Vertical ascending spiral columns wrapped in dark cord rising above symmetrical micro-cornrows',
   },
 ];
 
+// Headwear & Adornment Collection: 9 exact verified archival specimens
+const HEADWEAR_COLLECTION_IMAGES: CarouselImageRecord[] = [
+  {
+    id: 'head-01',
+    displayOrder: '01',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/Wrapped_in_Pattern.jpg',
+    title: 'Wrapped in Pattern',
+    shortDescription:
+      'An expansive patterned headwrap frames the wearer’s face and is paired with coordinated clothing and layered beads.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Expansive patterned headwrap framing the face paired with coordinated clothing and layered beads',
+  },
+  {
+    id: 'head-02',
+    displayOrder: '02',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/Colour_Beads_and_Headwrap.jpg',
+    title: 'Colour, Beads and Headwrap',
+    shortDescription:
+      'A striped headwrap, colourful bead strands, and layered neck adornment create a composition rich in colour and texture.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Striped headwrap and colourful bead strands with layered neck adornment',
+  },
+  {
+    id: 'head-03',
+    displayOrder: '03',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/The_Sculptural_Wrap.jpg',
+    title: 'The Sculptural Wrap',
+    shortDescription:
+      'Tall, folded patterned fabric forms a striking silhouette, drawing attention to the shape and arrangement of the headwrap.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Tall folded patterned fabric forming a striking headwrap silhouette',
+  },
+  {
+    id: 'head-04',
+    displayOrder: '04',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/A_Crown_of_Folds.jpg',
+    title: 'A Crown of Folds',
+    shortDescription:
+      'An elaborate headwrap combines layered folds, contrasting patterns, and a dramatic silhouette.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Elaborate headwrap combining layered folds and contrasting patterns with a dramatic silhouette',
+  },
+  {
+    id: 'head-05',
+    displayOrder: '05',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/The_Art_of_Shaping.jpg',
+    title: 'The Art of Shaping',
+    shortDescription:
+      'A moment of headwear preparation offers a glimpse of the hands-on work involved in shaping and arranging a headpiece. The specific technique is not yet verified.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Hands-on preparation shaping and arranging an elaborate headpiece',
+  },
+  {
+    id: 'head-06',
+    displayOrder: '06',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/Pattern_in_Profile.png',
+    title: 'Pattern in Profile',
+    shortDescription:
+      'A patterned headwrap is arranged into an extended form, with the fabric and silhouette taking centre stage.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Patterned headwrap arranged into an extended form shown in profile',
+  },
+  {
+    id: 'head-07',
+    displayOrder: '07',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/The_Wrapped_Portrait.jpg',
+    title: 'The Wrapped Portrait',
+    shortDescription:
+      'A close portrait highlights the printed fabric, the arrangement of the wrap, and the wearer’s expression.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Close portrait highlighting printed fabric and headwrap arrangement',
+  },
+  {
+    id: 'head-08',
+    displayOrder: '08',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/Adornment_in_Celebration.jpg',
+    title: 'Adornment in Celebration',
+    shortDescription:
+      'A prominent gele is paired with layered necklaces and formal attire, bringing headwear and personal adornment together.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Prominent gele paired with layered necklaces and formal celebratory attire',
+  },
+  {
+    id: 'head-09',
+    displayOrder: '09',
+    category: 'Headwear & Adornment',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/The_Dark_Silhouette.jpg',
+    title: 'The Dark Silhouette',
+    shortDescription:
+      'A dark sculptural headwrap contrasts with patterned clothing and jewellery, creating a portrait defined by shape and texture.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Dark sculptural headwrap contrasting with patterned attire and jewellery',
+  },
+];
+
+const OTHER_ROOMS_DATA: Record<string, OtherRoomPreviewData> = {
+  photography: {
+    id: 'photography',
+    title: 'Photography',
+    heading: 'The moments that become our memory.',
+    description:
+      'Discover the photographs and visual records that document Nigerian people, places, and everyday life.',
+    previewLabel: 'A GLIMPSE INTO THE PHOTOGRAPHY ROOM.',
+    image: '/assets/rooms-photography.jpg',
+    alt: 'Nigerian street photographer documenting everyday Lagos street life with vintage rangefinder camera',
+    tone: 'bw',
+    workingTitle: 'Lagos Street Life & Documentary Photography',
+    visualDescription:
+      'Street photography capturing the pulse of everyday life, human gestures, and urban community in post-independence Lagos. Visual records that document social gatherings, studio portraits, and the living texture of Nigerian cityscapes.',
+    provenance: 'National Archives & Verified Collections',
+  },
+  music: {
+    id: 'music',
+    title: 'Music',
+    heading: 'The sounds that carry a generation.',
+    description:
+      'Discover the musicians, sounds, and performance cultures that have shaped how Nigerians create, connect, and express themselves.',
+    previewLabel: 'A GLIMPSE INTO THE MUSIC ROOM.',
+    image: '/assets/rooms-music.jpg',
+    alt: 'Nigerian highlife musician playing saxophone in vintage Lagos club in warm sepia tone',
+    tone: 'sepia',
+    workingTitle: 'Highlife & Brass Performance Culture',
+    visualDescription:
+      'A celebration of mid-century highlife, afrobeat pioneers, and brass musicianship. Instrument craft, bandstands, and performance cultures that carried communal optimism and musical innovation across generations.',
+    provenance: 'National Archives & Verified Collections',
+  },
+  design: {
+    id: 'design',
+    title: 'Design',
+    heading: 'The ideas that shape what surrounds us.',
+    description:
+      'Discover the visual identities, printed works, objects, and spaces through which Nigerian designers have shaped everyday life.',
+    previewLabel: 'A GLIMPSE INTO THE DESIGN ROOM.',
+    image: '/assets/rooms-design.jpg',
+    alt: 'Warm sepia architectural photograph of modernist Nigerian geometric concrete facade',
+    tone: 'sepia',
+    workingTitle: 'Modernist Nigerian Architectural Form',
+    visualDescription:
+      'Geometric brise-soleil concrete facades and modernist vernacular architecture adapting tropical climate principles. Reflecting Nigerian structural creativity, graphic print traditions, and spatial innovation.',
+    provenance: 'National Archives & Verified Collections',
+  },
+};
+
 export const ExploreRoomsSection: React.FC = () => {
-  // Fashion (index 2) is the initially active card
-  const [activeIndex, setActiveIndex] = useState(2);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  // Fashion is selected by default as required
+  const [activeRoomId, setActiveRoomId] = useState<string>('fashion');
+  const [activeCategory, setActiveCategory] = useState<string>('Hairstyles & Hair Artistry');
+
+  // Active overlay ID for tap-to-inspect on mobile or keyboard
+  const [activeOverlayId, setActiveOverlayId] = useState<string | null>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
+  const tabListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -60,337 +334,497 @@ export const ExploreRoomsSection: React.FC = () => {
     return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? ROOMS_DATA.length - 1 : prev - 1));
-  };
+  // Accessible keyboard tab navigation
+  const handleTabKeyDown = (e: React.KeyboardEvent, roomId: string) => {
+    const currentIndex = ROOM_TABS.findIndex((r) => r.id === roomId);
+    let nextIndex = currentIndex;
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev === ROOMS_DATA.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
-    }
-    setTouchStartX(null);
-  };
-
-  const handleCardClick = (index: number) => {
-    setActiveIndex(index);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIndex(index);
+      nextIndex = (currentIndex + 1) % ROOM_TABS.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (currentIndex - 1 + ROOM_TABS.length) % ROOM_TABS.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      nextIndex = ROOM_TABS.length - 1;
     }
+
+    if (nextIndex !== currentIndex) {
+      const nextRoom = ROOM_TABS[nextIndex];
+      setActiveRoomId(nextRoom.id);
+      setActiveOverlayId(null);
+      const tabButton = document.getElementById(`room-tab-${nextRoom.id}`);
+      if (tabButton) tabButton.focus();
+    }
+  };
+
+  // =========================================================================
+  // CURATED IMAGES FOR FASHION EXHIBITIONS (Hairstyles & Headwear)
+  // =========================================================================
+  const isHairstyles = activeCategory === 'Hairstyles & Hair Artistry';
+  const isHeadwear = activeCategory === 'Headwear & Adornment';
+
+  // Dominant Centerpiece:
+  const activeCenterImage = isHeadwear
+    ? HEADWEAR_COLLECTION_IMAGES[0] // head-01: 'Wrapped in Pattern'
+    : HAIRSTYLE_CAROUSEL_IMAGES[0]; // hair-01: 'Sculptural Woven Arch & Plaiting'
+
+  // Four Images on the Left (arranged in 2 columns x 2 rows)
+  const activeLeftImages = isHeadwear
+    ? [
+        HEADWEAR_COLLECTION_IMAGES[1], // head-02: 'Colour, Beads and Headwrap'
+        HEADWEAR_COLLECTION_IMAGES[2], // head-03: 'The Sculptural Wrap'
+        HEADWEAR_COLLECTION_IMAGES[3], // head-04: 'A Crown of Folds'
+        HEADWEAR_COLLECTION_IMAGES[4], // head-05: 'The Art of Shaping'
+      ]
+    : [
+        HAIRSTYLE_CAROUSEL_IMAGES[1], // hair-02: Radiating Threaded Crest
+        HAIRSTYLE_CAROUSEL_IMAGES[2], // hair-03: Layered Ribbed Cornrow Geometry
+        HAIRSTYLE_CAROUSEL_IMAGES[3], // hair-04: Volumetric Tiered Crown
+        HAIRSTYLE_CAROUSEL_IMAGES[4], // hair-05: Braided Crown with Natural Volume
+      ];
+
+  // Four Images on the Right (arranged in 2 columns x 2 rows)
+  const activeRightImages = isHeadwear
+    ? [
+        HEADWEAR_COLLECTION_IMAGES[5], // head-06: 'Pattern in Profile'
+        HEADWEAR_COLLECTION_IMAGES[6], // head-07: 'The Wrapped Portrait'
+        HEADWEAR_COLLECTION_IMAGES[7], // head-08: 'Adornment in Celebration'
+        HEADWEAR_COLLECTION_IMAGES[8], // head-09: 'The Dark Silhouette'
+      ]
+    : [
+        HAIRSTYLE_CAROUSEL_IMAGES[5], // hair-06: Starburst Cornrow Knots
+        HAIRSTYLE_CAROUSEL_IMAGES[6], // hair-07: Cantilevered Spires & Wrapped Crests
+        HAIRSTYLE_CAROUSEL_IMAGES[7], // hair-08: Concentric Coiled Waves
+        HAIRSTYLE_CAROUSEL_IMAGES[8], // hair-09: Interlocking Basket-Weave Plaiting
+      ];
+
+  // NOTE: hair-10 ('Ascending Spiral Pillars', Image_6.jpg) is preserved in the underlying
+  // HAIRSTYLE_CAROUSEL_IMAGES data array, but intentionally excluded from the initial
+  // 9-image hairstyle presentation to avoid visual repetition.
+
+  const otherRoom = OTHER_ROOMS_DATA[activeRoomId];
+
+  // Helper renderer for clean, frameless editorial image cards with hover/tap overlay
+  const renderImageCard = (
+    item: CarouselImageRecord,
+    heightClass: string,
+    isCenter: boolean = false
+  ) => {
+    const isOverlayOpen = activeOverlayId === item.id;
+
+    return (
+      <div
+        key={item.id}
+        tabIndex={0}
+        role="button"
+        aria-label={`${item.title}. Click or press Enter to reveal historical and craft details.`}
+        aria-expanded={isOverlayOpen}
+        onClick={() => setActiveOverlayId(isOverlayOpen ? null : item.id)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setActiveOverlayId(isOverlayOpen ? null : item.id);
+          }
+        }}
+        className={`group relative w-full overflow-hidden bg-[#171715] cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${heightClass}`}
+        style={{ borderRadius: '0px' }}
+      >
+        {/* Unobstructed Archival Photograph in resting state (No titles, numbers, or labels) */}
+        <img
+          src={item.imageUrl}
+          alt={item.alt}
+          className={`w-full h-full object-cover object-center transition-transform duration-500 ease-out ${
+            prefersReducedMotion ? '' : 'group-hover:scale-[0.98]'
+          } ${isOverlayOpen ? 'scale-[0.98]' : ''}`}
+          loading="lazy"
+        />
+
+        {/* Deep Espresso Information Overlay (#321F18) revealed on Hover, Tap, or Focus */}
+        <div
+          className={`absolute inset-0 bg-[#321F18]/95 p-4 sm:p-5 md:p-6 flex flex-col justify-between transition-opacity duration-300 z-20 ${
+            isOverlayOpen
+              ? 'opacity-100 pointer-events-auto'
+              : 'opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-visible:opacity-100 group-focus-visible:pointer-events-auto'
+          }`}
+        >
+          {/* Top: Category Tag & Dismiss Button */}
+          <div className="flex items-center justify-between pb-2 border-b border-[#FAF8F4]/15">
+            <span className="font-mono text-[10px] sm:text-[10.5px] tracking-[0.2em] uppercase text-[#A4401F] font-semibold">
+              {item.category.toUpperCase()}
+            </span>
+            {isOverlayOpen && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveOverlayId(null);
+                }}
+                aria-label="Close information overlay"
+                className="w-6 h-6 rounded-full border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Middle: Title & Visual Craft Description */}
+          <div className="my-auto py-2">
+            <h5
+              className={`font-display text-[#FAF8F4] leading-[1.14] tracking-tight ${
+                isCenter
+                  ? 'text-xl sm:text-2xl md:text-3xl'
+                  : 'text-base sm:text-lg md:text-xl'
+              }`}
+            >
+              {item.title}
+            </h5>
+            <p className="font-sans text-xs md:text-[12.5px] leading-relaxed text-[#D5D0C1] mt-2 line-clamp-4">
+              {item.shortDescription}
+            </p>
+          </div>
+
+          {/* Bottom: Provenance / Working Attribution */}
+          <div className="pt-2 border-t border-[#FAF8F4]/15 flex items-center justify-between text-[9.5px] sm:text-[10px] font-mono tracking-wider uppercase text-[#D5D0C1]/80">
+            <span className="truncate max-w-[180px]">{item.sourceCredit}</span>
+            <span className="text-[#A4401F] font-medium tracking-widest">ARCHIVE</span>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
     <section
       id="explore-rooms"
       aria-label="Explore the Rooms Exhibition"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 overflow-hidden select-none"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-14 md:py-20 overflow-hidden select-none"
     >
-      {/* Archival deckled paper fragments & background texture accents */}
-      <div className="absolute inset-0 pointer-events-none opacity-40 select-none overflow-hidden" aria-hidden="true">
-        {/* Subtle deckled archival paper slips behind card stage */}
+      {/* Subtle deckled archival paper slips behind section background */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40 select-none overflow-hidden"
+        aria-hidden="true"
+      >
         <div className="absolute top-[48%] left-[8%] w-[84%] h-[240px] bg-[#E3DED5]/40 border border-[#E3DED5]/80 -rotate-1 transform pointer-events-none" />
         <div className="absolute top-[52%] left-[12%] w-[78%] h-[200px] bg-[#D5D0C1]/30 border border-[#D5D0C1]/60 rotate-1 transform pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center">
         {/* =========================================================================
-            1. SECTION INTRODUCTION (Center-aligned with generous breathing room)
+            1. SHARED SECTION INTRODUCTION (Compact Shared Header)
             ========================================================================= */}
         <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
           {/* Eyebrow flanked by subtle terracotta rules */}
-          <div className="flex items-center justify-center space-x-3 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-3">
+          <div className="flex items-center justify-center space-x-3 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-2">
             <span className="w-8 h-[1px] bg-[#A4401F]" aria-hidden="true" />
             <span>EXPLORE THE ROOMS</span>
             <span className="w-8 h-[1px] bg-[#A4401F]" aria-hidden="true" />
           </div>
 
           {/* Display Headline */}
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#171715] leading-[1.04] tracking-tight">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-[54px] text-[#171715] leading-[1.04] tracking-tight">
             <span>Four rooms. </span>
             <span className="italic text-[#A4401F] font-normal">Many stories.</span>
           </h2>
 
-          {/* Supporting Copy */}
-          <p className="font-sans text-[15px] sm:text-[16px] md:text-[16.5px] leading-[1.6] text-[#6B6B6B] mt-4 max-w-[560px]">
-            Explore Nigeria’s creative history through the people, places, and ideas
-            that continue to shape who we are.
+          {/* Compact Supporting Copy */}
+          <p className="font-sans text-[14px] sm:text-[15px] leading-[1.55] text-[#6B6B6B] mt-2.5 max-w-[540px]">
+            Explore Nigeria’s creative history through the people, practices, and ideas that continue
+            to shape how we see, hear, wear, and make.
           </p>
         </div>
 
         {/* =========================================================================
-            GENEROUS VERTICAL GAP (Target: 64px - 88px on desktop)
-            ========================================================================= */}
-        <div className="h-14 sm:h-16 md:h-20 lg:h-22 w-full" aria-hidden="true" />
-
-        {/* =========================================================================
-            2. FOUR OVERLAPPING RECTANGULAR CARDS (Restrained 82–88% content width)
+            2. FOUR SELECTABLE ROOM TABS (Compact, Understated Editorial Tabs)
             ========================================================================= */}
         <div
-          role="region"
-          aria-label="Interactive room cards"
-          className="relative w-full max-w-[1140px] mx-auto min-h-[460px] md:min-h-[500px] flex items-center justify-center"
+          ref={tabListRef}
+          role="tablist"
+          aria-label="Creative discipline exhibition rooms"
+          className="mt-6 md:mt-8 flex items-center justify-center flex-wrap gap-2 sm:gap-4 md:gap-8 border-b border-[#E3DED5] pb-3 w-full max-w-3xl mx-auto"
         >
-          {/* Desktop/Tablet Overlapping Composition */}
-          <div className="hidden sm:flex items-center justify-center w-full relative">
-            {ROOMS_DATA.map((room, idx) => {
-              const isActive = activeIndex === idx;
-              const isHovered = hoveredIndex === idx;
-
-              // Calculate stacking z-index:
-              // Active card always gets the highest (40)
-              // Hovered inactive card gets a temporary boost (30)
-              // Other cards follow a natural layered order (10 to 20)
-              let zIndex = 10 + idx;
-              if (isActive) {
-                zIndex = 40;
-              } else if (isHovered) {
-                zIndex = 30;
-              }
-
-              // Overlapping negative margin offset:
-              // Cards overlap horizontally by approximately -24px to -44px
-              const overlapStyle = idx > 0 ? '-ml-8 md:-ml-12 lg:-ml-14' : '';
-
-              // Dynamic elevation & dimensions
-              // Active card is visibly taller (~450px) & wider (~310px) with strong shadow
-              // Inactive cards are more compact (~380px tall, ~260px wide)
-              const cardWidth = isActive ? 'w-[290px] md:w-[320px] lg:w-[335px]' : 'w-[240px] md:w-[260px] lg:w-[275px]';
-              const cardHeight = isActive ? 'h-[440px] md:h-[480px] lg:h-[490px]' : 'h-[370px] md:h-[400px] lg:h-[415px]';
-
-              return (
-                <article
-                  key={room.id}
-                  id={`room-card-${room.id}`}
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={isActive}
-                  aria-label={`${room.title} room: ${room.description}`}
-                  onClick={() => handleCardClick(idx)}
-                  onKeyDown={(e) => handleKeyDown(e, idx)}
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  style={{
-                    zIndex,
-                    borderRadius: '0px',
-                    transition: prefersReducedMotion
-                      ? 'none'
-                      : 'transform 420ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 420ms ease, opacity 350ms ease, width 420ms cubic-bezier(0.25, 1, 0.5, 1), height 420ms cubic-bezier(0.25, 1, 0.5, 1)',
-                  }}
-                  className={`relative ${overlapStyle} ${cardWidth} ${cardHeight} flex-shrink-0 cursor-pointer border border-[#E3DED5] overflow-hidden group select-none bg-[#171715] will-change-transform ${
-                    isActive
-                      ? 'shadow-[0_24px_50px_rgba(23,23,21,0.38)] -translate-y-3 sm:-translate-y-4'
-                      : isHovered
-                      ? 'shadow-[0_16px_36px_rgba(23,23,21,0.25)] -translate-y-1.5 opacity-95'
-                      : 'shadow-[0_8px_20px_rgba(23,23,21,0.18)] opacity-90'
-                  }`}
-                >
-                  {/* Full-bleed Photography (Coordinated 2 B&W + 2 Sepia images) */}
-                  <div className="absolute inset-0 w-full h-full bg-[#171715] overflow-hidden">
-                    <img
-                      src={room.image}
-                      alt={room.alt}
-                      className={`w-full h-full object-cover object-center transition-transform duration-700 ease-out ${
-                        isHovered || isActive ? 'scale-105' : 'scale-100'
-                      }`}
-                      style={{
-                        filter:
-                          room.tone === 'bw'
-                            ? 'grayscale(100%) contrast(1.08)'
-                            : 'sepia(45%) saturate(1.1) contrast(1.04)',
-                      }}
-                      loading="lazy"
-                    />
-
-                    {/* Gradient overlay to ensure text legibility */}
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-[#171715] via-[#171715]/60 to-transparent pointer-events-none"
-                      aria-hidden="true"
-                    />
-
-                    {/* Subtle warm paper tint overlay on all cards */}
-                    <div
-                      className="absolute inset-0 bg-[#A4401F]/5 mix-blend-color-burn pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  {/* Foreground Content: Title, Description, and Lower-Left Arrow Icon */}
-                  <div className="relative z-10 w-full h-full p-5 md:p-6 lg:p-7 flex flex-col justify-end">
-                    <div>
-                      {/* Discipline Title (Instrument Serif) */}
-                      <h3
-                        className={`font-display text-[#FAF8F4] tracking-tight leading-[1.08] transition-all duration-300 ${
-                          isActive ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'
-                        }`}
-                      >
-                        {room.title}
-                      </h3>
-
-                      {/* Discipline Description (Inter) */}
-                      <p
-                        className={`font-sans text-xs md:text-[13px] leading-relaxed text-[#D5D0C1] mt-2 transition-all duration-300 ${
-                          isActive ? 'line-clamp-3 opacity-100' : 'line-clamp-2 opacity-85'
-                        }`}
-                      >
-                        {room.description}
-                      </p>
-
-                      {/* Lower-left Arrow Icon: Terracotta when Active, Neutral when Inactive */}
-                      <div className="mt-4 pt-3 border-t border-[#FAF8F4]/15 flex items-center justify-between">
-                        <div
-                          aria-hidden="true"
-                          className={`w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-300 ${
-                            isActive
-                              ? 'bg-[#A4401F] text-[#FAF8F4] shadow-md'
-                              : 'bg-[#FAF8F4]/15 text-[#FAF8F4] border border-[#FAF8F4]/30 group-hover:bg-[#FAF8F4]/25'
-                          }`}
-                        >
-                          <ArrowUpRight className="w-4 h-4 stroke-[2]" />
-                        </div>
-
-                        {isActive && (
-                          <span className="text-[10px] font-mono tracking-widest uppercase text-[#FAF8F4]/80">
-                            ACTIVE ROOM
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          {/* Mobile Layout: Responsive Single-Active Card Stage with Smooth Carousel Feel & Touch Swipe */}
-          <div
-            className="sm:hidden w-full flex flex-col items-center"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            {ROOMS_DATA.map((room, idx) => {
-              if (idx !== activeIndex) return null;
-
-              return (
-                <article
-                  key={room.id}
-                  id={`room-mobile-${room.id}`}
-                  style={{ borderRadius: '0px' }}
-                  className="w-full max-w-[340px] h-[450px] relative border border-[#E3DED5] overflow-hidden bg-[#171715] shadow-xl animate-in fade-in zoom-in-95 duration-300"
-                >
-                  {/* Background Image Layer: Absolute container behind content */}
-                  <div className="absolute inset-0 w-full h-full bg-[#171715] overflow-hidden">
-                    <img
-                      src={room.image}
-                      alt={room.alt}
-                      className="w-full h-full object-cover object-center"
-                      style={{
-                        filter:
-                          room.tone === 'bw'
-                            ? 'grayscale(100%) contrast(1.08)'
-                            : 'sepia(45%) saturate(1.1) contrast(1.04)',
-                      }}
-                    />
-
-                    {/* Gradient overlay to ensure text legibility */}
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-[#171715] via-[#171715]/65 to-transparent pointer-events-none"
-                      aria-hidden="true"
-                    />
-
-                    {/* Subtle warm paper tint overlay */}
-                    <div
-                      className="absolute inset-0 bg-[#A4401F]/5 mix-blend-color-burn pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  {/* Foreground Content: Title, Description, and Action Button clearly positioned on the image frame */}
-                  <div className="relative z-10 w-full h-full p-6 flex flex-col justify-end">
-                    <h3 className="font-display text-3xl text-[#FAF8F4] tracking-tight leading-tight">
-                      {room.title}
-                    </h3>
-                    <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-[#D5D0C1] mt-2">
-                      {room.description}
-                    </p>
-
-                    <div className="mt-4 pt-3 border-t border-[#FAF8F4]/20 flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-full bg-[#A4401F] text-[#FAF8F4] flex items-center justify-center shadow-md">
-                        <ArrowUpRight className="w-4 h-4 stroke-[2]" />
-                      </div>
-                      <span className="text-[10px] font-mono tracking-widest uppercase text-[#FAF8F4]/80">
-                        ROOM 0{idx + 1} · {room.title.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+          {ROOM_TABS.map((room) => {
+            const isSelected = activeRoomId === room.id;
+            return (
+              <button
+                key={room.id}
+                role="tab"
+                id={`room-tab-${room.id}`}
+                aria-controls={`room-panel-${room.id}`}
+                aria-selected={isSelected}
+                tabIndex={isSelected ? 0 : -1}
+                onClick={() => {
+                  setActiveRoomId(room.id);
+                  setActiveOverlayId(null);
+                }}
+                onKeyDown={(e) => handleTabKeyDown(e, room.id)}
+                className={`relative px-4 sm:px-5 py-2 font-mono text-xs sm:text-[13px] tracking-[0.16em] uppercase transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                  isSelected
+                    ? 'text-[#171715] font-semibold'
+                    : 'text-[#6B6B6B] hover:text-[#171715]'
+                }`}
+                style={{ borderRadius: '0px' }}
+              >
+                <span className="flex items-center space-x-2">
+                  {isSelected && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#A4401F]" aria-hidden="true" />
+                  )}
+                  <span>{room.title}</span>
+                </span>
+                {isSelected && (
+                  <span
+                    className="absolute -bottom-[13px] left-0 right-0 h-[2px] bg-[#A4401F]"
+                    aria-hidden="true"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* =========================================================================
-            3. MINIMAL BOTTOM NAVIGATION (Previous, Indicators, Next)
+            3. ROOM EXHIBITION CONTENT PANEL
             ========================================================================= */}
-        <div className="mt-12 md:mt-16 flex items-center justify-center space-x-4">
-          {/* Previous Button (Rectangular, 0px border radius) */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous creative room"
-            className="w-11 h-11 border border-[#171715] bg-[#FAF8F4] text-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-            style={{ borderRadius: '0px' }}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
+        <div
+          role="tabpanel"
+          id={`room-panel-${activeRoomId}`}
+          aria-labelledby={`room-tab-${activeRoomId}`}
+          className="w-full max-w-[1380px] mx-auto mt-8 md:mt-10"
+        >
+          {activeRoomId === 'fashion' ? (
+            /* =====================================================================
+               FASHION ROOM: Two-Column Header & 9-Image Editorial Composition
+               ===================================================================== */
+            <div className="w-full flex flex-col items-center">
+              {/* 3.1 Two-Column Fashion Header: Text on Left, Filters on Right */}
+              <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-8 lg:gap-12">
+                {/* Left column: Fashion heading and short supporting paragraph */}
+                <div className="w-full md:max-w-md lg:max-w-lg flex flex-col items-start text-left">
+                  <h3 className="font-display text-2xl sm:text-[28px] md:text-3xl lg:text-[32px] text-[#171715] leading-[1.12] tracking-tight">
+                    Fashion is more than what we wear.
+                  </h3>
+                  <p className="font-sans text-xs sm:text-[13.5px] leading-relaxed text-[#6B6B6B] mt-2 sm:mt-2.5 max-w-[420px]">
+                    Explore how hairstyles, clothing, jewellery, and textiles express identity,
+                    craft, and creativity across Nigerian life.
+                  </p>
+                </div>
 
-          {/* Four Small Pagination Indicators */}
-          <div className="flex items-center space-x-2" role="tablist" aria-label="Room selection indicators">
-            {ROOMS_DATA.map((room, idx) => (
-              <button
-                key={`dot-${room.id}`}
-                type="button"
-                role="tab"
-                aria-selected={activeIndex === idx}
-                aria-label={`Select ${room.title} room`}
-                onClick={() => setActiveIndex(idx)}
-                className={`transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
-                  activeIndex === idx
-                    ? 'w-6 h-2 bg-[#A4401F]'
-                    : 'w-2 h-2 bg-[#D5D0C1] hover:bg-[#A4401F]/60'
-                }`}
-                style={{ borderRadius: '0px' }}
-              />
-            ))}
-          </div>
+                {/* Right column: Five Category Filters in 2 clean rows (no horizontal scrollbar) */}
+                <div
+                  role="group"
+                  aria-label="Fashion collection categories"
+                  className="w-full md:w-auto flex flex-col items-start md:items-end gap-2 shrink-0"
+                >
+                  {/* First row: Hairstyles & Hair Artistry, Headwear & Adornment, Jewellery & Beads */}
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    {FASHION_CATEGORIES_ROW_1.map((category) => {
+                      const isActive = activeCategory === category;
+                      return (
+                        <button
+                          key={category}
+                          type="button"
+                          aria-pressed={isActive}
+                          onClick={() => {
+                            setActiveCategory(category);
+                            setActiveOverlayId(null);
+                          }}
+                          className={`px-3 py-1.5 font-mono text-[10.5px] sm:text-[11px] tracking-wider uppercase transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                            isActive
+                              ? 'bg-[#171715] text-[#FAF8F4] border border-[#171715]'
+                              : 'bg-transparent text-[#171715] border border-[#E3DED5] hover:border-[#171715]'
+                          }`}
+                          style={{ borderRadius: '0px' }}
+                        >
+                          <span>{category}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-          {/* Next Button (Rectangular, 0px border radius) */}
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next creative room"
-            className="w-11 h-11 border border-[#171715] bg-[#FAF8F4] text-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-            style={{ borderRadius: '0px' }}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+                  {/* Second row: Clothing & Textiles, Grooming, Beauty & Personal Style */}
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    {FASHION_CATEGORIES_ROW_2.map((category) => {
+                      const isActive = activeCategory === category;
+                      return (
+                        <button
+                          key={category}
+                          type="button"
+                          aria-pressed={isActive}
+                          onClick={() => {
+                            setActiveCategory(category);
+                            setActiveOverlayId(null);
+                          }}
+                          className={`px-3 py-1.5 font-mono text-[10.5px] sm:text-[11px] tracking-wider uppercase transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                            isActive
+                              ? 'bg-[#171715] text-[#FAF8F4] border border-[#171715]'
+                              : 'bg-transparent text-[#171715] border border-[#E3DED5] hover:border-[#171715]'
+                          }`}
+                          style={{ borderRadius: '0px' }}
+                        >
+                          <span>{category}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* 3.2 Category Content: Hairstyles & Headwear (9-Image Compositions) vs Others (In Development) */}
+              {isHairstyles || isHeadwear ? (
+                <div className="w-full mt-7 md:mt-8">
+                  {/* Desktop & Tablet: Four-Left (2x2), One-Centre (dominant tall), Four-Right (2x2) */}
+                  <div className="hidden md:grid md:grid-cols-5 gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5 w-full items-stretch">
+                    {/* Column 1: Left Group Col 1 (LEFT[0], LEFT[2]) */}
+                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
+                      {renderImageCard(activeLeftImages[0], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                      {renderImageCard(activeLeftImages[2], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                    </div>
+
+                    {/* Column 2: Left Group Col 2 (LEFT[1], LEFT[3]) */}
+                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
+                      {renderImageCard(activeLeftImages[1], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                      {renderImageCard(activeLeftImages[3], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                    </div>
+
+                    {/* Column 3: Centre Dominant Image (Spans the height of both side rows!) */}
+                    <div className="flex flex-col h-full">
+                      {renderImageCard(
+                        activeCenterImage,
+                        'h-full min-h-[392px] lg:min-h-[496px] xl:min-h-[556px]',
+                        true
+                      )}
+                    </div>
+
+                    {/* Column 4: Right Group Col 1 (RIGHT[0], RIGHT[2]) */}
+                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
+                      {renderImageCard(activeRightImages[0], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                      {renderImageCard(activeRightImages[2], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                    </div>
+
+                    {/* Column 5: Right Group Col 2 (RIGHT[1], RIGHT[3]) */}
+                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
+                      {renderImageCard(activeRightImages[1], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                      {renderImageCard(activeRightImages[3], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
+                    </div>
+                  </div>
+
+                  {/* Mobile Reflow: Prioritises Centrepiece, followed by Supporting 8 Images */}
+                  <div className="md:hidden w-full flex flex-col items-center">
+                    {/* Dominant Centrepiece Image on Mobile */}
+                    <div className="w-full max-w-sm mx-auto">
+                      {renderImageCard(
+                        activeCenterImage,
+                        'w-full aspect-[3/4] max-h-[440px]',
+                        true
+                      )}
+                    </div>
+
+                    {/* Supporting 8 Images in Clean 2-Column Grid */}
+                    <div className="w-full max-w-sm mx-auto grid grid-cols-2 gap-2.5 sm:gap-3 mt-2.5 sm:mt-3">
+                      {[
+                        activeLeftImages[0],
+                        activeLeftImages[1],
+                        activeLeftImages[2],
+                        activeLeftImages[3],
+                        activeRightImages[0],
+                        activeRightImages[1],
+                        activeRightImages[2],
+                        activeRightImages[3],
+                      ].map((item) => renderImageCard(item, 'w-full aspect-[4/5]'))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* OTHER FASHION CATEGORIES (Honest In-Development State) */
+                <div className="mt-8 p-8 sm:p-12 bg-[#FAF8F4] border border-[#E3DED5] text-center max-w-xl mx-auto flex flex-col items-center">
+                  <span className="font-mono text-[10.5px] tracking-[0.2em] uppercase text-[#A4401F] font-semibold">
+                    CURATORIAL CATALOGUING IN PROGRESS
+                  </span>
+                  <h4 className="font-display text-2xl text-[#171715] mt-2.5">
+                    {activeCategory}
+                  </h4>
+                  <p className="font-sans text-xs sm:text-[13px] text-[#6B6B6B] leading-relaxed mt-2.5 max-w-md">
+                    Archival specimens, documentation, and verified provenance for this category are
+                    currently being catalogued. The Hairstyles &amp; Hair Artistry and Headwear &amp; Adornment collections are
+                    currently available for viewing.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2.5 justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setActiveCategory('Hairstyles & Hair Artistry')}
+                      className="inline-flex items-center px-4 py-2 bg-[#171715] text-[#FAF8F4] hover:bg-[#A4401F] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      style={{ borderRadius: '0px' }}
+                    >
+                      <span>View Hairstyles &amp; Hair Artistry</span>
+                      <span className="ml-2">→</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveCategory('Headwear & Adornment')}
+                      className="inline-flex items-center px-4 py-2 bg-transparent text-[#171715] border border-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      style={{ borderRadius: '0px' }}
+                    >
+                      <span>View Headwear &amp; Adornment</span>
+                      <span className="ml-2">→</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : otherRoom ? (
+            /* =====================================================================
+               PHOTOGRAPHY, MUSIC, OR DESIGN: Unified Editorial Room Preview
+               ===================================================================== */
+            <div className="w-full flex flex-col items-center">
+              {/* Content Header Row: Heading & Description on Left, Accent + Preview Label on Right */}
+              <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-8 lg:gap-12">
+                {/* Left Column: Room Heading & Supporting Text */}
+                <div className="w-full md:max-w-xl lg:max-w-2xl flex flex-col items-start text-left">
+                  <h3 className="font-display text-2xl sm:text-[28px] md:text-3xl lg:text-[34px] text-[#171715] leading-[1.12] tracking-tight">
+                    {otherRoom.heading}
+                  </h3>
+                  <p className="font-sans text-xs sm:text-[13.5px] leading-relaxed text-[#6B6B6B] mt-2 sm:mt-2.5 max-w-[500px]">
+                    {otherRoom.description}
+                  </p>
+                </div>
+
+                {/* Right Column: Small Terracotta Accent & Uppercase Room-Preview Label */}
+                <div className="w-full md:w-auto flex items-center md:justify-end shrink-0 pt-1 md:pt-2">
+                  <div className="flex items-center space-x-2.5">
+                    <span className="w-2 h-2 rounded-full bg-[#A4401F] shrink-0" aria-hidden="true" />
+                    <span className="font-mono text-xs sm:text-[12.5px] tracking-[0.18em] uppercase text-[#171715] font-semibold">
+                      {otherRoom.previewLabel}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* One Large Representative Archival Image Spanning Full Content Width */}
+              <div className="w-full mt-7 md:mt-8">
+                <div
+                  className="relative w-full overflow-hidden bg-[#171715] select-none"
+                  style={{ borderRadius: '0px' }}
+                >
+                  <img
+                    src={otherRoom.image}
+                    alt={otherRoom.alt}
+                    className="w-full h-[320px] sm:h-[420px] md:h-[500px] lg:h-[580px] xl:h-[620px] object-cover object-center"
+                    style={{
+                      filter:
+                        otherRoom.tone === 'bw'
+                          ? 'grayscale(100%) contrast(1.06)'
+                          : 'sepia(35%) saturate(1.08) contrast(1.04)',
+                    }}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

@@ -68,12 +68,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
         <div className="absolute inset-0 bg-[#FAF8F4] z-0" />
 
         {/* Video / Fallback Container: Positioned intentionally to align with the right-side collage */}
-        <div className="absolute inset-0 z-1 flex items-center justify-end">
+        <div className="absolute inset-0 z-0 flex items-center justify-end">
           {/* Static Fallback (Active when video is loading, errored, or reduced motion is active) */}
           <img
             src="/assets/hero-fallback.jpg"
             alt=""
-            className={`absolute inset-0 w-full h-full object-cover object-right md:object-center transition-opacity duration-700 ease-in-out ${
+            className={`absolute inset-0 w-full h-full object-cover object-[right_bottom] sm:object-right md:object-center transition-opacity duration-700 ease-in-out ${
               videoLoaded && !prefersReducedMotion ? 'opacity-0' : 'opacity-100'
             }`}
           />
@@ -89,7 +89,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
               preload="auto"
               onLoadedData={() => setVideoLoaded(true)}
               onError={() => setVideoError(true)}
-              className={`w-full h-full object-cover object-right md:object-center transition-opacity duration-700 ease-in-out ${
+              className={`w-full h-full object-cover object-[right_bottom] sm:object-right md:object-center transition-opacity duration-700 ease-in-out ${
                 videoLoaded ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -100,6 +100,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
               />
             </video>
           )}
+
+          {/* Protective top wash on mobile so the header headline is never obscured by the map */}
+          <div className="absolute inset-x-0 top-0 h-72 sm:h-80 bg-gradient-to-b from-[#FAF8F4] via-[#FAF8F4]/95 to-transparent lg:hidden pointer-events-none" />
 
           {/* Soft gradient wash on smaller viewports to guarantee text contrast against background imagery */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F4] via-[#FAF8F4]/80 to-transparent lg:hidden pointer-events-none" />
@@ -134,8 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
 
             {/* Concise Editorial Supporting Copy */}
             <p className="font-sans text-[15px] sm:text-[16px] md:text-[16.5px] leading-[1.55] text-[#6B6B6B] mt-6 md:mt-8 mb-8 md:mb-10 max-w-[370px]">
-              Explore real stories, people and objects from Nigeria’s creative
-              history through photography, music, fashion and design.
+              Explore the people, objects, and ideas that have shaped Nigeria’s creative history.
             </p>
 
             {/* Primary Action Button */}
@@ -149,7 +151,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
                   borderRadius: '0px',
                 }}
               >
-                <span>ENTER ARCHIVE</span>
+                <span>Explore the Archive</span>
                 <span className="ml-2.5 text-base leading-none transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">
                   →
                 </span>

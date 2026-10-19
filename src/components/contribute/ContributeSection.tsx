@@ -42,9 +42,7 @@ export const ContributeSection: React.FC = () => {
 
             {/* Supporting Copy */}
             <p className="font-sans text-[15px] sm:text-[16px] md:text-[16.5px] leading-[1.62] text-[#6B6B6B] mt-6 md:mt-8 max-w-[440px]">
-              Nigeria’s creative history lives in people, places, ideas and everyday moments.
-              By supporting this work, you help ensure these stories are documented, preserved,
-              and accessible for generations to come.
+              Nigeria’s creative history lives in its people, places, objects, and everyday practices. By preserving the stories behind them, we help keep that history visible, accessible, and open to future generations.
             </p>
 
             {/* Two Horizontally Aligned CTA Buttons */}
@@ -59,7 +57,7 @@ export const ContributeSection: React.FC = () => {
                   borderRadius: '0px',
                 }}
               >
-                <span>SUPPORT THE ARCHIVE</span>
+                <span>Support the Archive</span>
                 <span className="ml-2.5 text-base leading-none" aria-hidden="true">→</span>
               </button>
 
@@ -73,7 +71,7 @@ export const ContributeSection: React.FC = () => {
                   borderRadius: '0px',
                 }}
               >
-                <span>LEARN MORE</span>
+                <span>Learn more</span>
                 <span className="ml-2.5 text-base leading-none" aria-hidden="true">→</span>
               </a>
             </div>
@@ -134,16 +132,6 @@ export const ContributeSection: React.FC = () => {
               RIGHT COLUMN: Layered Archival Collage
               ========================================================================= */}
           <div className="lg:col-span-6 relative flex items-center justify-center min-h-[520px] md:min-h-[580px] p-4 sm:p-8">
-            {/* Background Parchment Layers */}
-            <div
-              className="absolute top-4 right-12 w-[320px] sm:w-[380px] h-[440px] sm:h-[480px] bg-[#E3DED5]/40 border border-[#E3DED5] -rotate-1 shadow-xs pointer-events-none"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute top-10 left-8 w-[280px] sm:w-[340px] h-[380px] sm:h-[420px] bg-[#D5D0C1]/30 border border-[#D5D0C1]/80 rotate-2 pointer-events-none"
-              aria-hidden="true"
-            />
-
             {/* Terracotta Decorative Stamp / Tape Accent at Top-Right */}
             <div
               className="absolute top-0 right-16 z-30 w-8 h-10 bg-[#A4401F]/80 border border-[#7F3018]/60 -rotate-3 shadow-xs pointer-events-none"
