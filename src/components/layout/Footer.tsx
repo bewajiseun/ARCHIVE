@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
       aria-label="ARCHIVE Museum Footer"
       className="relative w-full bg-[#321F18] text-[#FAF8F4] overflow-hidden select-none"
     >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pt-8 pb-10">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24 pb-12 md:pb-16">
         {/* =========================================================================
             1. TOP IDENTIFICATION ROW
             ========================================================================= */}

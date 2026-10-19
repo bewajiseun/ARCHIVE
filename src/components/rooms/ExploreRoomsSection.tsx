@@ -502,7 +502,7 @@ export const ExploreRoomsSection: React.FC = () => {
     <section
       id="explore-rooms"
       aria-label="Explore the Rooms Exhibition"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-14 md:py-20 overflow-hidden select-none"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-16 md:py-24 overflow-hidden select-none"
     >
       {/* Subtle deckled archival paper slips behind section background */}
       <div

@@ -229,7 +229,7 @@ export const FashionRoomSection: React.FC = () => {
       id="rooms"
       ref={containerRef}
       aria-label="Fashion Room: Look closer"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] overflow-clip"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] overflow-clip scroll-mt-12 sm:scroll-mt-16 md:scroll-mt-20"
       style={{
         // 260vh height on desktop gives generous, smooth, responsive scroll-track for forward stacking
         minHeight: prefersReducedMotion ? 'auto' : '260vh',
@@ -245,14 +245,14 @@ export const FashionRoomSection: React.FC = () => {
       <div
         className={`${
           prefersReducedMotion
-            ? 'relative py-12'
-            : 'sticky top-0 h-screen max-h-[1080px] flex flex-col justify-start pt-5 md:pt-8 pb-4'
+            ? 'relative py-16 md:py-24'
+            : 'sticky top-0 h-screen max-h-[1080px] flex flex-col justify-start pt-16 md:pt-24 pb-6'
         } w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 overflow-hidden`}
       >
         {/* =========================================================================
             A. TOP INTRODUCTION: Sits horizontally ABOVE the stacked cards
             ========================================================================= */}
-        <div className="w-full flex-shrink-0 mb-3 sm:mb-4 pt-1">
+        <div className="w-full flex-shrink-0 mb-3 sm:mb-4 pt-1 sm:pt-2">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 items-end pb-3 sm:pb-4 border-b border-[#E3DED5]">
             {/* Left side: Tag identifier + Headline */}
             <div className="lg:col-span-7 flex flex-col items-start">

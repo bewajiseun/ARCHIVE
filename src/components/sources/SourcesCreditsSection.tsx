@@ -80,7 +80,7 @@ export const SourcesCreditsSection: React.FC = () => {
     <section
       id="sources"
       aria-label="Sources and Credits"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 md:py-28 lg:py-32 overflow-hidden select-none"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-16 md:py-24 overflow-hidden select-none"
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
@@ -128,15 +128,6 @@ export const SourcesCreditsSection: React.FC = () => {
                   <span className="ml-3 text-base leading-none" aria-hidden="true">→</span>
                 </button>
               </div>
-            </div>
-
-            {/* Scroll Cue at Bottom-Left */}
-            <div className="mt-16 lg:mt-24 flex items-center space-x-3 text-[10.5px] font-mono tracking-[0.2em] uppercase text-[#6B6B6B]">
-              <div className="flex flex-col items-center">
-                <span className="w-2 h-2 rounded-full border border-[#171715] inline-block" />
-                <span className="w-[1px] h-6 bg-[#171715] inline-block" />
-              </div>
-              <span>SCROLL TO CONTINUE</span>
             </div>
           </div>
 
@@ -190,20 +181,6 @@ export const SourcesCreditsSection: React.FC = () => {
                   </div>
                 </article>
               ))}
-            </div>
-
-            {/* Bottom-Right Section Progress Indicator: 06 / 07 */}
-            <div className="mt-12 pt-6 border-t border-[#E3DED5] flex items-center justify-end space-x-3 text-[11px] font-mono tracking-widest text-[#6B6B6B]">
-              <span className="font-semibold text-[#171715]">06 / 07</span>
-              <div className="flex items-center space-x-1.5" aria-hidden="true">
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-                <span className="w-6 h-[2.5px] bg-[#A4401F]" />
-                <span className="w-4 h-[2px] bg-[#D5D0C1]" />
-              </div>
             </div>
           </div>
         </div>

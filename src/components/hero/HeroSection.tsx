@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
     <section
       id="hero"
       aria-label="ARCHIVE Hero Exhibition"
-      className="relative w-full min-h-[calc(100vh-90px)] md:min-h-[720px] lg:min-h-[780px] flex items-center overflow-x-hidden bg-[#FAF8F4]"
+      className="relative w-full min-h-[880px] sm:min-h-[960px] md:min-h-[1040px] lg:min-h-[1100px] flex items-center overflow-x-hidden bg-[#D7C7AD]"
     >
       {/* =========================================================================
           BACKGROUND LAYER: Animated Nigeria Archival Collage or Static Fallback
@@ -64,8 +64,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
         className="absolute inset-0 pointer-events-none overflow-hidden select-none"
         aria-hidden="true"
       >
-        {/* Subtle overall background tone matching the paper texture */}
-        <div className="absolute inset-0 bg-[#FAF8F4] z-0" />
+        {/* Warm parchment background tone matching the hero map artwork */}
+        <div className="absolute inset-0 bg-[#D7C7AD] z-0" />
 
         {/* Video / Fallback Container: Positioned intentionally to align with the right-side collage */}
         <div className="absolute inset-0 z-0 flex items-center justify-end">
@@ -73,7 +73,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
           <img
             src="/assets/hero-fallback.jpg"
             alt=""
-            className={`absolute inset-0 w-full h-full object-cover object-[right_bottom] sm:object-right md:object-center transition-opacity duration-700 ease-in-out ${
+            className={`absolute inset-0 w-full h-full object-cover object-right sm:object-right transition-opacity duration-700 ease-in-out ${
               videoLoaded && !prefersReducedMotion ? 'opacity-0' : 'opacity-100'
             }`}
           />
@@ -89,7 +89,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
               preload="auto"
               onLoadedData={() => setVideoLoaded(true)}
               onError={() => setVideoError(true)}
-              className={`w-full h-full object-cover object-[right_bottom] sm:object-right md:object-center transition-opacity duration-700 ease-in-out ${
+              className={`w-full h-full object-cover object-right sm:object-right transition-opacity duration-700 ease-in-out ${
                 videoLoaded ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -102,18 +102,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
           )}
 
           {/* Protective top wash on mobile so the header headline is never obscured by the map */}
-          <div className="absolute inset-x-0 top-0 h-72 sm:h-80 bg-gradient-to-b from-[#FAF8F4] via-[#FAF8F4]/95 to-transparent lg:hidden pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-72 sm:h-80 bg-gradient-to-b from-[#D7C7AD] via-[#D7C7AD]/90 to-transparent lg:hidden pointer-events-none" />
 
           {/* Soft gradient wash on smaller viewports to guarantee text contrast against background imagery */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F4] via-[#FAF8F4]/80 to-transparent lg:hidden pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F4] via-transparent to-transparent sm:hidden pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#D7C7AD] via-[#D7C7AD]/80 to-transparent lg:hidden pointer-events-none" />
         </div>
       </div>
 
       {/* =========================================================================
           FOREGROUND INTERFACE: Headline, Supporting Copy, Primary CTA
           ========================================================================= */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-8 md:py-16">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Editorial Typography & Action */}
           <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start pt-2 md:pt-4">
@@ -166,7 +165,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onCtaClick }) => {
           </div>
 
           {/* Right Column: Generous negative space on desktop where the Nigeria-shaped collage animates */}
-          <div className="hidden lg:block lg:col-span-6 xl:col-span-7 min-h-[460px] pointer-events-none" aria-hidden="true" />
+          <div className="hidden lg:block lg:col-span-6 xl:col-span-7 min-h-[600px] lg:min-h-[720px] xl:min-h-[800px] pointer-events-none" aria-hidden="true" />
         </div>
       </div>
     </section>
