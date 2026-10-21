@@ -4,9 +4,10 @@ import { X } from 'lucide-react';
 
 interface HeaderProps {
   onNavigateSection?: (sectionId: string) => void;
+  className?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onNavigateSection }) => {
+export const Header: React.FC<HeaderProps> = ({ onNavigateSection, className = 'bg-[#FAF8F4]' }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Close menu on ESC key
@@ -41,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateSection }) => {
         Skip to main content
       </a>
 
-      <header className="relative z-30 w-full bg-[#DACAB0]">
+      <header className={`relative z-30 w-full ${className}`}>
         <div className="pt-6 md:pt-8 pb-4 px-6 md:px-12 lg:px-16 max-w-[1440px] mx-auto">
           <div className="grid grid-cols-3 items-center">
             {/* Left Navigation (Desktop) */}
@@ -51,21 +52,21 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateSection }) => {
                 onClick={(e) => handleNavClick('rooms', e)}
                 className="text-[12px] lg:text-[13px] font-medium tracking-[0.18em] uppercase text-[#171715] hover:text-[#A4401F] transition-colors duration-200 py-2"
               >
-                Rooms
-              </a>
-              <a
-                href="#stories"
-                onClick={(e) => handleNavClick('stories', e)}
-                className="text-[12px] lg:text-[13px] font-medium tracking-[0.18em] uppercase text-[#171715] hover:text-[#A4401F] transition-colors duration-200 py-2"
-              >
-                Stories
+                ROOMS
               </a>
               <a
                 href="#explore-rooms"
                 onClick={(e) => handleNavClick('explore-rooms', e)}
                 className="text-[12px] lg:text-[13px] font-medium tracking-[0.18em] uppercase text-[#171715] hover:text-[#A4401F] transition-colors duration-200 py-2"
               >
-                Disciplines
+                EXHIBIT
+              </a>
+              <a
+                href="#stories"
+                onClick={(e) => handleNavClick('stories', e)}
+                className="text-[12px] lg:text-[13px] font-medium tracking-[0.18em] uppercase text-[#171715] hover:text-[#A4401F] transition-colors duration-200 py-2"
+              >
+                STORIES
               </a>
             </nav>
 
@@ -83,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateSection }) => {
                 aria-label="ARCHIVE Homepage"
                 className="inline-block p-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
               >
-                <ArchiveLogo />
+                <ArchiveLogo size="md" />
               </a>
             </div>
 

@@ -1,461 +1,455 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
 
-export interface StoryCardItem {
+export interface CarryForwardStory {
   id: string;
-  seq: string;
+  disciplineSeq: string;
+  disciplineName: string;
   title: string;
-  description: string;
-  image: string;
+  shortDescription: string;
+  expandedSubtitle: string;
+  expandedNarrative: string[];
+  imageUrl: string;
   alt: string;
+  illustrationCredit: string;
+  curatorialPillars: { label: string; desc: string }[];
 }
 
-const STORY_CARDS: StoryCardItem[] = [
+const CARRY_FORWARD_STORIES: CarryForwardStory[] = [
   {
-    id: 'the-cloth',
-    seq: '01',
-    title: 'The Cloth',
-    description:
-      'A closer look at Aṣọ Ọ̀kè — its texture, patterns, colours and the meaning woven into every thread.',
-    image: '/assets/asooke-cloth.jpg',
-    alt: 'Detailed macro close-up of traditional hand-woven Aṣọ Ọ̀kè cloth with indigo and terracotta stripes',
+    id: 'fashion',
+    disciplineSeq: '01',
+    disciplineName: 'FASHION',
+    title: 'Style in Motion',
+    shortDescription:
+      'How Nigerian fashion carries cultural memory into new expressions. Discover how earlier influences are reinterpreted through dress, adornment, silhouettes, and contemporary personal style.',
+    expandedSubtitle: 'Older influences. New expressions. A continuing story.',
+    expandedNarrative: [
+      'Nigerian fashion has long carried stories of identity, status, creativity, and belonging. From ceremonial dress and traditional textiles to contemporary tailoring and streetwear, each generation finds new ways to interpret what came before.',
+      'Today, designers, stylists, and creative communities draw from historical styles, materials, and cultural references, translating them into new expressions.',
+      'This story explores how earlier influences continue to shape what Nigerians wear, how they express themselves, and how fashion becomes a living record of cultural change.',
+    ],
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792534261/Nigerian_Heritage_in_Traditional_Attire.png',
+    alt: 'Nigerian women wearing traditional attire, gele headwraps, and coral bead jewellery in a documentary-style portrait.',
+    illustrationCredit:
+      'Illustrative Study · Period-inspired illustration of Nigerian traditional attire, gele headwraps, and coral bead adornment.',
+    curatorialPillars: [
+      { label: 'Sartorial Memory', desc: 'Textile lineages translating ancestral drape into contemporary silhouettes.' },
+      { label: 'Adornment & Status', desc: 'Coral beads and layered jewellery as signifiers of dignity and cultural pride.' },
+      { label: 'Living Wardrobe', desc: 'Everyday street style continuously conversing with ceremonial heritage.' },
+    ],
   },
   {
-    id: 'hands-that-weave',
-    seq: '02',
-    title: 'The Hands That Weave',
-    description:
-      'The skilled artisans, traditional techniques and the care behind every strip of cloth.',
-    image: '/assets/fashion-weaving.jpg',
-    alt: 'Master artisan hands operating the traditional wooden narrow-strip loom',
+    id: 'music',
+    disciplineSeq: '02',
+    disciplineName: 'MUSIC',
+    title: 'Sounds Reimagined',
+    shortDescription:
+      'Explore how musical traditions, rhythms, and earlier sounds influence the music Nigerian artists create today.',
+    expandedSubtitle: 'Harmonies of heritage. Modern polyrhythms. The enduring pulse.',
+    expandedNarrative: [
+      'Nigerian musical expression thrives on a continuous dialogue between ancestral acoustic traditions, polyrhythmic drumming, and modern brass, guitar, and electronic experimentation. From mid-century highlife dance bands and palmwine acoustic circles to fújì, jùjú, and today’s global Afrobeats soundscapes, each era builds directly upon earlier acoustic innovations.',
+      'Contemporary producers, instrumentalists, and vocalists regularly sample traditional percussion, employ indigenous call-and-response phrasing, and weave talking drum motifs into modern studio arrangements.',
+      'This story traces how sonic lineage travels across time—showing that the rhythms animating contemporary international stages are deeply rooted in generational creative inheritance.',
+    ],
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792534262/Vintage_Nigerian_Highlife_Jazz_Ensemble.png',
+    alt: 'A Nigerian highlife-inspired ensemble performing with a trumpet and other musical instruments in a vintage documentary-style scene.',
+    illustrationCredit:
+      'Illustrative Study · Period-inspired illustration of a vintage Nigerian highlife jazz ensemble with trumpet, horns, and rhythm section.',
+    curatorialPillars: [
+      { label: 'Acoustic Foundations', desc: 'Traditional percussive timing and polyrhythms anchoring modern arrangements.' },
+      { label: 'Brass & Highlife Era', desc: 'Mid-century ballroom orchestrations that shaped modern West African popular music.' },
+      { label: 'Global Convergence', desc: 'Contemporary Afrobeats carrying historical cadence to international ears.' },
+    ],
   },
   {
-    id: 'worn-across-generations',
-    seq: '03',
-    title: 'Worn Across Generations',
-    description:
-      'Explore how Aṣọ Ọ̀kè appears in ceremonies, communities and everyday life.',
-    image: '/assets/asooke-worn.jpg',
-    alt: 'Nigerian woman wearing a magnificent sculpted Aṣọ Ọ̀kè gele headwrap and ceremonial shawl',
+    id: 'photography',
+    disciplineSeq: '03',
+    disciplineName: 'PHOTOGRAPHY',
+    title: 'Seeing Nigeria Differently',
+    shortDescription:
+      'Discover how photographs document changing identities, places, and everyday life, shaping how generations understand Nigerian experiences.',
+    expandedSubtitle: 'Framing memory. Archiving light. The visual witness.',
+    expandedNarrative: [
+      'Photographs are more than static documents; they are active instruments of personal and civic dignity. From mid-century neighbourhood portrait studios where sitters posed with bespoke backdrops and refined personal styling, to street reportage capturing rapid urban growth, photography has continually reshaped how Nigerians perceive themselves.',
+      'Contemporary visual artists and documentarians return to these visual archives to study light, posture, camera angles, and street compositions, finding new ways to document the modern city.',
+      'This story explores how the photographic lens preserves fleeting cultural moments, creating a continuous visual memory that connects generations of Nigerian experience.',
+    ],
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792534346/Lagos_Street_Life_Mid-Century.png',
+    alt: 'A period-inspired Lagos street scene with a photographer, pedestrians, vintage vehicles, and a photo studio.',
+    illustrationCredit:
+      'Illustrative Study · Period-inspired illustration of mid-century Lagos street life, studio photographers, pedestrians, and vintage vehicles.',
+    curatorialPillars: [
+      { label: 'Studio Staging', desc: 'Formal portrait spaces creating aspirational records of autonomy and elegance.' },
+      { label: 'Street Witness', desc: 'Spontaneous street life documenting municipal change and urban vitality.' },
+      { label: 'Generational Album', desc: 'Family photographs as intimate primary archives of community history.' },
+    ],
   },
   {
-    id: 'living-today',
-    seq: '04',
-    title: 'Living Today',
-    description:
-      'Discover how contemporary creatives continue to interpret and work with Aṣọ Ọ̀kè.',
-    image: '/assets/asooke-living.jpg',
-    alt: 'Contemporary Nigerian fashion model in a tailored modern jacket crafted from woven Aṣọ Ọ̀kè',
+    id: 'design',
+    disciplineSeq: '04',
+    disciplineName: 'DESIGN',
+    title: 'Design, Reinterpreted',
+    shortDescription:
+      'Explore how lettering, posters, symbols, and earlier visual languages inspire new forms of Nigerian visual communication.',
+    expandedSubtitle: 'Symbols of communication. Graphic memory. Living typography.',
+    expandedNarrative: [
+      'Visual communication in Nigeria spans centuries of graphic ingenuity—from ancient ideographic and symbolic systems like nsibidi and adire stenciling to mid-century hand-painted cinema posters, record sleeves, and municipal sign-writing.',
+      'Today, graphic artists, typographers, and spatial designers look back at this rich typographic and motif-driven heritage, adapting bold hand-rendered lettering and vernacular geometries into contemporary branding, digital interfaces, and spatial design.',
+      'This story examines how graphic memory persists across formats, proving that yesterday’s visual idioms continue to provide a foundation for contemporary African visual language.',
+    ],
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792534260/Nigerian_Poster_and_Print_Ephemera.png',
+    alt: 'A collage of vintage-inspired Nigerian posters, bold typography, printed ephemera, and traditional visual motifs.',
+    illustrationCredit:
+      'Illustrative Study · Period-inspired illustration of Nigerian printed posters, bold display typography, and graphic ephemera.',
+    curatorialPillars: [
+      { label: 'Vernacular Lettering', desc: 'Hand-painted cinema and market typography reinterpreted in digital font design.' },
+      { label: 'Symbolic Systems', desc: 'Historical motifs and ideographic geometries repurposed for modern identities.' },
+      { label: 'Print Ephemera', desc: 'Record jackets, handbills, and exhibition posters as graphic design benchmarks.' },
+    ],
   },
 ];
 
 export const ThreadsOfGenerationsSection: React.FC = () => {
-  // Continuous fractional position index: 0.0 -> 4.0
-  const [position, setPosition] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isTouching, setIsTouching] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const cardTriggerRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const sectionRef = useRef<HTMLElement>(null);
+  const expandedPanelRef = useRef<HTMLDivElement>(null);
 
-  // Animation refs
-  const positionRef = useRef(0);
-  const isHoveredRef = useRef(false);
-  const isTouchingRef = useRef(false);
-  const isTransitioningRef = useRef(false);
-  const targetPositionRef = useRef<number | null>(null);
-  const touchStartXRef = useRef(0);
-  const touchCurrentXRef = useRef(0);
-
-  // Sync state with refs
-  isHoveredRef.current = isHovered;
-  isTouchingRef.current = isTouching;
-  positionRef.current = position;
-
-  // Reduced motion detection
-  useEffect(() => {
-    setIsClient(true);
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
-
-  // Continuous animation loop using requestAnimationFrame
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    let lastTime = performance.now();
-    let animationFrameId: number;
-
-    const tick = (now: number) => {
-      const dt = (now - lastTime) / 1000;
-      lastTime = now;
-
-      // Handle programmatic smooth transitions (e.g. from Prev/Next buttons)
-      if (targetPositionRef.current !== null) {
-        const diff = targetPositionRef.current - positionRef.current;
-        if (Math.abs(diff) < 0.005) {
-          positionRef.current = targetPositionRef.current;
-          targetPositionRef.current = null;
-          isTransitioningRef.current = false;
-        } else {
-          positionRef.current += diff * Math.min(dt * 8, 0.4);
-        }
-        setPosition(positionRef.current);
-      } else if (!isHoveredRef.current && !isTouchingRef.current) {
-        // Continuous right-to-left automatic movement
-        // Completes one full card transition approximately every 4.8 seconds
-        const speed = 0.22; // units per second
-        positionRef.current += speed * dt;
-        setPosition(positionRef.current);
-      }
-
-      animationFrameId = requestAnimationFrame(tick);
-    };
-
-    animationFrameId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [prefersReducedMotion]);
-
-  // Navigation button handlers
-  const handleNext = useCallback(() => {
-    const currentBase = positionRef.current;
-    targetPositionRef.current = Math.floor(currentBase + 1);
-    isTransitioningRef.current = true;
-  }, []);
-
-  const handlePrev = useCallback(() => {
-    const currentBase = positionRef.current;
-    targetPositionRef.current = Math.ceil(currentBase - 1);
-    isTransitioningRef.current = true;
-  }, []);
-
-  // Touch handlers for mobile swipe
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsTouching(true);
-    touchStartXRef.current = e.touches[0].clientX;
-    touchCurrentXRef.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchCurrentXRef.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const deltaX = touchStartXRef.current - touchCurrentXRef.current;
-    if (Math.abs(deltaX) > 40) {
-      if (deltaX > 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
+  // Restore focus to triggering card button when returning to grid view
+  const handleCollapse = (idToFocus?: string) => {
+    const targetId = idToFocus || expandedId;
+    setExpandedId(null);
+    if (targetId && cardTriggerRefs.current[targetId]) {
+      setTimeout(() => {
+        cardTriggerRefs.current[targetId]?.focus();
+      }, 50);
     }
-    setIsTouching(false);
   };
 
-  // Dimensions based on responsive breakpoints
-  const isMobile = isClient && typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = isClient && typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+  const handleExpand = (id: string) => {
+    setExpandedId(id);
+    // Smooth scroll if panel top is scrolled past
+    setTimeout(() => {
+      if (expandedPanelRef.current) {
+        const rect = expandedPanelRef.current.getBoundingClientRect();
+        if (rect.top < 80) {
+          expandedPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }, 60);
+  };
 
-  const featuredWidth = isMobile ? 320 : isTablet ? 480 : 640;
-  const compactWidth = isMobile ? 150 : isTablet ? 220 : 280;
-  const cardGap = isMobile ? 16 : 24;
-  const cardHeight = isMobile ? 380 : 450;
-
-  // Calculate current card indexing
-  const numCards = STORY_CARDS.length;
-  // Normalized cyclic index (0..3.999...)
-  const normalizedPos = ((position % numCards) + numCards) % numCards;
-  const activeIndex = Math.floor(normalizedPos);
-  const transitionFraction = normalizedPos - activeIndex; // 0 to 1
-
-  // Virtual card items to render (we render a 6-card rolling sequence for seamless looping)
-  const renderIndices: number[] = [];
-  for (let i = -1; i <= 4; i++) {
-    renderIndices.push(i);
-  }
+  const currentExpandedStory = CARRY_FORWARD_STORIES.find((s) => s.id === expandedId);
 
   return (
     <section
+      ref={sectionRef}
       id="stories"
-      aria-label="Threads of Generations: Aṣọ Ọ̀kè Exhibition"
-      className="relative z-10 w-full bg-[#321F18] text-[#FAF8F4] py-16 md:py-24 overflow-hidden select-none"
+      aria-label="What We Carry Forward"
+      className="relative w-full bg-[#321F18] text-[#FAF8F4] py-20 md:py-28 lg:py-32 overflow-hidden select-none transition-colors duration-300"
     >
-      {/* Subtle background tactile grid texture */}
+      {/* Subtle Archival Grain / Watermark */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#A4401F_1px,transparent_1px)] [background-size:24px_24px]"
+        className="absolute inset-0 pointer-events-none opacity-[0.04] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 50% 50%, #FAF8F4 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
         aria-hidden="true"
       />
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
-            A. TOP INTRODUCTION: Stays 100% stationary above the moving carousel
+            SECTION HEADER: Stationary above the card container
+            Eyebrow: FEATURED STORY
+            Headline: What We Carry Forward
+            Supporting copy: Nigerian creativity is always evolving...
             ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 md:mb-16">
-          {/* Left Column: Eyebrow + Heading */}
+          {/* Left Column: Eyebrow + Headline */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-medium">
+            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-semibold">
               <span className="w-7 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
               <span>FEATURED STORY</span>
             </div>
 
             <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[68px] text-[#FAF8F4] leading-[0.96] tracking-tight">
-              <span>Threads of </span>
-              <span className="italic text-[#A4401F] font-normal">Generations</span>
+              <span>What We Carry </span>
+              <span className="italic text-[#A4401F] font-normal">Forward</span>
             </h2>
           </div>
 
-          {/* Right Column: Supporting Text + Link */}
+          {/* Right Column: Supporting Copy */}
           <div className="lg:col-span-5 flex flex-col justify-end">
-            <p className="font-sans text-[14.5px] sm:text-[15.5px] md:text-[16px] leading-[1.6] text-[#D5D0C1] max-w-[460px]">
-              Creative knowledge travels through generations — carried in the things we make, the traditions we adapt, and the stories we pass on.
+            <p className="font-sans text-[14.5px] sm:text-[15.5px] md:text-[16px] leading-[1.62] text-[#D5D0C1] max-w-[480px]">
+              Nigerian creativity is always evolving. Earlier influences find new expression in the clothes we wear, the sounds we create, the images we preserve, and the visual languages we reinterpret.
             </p>
-
-            <div className="mt-4">
-              <a
-                href="#explore-rooms"
-                className="inline-flex items-center font-sans text-xs sm:text-sm font-medium tracking-wide text-[#A4401F] hover:text-[#FAF8F4] transition-colors border-b border-[#A4401F]/50 pb-0.5"
-              >
-                <span>Explore the stories</span>
-                <span className="ml-1.5" aria-hidden="true">→</span>
-              </a>
-            </div>
           </div>
         </div>
 
         {/* =========================================================================
-            B. HORIZONTALLY MOVING CAROUSEL WITH DYNAMIC POSITION-BASED RESIZING
+            CONTAINER FOR CARDS OR EXPANDED PANEL
+            CRITICAL REQUIREMENT:
+            The expanded card replaces the four-card row in the exact same position.
+            It must never appear underneath the four cards.
+            Either the 4-card grid OR the expanded panel is rendered — never both.
             ========================================================================= */}
-        <div
-          role="region"
-          aria-label="Aṣọ Ọ̀kè Story Cards Carousel"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className="relative w-full cursor-grab active:cursor-grabbing overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-          tabIndex={0}
-        >
-          {/* Carousel Track Stage */}
-          <div
-            className="relative w-full overflow-hidden"
-            style={{
-              height: `${cardHeight}px`,
-            }}
-          >
-            {renderIndices.map((offsetIndex) => {
-              // Exact story card from dataset
-              const rawIndex = activeIndex + offsetIndex;
-              const cardDataIndex = ((rawIndex % numCards) + numCards) % numCards;
-              const card = STORY_CARDS[cardDataIndex];
-
-              // Continuous position relative to the left featured zone (0 = perfectly featured)
-              const distFromFeatured = offsetIndex - transitionFraction;
-
-              // Calculate dynamic position-based width:
-              // When distFromFeatured is in [-1, 0], it is contracting from featuredWidth -> compactWidth
-              // When distFromFeatured is in [0, 1], it is expanding from compactWidth -> featuredWidth as it approaches 0
-              let cardWidth = compactWidth;
-              let isFeatured = false;
-
-              if (distFromFeatured >= -1 && distFromFeatured <= 0) {
-                // Card leaving feature zone: shrinks from featuredWidth to compactWidth
-                const progress = -distFromFeatured; // 0 (featured) to 1 (compact)
-                cardWidth = featuredWidth - progress * (featuredWidth - compactWidth);
-                if (progress < 0.5) isFeatured = true;
-              } else if (distFromFeatured > 0 && distFromFeatured <= 1) {
-                // Card approaching feature zone: grows from compactWidth to featuredWidth
-                const progress = 1 - distFromFeatured; // 0 (compact) to 1 (featured)
-                cardWidth = compactWidth + progress * (featuredWidth - compactWidth);
-                if (progress > 0.5) isFeatured = true;
-              } else {
-                cardWidth = compactWidth;
-              }
-
-              // Compute horizontal X position in the continuous track
-              // We compute X by integrating widths from offsetIndex = -1 to current
-              let xPos = 0;
-
-              if (offsetIndex === -1) {
-                // Exiting to left
-                const exitWidth = featuredWidth - (1 - transitionFraction) * (featuredWidth - compactWidth);
-                xPos = -exitWidth - cardGap + transitionFraction * (exitWidth + cardGap);
-              } else if (offsetIndex === 0) {
-                // The currently exiting card
-                xPos = -transitionFraction * (compactWidth + cardGap);
-              } else {
-                // Subsequent cards
-                const currentCardWidth = featuredWidth - transitionFraction * (featuredWidth - compactWidth);
-                let acc = currentCardWidth + cardGap - transitionFraction * (compactWidth + cardGap);
-
-                for (let k = 1; k < offsetIndex; k++) {
-                  const kDist = k - transitionFraction;
-                  let kw = compactWidth;
-                  if (kDist >= 0 && kDist <= 1) {
-                    kw = compactWidth + (1 - kDist) * (featuredWidth - compactWidth);
-                  }
-                  acc += kw + cardGap;
-                }
-                xPos = acc;
-              }
-
-              // Determine visual depth and contrast
-              const zIndex = isFeatured ? 30 : Math.max(10 - Math.abs(offsetIndex), 1);
-              const isLead = Math.abs(distFromFeatured) < 0.45;
-
-              return (
+        <div className="w-full">
+          {!currentExpandedStory ? (
+            /* =====================================================================
+               DEFAULT STATE: FOUR VERTICAL CARDS IN A SINGLE HORIZONTAL ROW ON DESKTOP
+               Order: Fashion, Music, Photography, Design
+               ===================================================================== */
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+              role="region"
+              aria-label="What We Carry Forward Stories Grid"
+            >
+              {CARRY_FORWARD_STORIES.map((story) => (
                 <article
-                  key={`card-${rawIndex}-${card.id}`}
-                  style={{
-                    width: `${cardWidth}px`,
-                    height: `${cardHeight}px`,
-                    transform: `translate3d(${xPos}px, 0, 0)`,
-                    zIndex,
-                    borderRadius: '0px',
-                  }}
-                  className={`absolute top-0 left-0 bg-[#321F18] overflow-hidden will-change-transform transition-[border-color,box-shadow] duration-300 ${
-                    isLead
-                      ? 'border border-[#A4401F]/80 shadow-[0_16px_40px_rgba(0,0,0,0.6)]'
-                      : 'border border-[#E3DED5]/20 shadow-[0_8px_20px_rgba(0,0,0,0.3)]'
-                  }`}
+                  key={story.id}
+                  className="group relative flex flex-col justify-between bg-[#321F18] border border-[#E3DED5]/20 hover:border-[#A4401F]/80 transition-all duration-300 rounded-none overflow-hidden"
                 >
-                  {/* Card Interior: Adapts fluidly between featured (horizontal split) and compact (vertical stack) */}
-                  <div className="relative w-full h-full flex flex-col md:flex-row">
-                    {/* Editorial Text Area */}
+                  {/* Top Image Container */}
+                  <div
+                    onClick={() => handleExpand(story.id)}
+                    className="relative w-full h-[240px] sm:h-[260px] lg:h-[270px] overflow-hidden bg-[#241510] flex-shrink-0 cursor-pointer"
+                  >
+                    <img
+                      src={story.imageUrl}
+                      alt={story.alt}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                    {/* Hover overlay cue */}
                     <div
-                      className={`z-10 flex flex-col justify-between p-6 sm:p-7 bg-[#321F18] border-b md:border-b-0 md:border-r border-[#E3DED5]/20 transition-all duration-300 ${
-                        isLead
-                          ? 'w-full md:w-[48%] flex-shrink-0'
-                          : 'w-full md:w-full absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#321F18] via-[#321F18]/90 to-transparent p-5 sm:p-6'
-                      }`}
-                    >
-                      <div>
-                        {/* Number Tag with terracotta accent */}
-                        <div className="flex items-center space-x-2 text-xs font-mono text-[#FAF8F4] mb-2 sm:mb-3">
-                          <span className="text-[#A4401F] font-semibold text-sm">{card.seq}</span>
-                          <span className="w-5 h-[1.5px] bg-[#A4401F]" aria-hidden="true" />
-                          <span className="text-[10px] tracking-[0.2em] uppercase text-[#D5D0C1] font-mono">
-                            AṢỌ Ọ̀KÈ
-                          </span>
-                        </div>
+                      className="absolute inset-0 bg-transparent group-hover:bg-[#171715]/20 transition-colors duration-300"
+                      aria-hidden="true"
+                    />
+                    <div className="absolute top-3 left-3 bg-[#171715]/80 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/20">
+                      <span className="font-mono text-[10px] tracking-widest text-[#FAF8F4] uppercase">
+                        {story.disciplineSeq} · {story.disciplineName}
+                      </span>
+                    </div>
+                  </div>
 
-                        {/* Story Title */}
-                        <h3
-                          className={`font-display text-[#FAF8F4] leading-[1.05] tracking-tight ${
-                            isLead ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-2xl line-clamp-2'
-                          }`}
-                        >
-                          {card.title}
-                        </h3>
-
-                        {/* Story Description — Readable warm paper text */}
-                        <p
-                          className={`font-sans text-[#FAF8F4] leading-relaxed mt-3 ${
-                            isLead
-                              ? 'text-xs sm:text-[13.5px] line-clamp-4'
-                              : 'text-xs line-clamp-2 text-[#FAF8F4]/90'
-                          }`}
-                        >
-                          {card.description}
-                        </p>
+                  {/* Card Content Body */}
+                  <div className="p-6 flex flex-col justify-between flex-1 bg-[#321F18]">
+                    <div>
+                      {/* Discipline Number & Label */}
+                      <div className="flex items-center space-x-2 text-xs font-mono text-[#A4401F] mb-2.5 font-semibold">
+                        <span>{story.disciplineSeq} — {story.disciplineName}</span>
                       </div>
 
-                      {/* Clean bottom space - ZERO arrows inside cards as explicitly commanded */}
-                      <div className="mt-4 pt-3 border-t border-[#E3DED5]/20 flex items-center justify-between">
-                        <span className="text-[10px] font-mono tracking-wider uppercase text-[#A4401F]">
-                          {isLead ? 'ACTIVE FEATURE' : 'STORY PREVIEW'}
-                        </span>
-                        <span className="text-[9.5px] font-mono tracking-widest text-[#D5D0C1]/80 uppercase">
-                          ARCHIVE · 0{cardDataIndex + 1}
-                        </span>
-                      </div>
+                      {/* Story Title */}
+                      <h3
+                        onClick={() => handleExpand(story.id)}
+                        className="font-display text-2xl sm:text-[26px] text-[#FAF8F4] font-normal leading-[1.12] tracking-tight mb-3 cursor-pointer group-hover:text-[#A4401F] transition-colors"
+                      >
+                        {story.title}
+                      </h3>
+
+                      {/* Short Description */}
+                      <p className="font-sans text-[13.5px] sm:text-[14px] leading-[1.65] text-[#D5D0C1]/85">
+                        {story.shortDescription}
+                      </p>
                     </div>
 
-                    {/* Image Area */}
-                    <div
-                      className={`relative overflow-hidden bg-[#171715] flex-1 ${
-                        isLead ? 'w-full md:w-[52%] h-full' : 'w-full h-full'
-                      }`}
-                    >
-                      <img
-                        src={card.image}
-                        alt={card.alt}
-                        className="w-full h-full object-cover object-center filter saturate-[1.05] transition-transform duration-700 ease-out hover:scale-105"
-                        loading="lazy"
-                      />
+                    {/* Card Action Button: SEE MORE → */}
+                    <div className="pt-5 mt-6 border-t border-[#E3DED5]/15 flex items-center justify-between">
+                      <button
+                        ref={(el) => {
+                          cardTriggerRefs.current[story.id] = el;
+                        }}
+                        type="button"
+                        onClick={() => handleExpand(story.id)}
+                        aria-expanded={false}
+                        aria-label={`See more details for ${story.title} (${story.disciplineName})`}
+                        className="inline-flex items-center text-xs font-mono font-medium tracking-wider text-[#A4401F] hover:text-[#FAF8F4] transition-colors cursor-pointer group/btn"
+                      >
+                        <span className="uppercase">SEE MORE</span>
+                        <span className="ml-2 transition-transform duration-200 group-hover/btn:translate-x-1.5" aria-hidden="true">
+                          →
+                        </span>
+                      </button>
 
-                      {/* Subtle warm archival vignette */}
-                      <div
-                        className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#321F18]/40 via-transparent to-transparent pointer-events-none"
-                        aria-hidden="true"
-                      />
+                      <span className="font-mono text-[10px] text-[#D5D0C1]/50 uppercase tracking-widest">
+                        DISCIPLINE {story.disciplineSeq}
+                      </span>
                     </div>
                   </div>
                 </article>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* =========================================================================
-            C. MANUAL NAVIGATION & PROGRESS ROW (Strictly Below the Carousel)
-            ========================================================================= */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-[#E3DED5]/20">
-          {/* Previous and Next Buttons (Rectangular, 0px border radius, sharp corners) */}
-          <div className="flex items-center space-x-3">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous story card"
-              className="w-11 h-11 border border-[#E3DED5]/30 bg-[#321F18] text-[#FAF8F4] hover:bg-[#A4401F] hover:border-[#A4401F] hover:text-[#FFFFFF] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-              style={{ borderRadius: '0px' }}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next story card"
-              className="w-11 h-11 border border-[#E3DED5]/30 bg-[#321F18] text-[#FAF8F4] hover:bg-[#A4401F] hover:border-[#A4401F] hover:text-[#FFFFFF] flex items-center justify-center transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-              style={{ borderRadius: '0px' }}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Thin Horizontal Progress Indicator */}
-          <div className="flex-1 max-w-md w-full flex items-center space-x-4">
-            <div className="relative w-full h-[2px] bg-[#E3DED5]/20 overflow-hidden">
-              <div
-                className="absolute top-0 bottom-0 bg-[#A4401F] transition-all duration-300 ease-out"
-                style={{
-                  left: `${((activeIndex) / numCards) * 100}%`,
-                  width: `${(1 / numCards) * 100}%`,
-                }}
-              />
+              ))}
             </div>
+          ) : (
+            /* =====================================================================
+               EXPANDED STATE: REPLACES THE FOUR-CARD ROW IN THE EXACT SAME POSITION
+               Proportions on desktop: Left text ~48%, Right image ~52%
+               Continuous border, sharp corners, zero carousel controls
+               ===================================================================== */
+            <div
+              ref={expandedPanelRef}
+              className="w-full bg-[#321F18] border border-[#E3DED5]/25 rounded-none overflow-hidden transition-all duration-300 animate-in fade-in zoom-in-[0.99]"
+              role="region"
+              aria-label={`Expanded Story: ${currentExpandedStory.title}`}
+            >
+              {/* Top Discipline Bar & Quick Discipline Switcher */}
+              <div className="flex flex-wrap items-center justify-between px-6 sm:px-8 md:px-10 py-4 bg-[#281812] border-b border-[#E3DED5]/20 gap-3">
+                <div className="flex items-center space-x-3">
+                  <span className="font-mono text-xs font-semibold text-[#A4401F] tracking-[0.2em] uppercase">
+                    {currentExpandedStory.disciplineSeq} — {currentExpandedStory.disciplineName}
+                  </span>
+                  <span className="text-[#E3DED5]/30 font-mono text-xs hidden sm:inline">|</span>
+                  <span className="font-mono text-xs text-[#D5D0C1]/70 tracking-wider hidden sm:inline">
+                    EXPANDED EDITORIAL DOSSIER
+                  </span>
+                </div>
 
-            {/* Current Active Step Display */}
-            <span className="font-mono text-xs tracking-wider uppercase text-[#D5D0C1] whitespace-nowrap">
-              0{activeIndex + 1} / 0{numCards}
-            </span>
-          </div>
+                {/* Quick Switcher among all 4 Disciplines */}
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <span className="font-mono text-[10.5px] text-[#D5D0C1]/60 uppercase tracking-wider mr-2 hidden md:inline">
+                    Discipline:
+                  </span>
+                  {CARRY_FORWARD_STORIES.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleExpand(item.id)}
+                      className={`px-2.5 py-1 font-mono text-[11px] tracking-wider uppercase transition-colors cursor-pointer rounded-none border ${
+                        item.id === currentExpandedStory.id
+                          ? 'bg-[#A4401F] text-[#FAF8F4] border-[#A4401F] font-semibold'
+                          : 'bg-transparent text-[#D5D0C1] border-[#E3DED5]/20 hover:border-[#A4401F]/60 hover:text-[#FAF8F4]'
+                      }`}
+                    >
+                      {item.disciplineSeq}
+                    </button>
+                  ))}
 
-          {/* Autoplay / Hover Status Indicator */}
-          <div className="hidden md:flex items-center space-x-2 text-[10.5px] font-mono tracking-widest text-[#D5D0C1]/80 uppercase">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isHovered || prefersReducedMotion ? 'bg-[#D5D0C1]' : 'bg-[#A4401F] animate-pulse'
-              }`}
-            />
-            <span>{isHovered ? 'PAUSED ON HOVER' : prefersReducedMotion ? 'MANUAL CONTROL' : 'CONTINUOUS CAROUSEL'}</span>
-          </div>
+                  {/* Return to Grid ("SEE LESS") Button in Top Bar */}
+                  <button
+                    type="button"
+                    onClick={() => handleCollapse()}
+                    aria-label="Close expanded story and return to four cards"
+                    className="ml-3 px-3 py-1 bg-transparent hover:bg-[#FAF8F4]/10 text-[#D5D0C1] hover:text-[#FAF8F4] border border-[#E3DED5]/30 font-mono text-xs uppercase tracking-wider rounded-none transition-colors cursor-pointer"
+                  >
+                    ✕ CLOSE
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Split Body: Left Text Column (~48%) & Right Image Column (~52%) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+                {/* -----------------------------------------------------------------
+                    LEFT COLUMN: Narrative Prose, Subtitle, Context & "SEE LESS"
+                    ----------------------------------------------------------------- */}
+                <div className="lg:col-span-6 xl:col-span-6 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E3DED5]/20">
+                  <div>
+                    {/* Discipline Badge */}
+                    <div className="flex items-center space-x-2 text-xs font-mono text-[#A4401F] mb-3 font-semibold">
+                      <span>DISCIPLINE {currentExpandedStory.disciplineSeq}</span>
+                      <span className="w-4 h-[1px] bg-[#A4401F]" />
+                      <span>{currentExpandedStory.disciplineName}</span>
+                    </div>
+
+                    {/* Large Serif Headline */}
+                    <h3 className="font-display text-3xl sm:text-4xl md:text-[44px] lg:text-[48px] text-[#FAF8F4] font-normal leading-[1.05] tracking-tight mb-3">
+                      {currentExpandedStory.title}
+                    </h3>
+
+                    {/* Editorial Subtitle */}
+                    <p className="font-serif italic text-lg sm:text-xl md:text-[22px] text-[#A4401F] leading-snug mb-6 font-normal">
+                      {currentExpandedStory.expandedSubtitle}
+                    </p>
+
+                    {/* Complete Narrative Text */}
+                    <div className="space-y-4 font-sans text-[15px] sm:text-[16px] leading-[1.75] text-[#D5D0C1] mb-8">
+                      {currentExpandedStory.expandedNarrative.map((paragraph, idx) => (
+                        <p key={idx}>{paragraph}</p>
+                      ))}
+                    </div>
+
+                    {/* Curatorial Pillars / Key Themes */}
+                    <div className="mt-8 pt-6 border-t border-[#E3DED5]/20 space-y-3">
+                      <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-[#A4401F] block font-semibold">
+                        CURATORIAL THEMES
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {currentExpandedStory.curatorialPillars.map((pillar, i) => (
+                          <div key={i} className="p-3 bg-[#241510] border border-[#E3DED5]/15 rounded-none">
+                            <span className="font-mono text-[11px] text-[#FAF8F4] font-medium block mb-1">
+                              {pillar.label}
+                            </span>
+                            <p className="font-sans text-[11.5px] leading-relaxed text-[#D5D0C1]/80">
+                              {pillar.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* "SEE LESS" Action at Bottom of Left Column */}
+                  <div className="mt-10 pt-6 border-t border-[#E3DED5]/20 flex flex-wrap items-center justify-between gap-4">
+                    <button
+                      type="button"
+                      onClick={() => handleCollapse()}
+                      aria-label="Return to the four-card overview"
+                      className="inline-flex items-center justify-center bg-[#A4401F] hover:bg-[#7F3018] text-[#FAF8F4] font-mono text-xs font-medium tracking-[0.12em] uppercase px-6 py-3 transition-colors cursor-pointer rounded-none group"
+                    >
+                      <span className="mr-2 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true">
+                        ←
+                      </span>
+                      <span>SEE LESS</span>
+                    </button>
+
+                    <div className="flex items-center space-x-2 text-xs font-mono text-[#D5D0C1]/60">
+                      <span>Showing {currentExpandedStory.disciplineSeq} of 04</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* -----------------------------------------------------------------
+                    RIGHT COLUMN: Prominent Image Plate (~52% on Desktop)
+                    Fills column without distortion + Period-inspired disclosure
+                    ----------------------------------------------------------------- */}
+                <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-between bg-[#241510] min-h-[380px] sm:min-h-[460px] lg:min-h-full">
+                  {/* Full-bleed responsive image container */}
+                  <div className="relative w-full flex-1 overflow-hidden min-h-[320px] sm:min-h-[420px] lg:min-h-[500px]">
+                    <img
+                      src={currentExpandedStory.imageUrl}
+                      alt={currentExpandedStory.alt}
+                      className="w-full h-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.02]"
+                    />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-[#241510] via-transparent to-transparent opacity-40 pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  {/* Image Plate Caption & Illustrative Disclosure */}
+                  <div className="p-5 sm:p-6 bg-[#241510] border-t border-[#E3DED5]/20">
+                    <div className="flex items-center justify-between mb-1 text-[10px] font-mono tracking-widest text-[#A4401F] uppercase font-semibold">
+                      <span>FIGURE {currentExpandedStory.disciplineSeq} · {currentExpandedStory.disciplineName}</span>
+                      <span>PERIOD-INSPIRED ARCHIVAL STUDY</span>
+                    </div>
+                    <p className="font-sans text-xs text-[#D5D0C1]/85 leading-relaxed">
+                      {currentExpandedStory.illustrationCredit}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
   );
 };
+
+// Also export alias for convenient import under both names
+export const WhatWeCarryForwardSection = ThreadsOfGenerationsSection;

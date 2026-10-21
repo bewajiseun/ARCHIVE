@@ -465,7 +465,7 @@ export const ExploreRoomsSection: React.FC = () => {
                   setActiveOverlayId(null);
                 }}
                 aria-label="Close information overlay"
-                className="w-6 h-6 rounded-full border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
+                className="w-6 h-6 rounded-none border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

@@ -1,397 +1,316 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { WhatWeWearModal } from './WhatWeWearModal';
+import { TheMakingOfAsoOkeModal } from './TheMakingOfAsoOkeModal';
+import { SkillsAcrossGenerationsModal } from './SkillsAcrossGenerationsModal';
 
-interface ExhibitCard {
+export interface CloserCardData {
   id: string;
   seq: string;
   title: string;
-  subtitle: string;
-  image: string;
-  alt: string;
   description: string;
-  tags: string[];
+  imageUrl: string;
+  imageFallback: string;
+  alt: string;
 }
 
-const EXHIBIT_CARDS: ExhibitCard[] = [
+const CLOSER_CARDS: CloserCardData[] = [
   {
-    id: 'garment',
+    id: 'card-01',
     seq: '01',
-    title: 'The Garment',
-    subtitle: 'THE AGBÁDÁ AND ITS PRESENCE',
-    image: '/assets/fashion-agbada.jpg',
-    alt: 'Nigerian man wearing a traditional hand-woven striped aso-oke agbádá with coral bead necklace in front of earthen archway',
+    title: 'Dress, identity and heritage',
     description:
-      'The agbádá commands physical and symbolic space. Worn for ceremonial milestones, its majestic four-piece architecture—the wide-sleeved awosoke robe, the gbariye vest, the sokoto trousers, and the matching fìlà—celebrates prestige, lineage, and communal dignity.',
-    tags: ['Aso-Oke Strip Weave', 'Three-Piece Architecture', 'Ceremonial Majesty'],
+      'See how clothing, adornment and personal style express culture, status and creativity across generations.',
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792517173/Regal_Yoruba_Portrait_in_a_Weathered_Courtyard.png',
+    imageFallback: '/assets/Regal_Yoruba_Portrait.png',
+    alt: 'Regal Yoruba portrait in traditional dress and adornment in a weathered courtyard',
   },
   {
-    id: 'fila',
+    id: 'card-02',
     seq: '02',
-    title: 'The Fìlà',
-    subtitle: 'THE ABẸ́TÍ AJÁ',
-    image: '/assets/fashion-fila.jpg',
-    alt: 'Macro view of a hand-woven striped aso-oke Abẹtí Ajá Fìlà cap with triangular folded flaps',
+    title: 'Textiles and craftsmanship',
     description:
-      'No agbádá is complete without the fìlà. The Abẹtí Ajá—literally "dog’s ears"—features dual triangular flaps that can be playfully angled forward, worn upright, or tilted left and right to signal mood, political affiliation, or courtly deference.',
-    tags: ['Abẹtí Ajá Style', 'Ear-Flap Geometry', 'Cultural Demeanour'],
+      'Explore how Aṣọ Òkè is made, the people behind it, and the cultural meaning woven into every thread.',
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792517172/thread_by_thread.jpg',
+    imageFallback: '/assets/thread_by_thread.jpg',
+    alt: 'Detailed view of woven Aṣọ Òkè textile threads and craftsmanship',
   },
   {
-    id: 'making',
+    id: 'card-03',
     seq: '03',
-    title: 'The Making',
-    subtitle: 'FROM THREAD TO CLOTH',
-    image: '/assets/fashion-weaving.jpg',
-    alt: 'Master weaver artisan operating the traditional wooden narrow-strip loom',
+    title: 'Skills across generations',
     description:
-      'Strip by strip, thread by thread. On the traditional wooden narrow-strip loom, master weavers manipulate cotton warp and silk weft threads, pressing down the wooden beater to create narrow 4-inch bands (ẹkẹ) that are subsequently joined edge-to-edge into monumental cloth.',
-    tags: ['Narrow-Strip Loom', 'Organic Cotton & Silk', 'Artisanal Lineage'],
+      'Explore the tools, techniques and creative practices that keep traditional knowledge alive today.',
+    imageUrl:
+      'https://res.cloudinary.com/jlggrwhm/image/upload/v1792517172/the_making.jpg',
+    imageFallback: '/assets/the_making.jpg',
+    alt: 'Traditional loom weaving artisan preserving creative textile skills across generations',
   },
 ];
 
+interface CardItemProps {
+  card: CloserCardData;
+  onExpand: (card: CloserCardData, triggerEl?: HTMLElement) => void;
+}
+
+const CloserCardItem: React.FC<CardItemProps> = ({ card, onExpand }) => {
+  const [imgSrc, setImgSrc] = useState(card.imageUrl);
+  const cardButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleTrigger = () => {
+    onExpand(card, cardButtonRef.current ?? undefined);
+  };
+
+  return (
+    <article
+      className="group relative w-full bg-[#FAF8F4] border border-[#E3DED5] rounded-none overflow-hidden shadow-xs hover:border-[#A4401F]/50 hover:shadow-md transition-all duration-300 flex flex-col"
+    >
+      {/* Upper Area: Prominent Archival Photograph — Sharp Edges */}
+      <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[350px] overflow-hidden bg-[#EFECE6] flex-shrink-0 cursor-pointer rounded-none">
+        <img
+          src={imgSrc}
+          alt={card.alt}
+          loading="lazy"
+          onError={() => setImgSrc(card.imageFallback)}
+          className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+        />
+        {/* Subtle hover overlay cue */}
+        <div
+          onClick={handleTrigger}
+          className="absolute inset-0 bg-transparent group-hover:bg-[#171715]/10 transition-colors duration-300"
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* Lower Area: Clean Editorial Text Panel — Sharp Edges */}
+      <div className="p-6 sm:p-7 flex flex-col justify-between flex-1 min-h-[190px] bg-[#FAF8F4] rounded-none">
+        <div>
+          {/* Small Terracotta Number */}
+          <span className="font-mono text-xs font-semibold text-[#A4401F] tracking-widest block mb-2">
+            {card.seq}
+          </span>
+
+          {/* Title & Small Expand Icon */}
+          <div className="flex items-start justify-between gap-3 mb-2.5">
+            <h3 className="font-display text-2xl sm:text-[26px] lg:text-[28px] text-[#171715] font-normal leading-[1.12] tracking-tight">
+              {card.title}
+            </h3>
+
+            {/* Expand Icon matching reference — Sharp Edges */}
+            <button
+              ref={cardButtonRef}
+              type="button"
+              onClick={handleTrigger}
+              aria-label={`Open ${card.title} editorial monograph`}
+              className="p-2 text-[#6B6B6B] hover:text-[#FAF8F4] hover:bg-[#171715] border border-[#E3DED5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] transition-colors cursor-pointer mt-0.5 flex-shrink-0 rounded-none"
+              title="Open editorial monograph"
+            >
+              <svg
+                className="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Concise Supporting Description */}
+          <p className="font-sans text-[14px] sm:text-[14.5px] leading-[1.6] text-[#6B6B6B]">
+            {card.description}
+          </p>
+        </div>
+
+        {/* Editorial Action Link */}
+        <div className="pt-4 mt-4 flex items-center justify-between border-t border-[#E3DED5]/60">
+          <button
+            type="button"
+            onClick={handleTrigger}
+            className="inline-flex items-center text-xs font-mono font-medium text-[#A4401F] hover:text-[#7F3018] transition-colors cursor-pointer group-hover:underline"
+          >
+            <span>Read monograph story</span>
+            <span className="ml-1.5 transition-transform duration-200 group-hover:translate-x-1">→</span>
+          </button>
+          <span className="font-mono text-[10.5px] text-[#6B6B6B] uppercase tracking-wider">
+            {card.id === 'card-01' ? 'Exhibition Monograph' : 'Archival Monograph'}
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+};
+
 export const FashionRoomSection: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<CloserCardData | null>(null);
+  const activeTriggerRef = useRef<HTMLElement | null>(null);
 
-  // Check for reduced motion preference
+  const handleOpenCard = (card: CloserCardData, triggerEl?: HTMLElement) => {
+    if (triggerEl) {
+      activeTriggerRef.current = triggerEl;
+    }
+    setSelectedCard(card);
+  };
+
+  // Close modal on Escape key
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
-
-  // Scroll listener to calculate normalized scroll progress within the container
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    let animationFrameId: number;
-
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const containerHeight = containerRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-
-      // Distance scrolled from top of section
-      const scrolled = -rect.top;
-      // Total scrollable range while sticky stage is visible
-      const maxScroll = containerHeight - windowHeight;
-
-      if (maxScroll <= 0) return;
-
-      const progress = Math.min(Math.max(scrolled / maxScroll, 0), 1);
-      setScrollProgress(progress);
-
-      // Determine active card for accessibility & manual indicators
-      if (progress < 0.33) {
-        setActiveCardIndex(0);
-      } else if (progress < 0.68) {
-        setActiveCardIndex(1);
-      } else {
-        setActiveCardIndex(2);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedCard(null);
       }
     };
-
-    const onScroll = () => {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(handleScroll);
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    handleScroll();
-
+    if (selectedCard) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(animationFrameId);
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [prefersReducedMotion]);
-
-  // Manual jump to specific card state
-  const jumpToCard = (targetIndex: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const containerTop = rect.top + scrollTop;
-    const maxScroll = containerRef.current.offsetHeight - window.innerHeight;
-
-    let targetRatio = 0.05;
-    if (targetIndex === 1) targetRatio = 0.50;
-    if (targetIndex === 2) targetRatio = 0.95;
-
-    window.scrollTo({
-      top: containerTop + targetRatio * maxScroll,
-      behavior: 'smooth',
-    });
-    setActiveCardIndex(targetIndex);
-  };
-
-  /**
-   * Calculate card style according to the FORWARD SCROLL-DRIVEN STACKING:
-   *
-   * Initial State (progress ~ 0):
-   * - Card 1 (The Garment) is at the FRONT (topmost, y: 0, zIndex: 30).
-   * - Card 2 (The Fìlà) is positioned BEHIND Card 1 (y: peek below, zIndex: 20).
-   * - Card 3 (The Making) is positioned BEHIND Card 2 (y: peek further below, zIndex: 10).
-   *
-   * As scroll progresses (0 -> 0.5):
-   * - Card 2 advances FORWARD, rising above Card 1.
-   * - Card 2 becomes the topmost card (zIndex: 40), visually covering Card 1.
-   *
-   * As scroll progresses further (0.5 -> 1.0):
-   * - Card 3 advances FORWARD, rising above Card 2.
-   * - Card 3 becomes the topmost card (zIndex: 50), visually covering Card 2 & Card 1.
-   *
-   * Final State (progress ~ 1.0):
-   * - Card 3 is ON TOP (zIndex: 50).
-   * - Card 2 is behind Card 3 (zIndex: 40).
-   * - Card 1 is at the back of the stack (zIndex: 30).
-   */
-  const getCardStyle = (cardIndex: number) => {
-    if (prefersReducedMotion) {
-      // In reduced motion, simply stack sequentially based on activeCardIndex
-      return {
-        zIndex: cardIndex === activeCardIndex ? 50 : 20 - cardIndex,
-        transform: `translateY(${cardIndex * 16}px)`,
-        opacity: cardIndex === activeCardIndex ? 1 : 0.75,
-      };
-    }
-
-    // Responsive peek offsets
-    const basePeek = typeof window !== 'undefined' && window.innerWidth < 768 ? 95 : 135;
-
-    if (cardIndex === 0) {
-      // Card 1: Starts at y: 0, zIndex: 30.
-      // When Card 2 rises over it (progress > 0.2), Card 1 slightly recedes (scale: 0.985, opacity: 0.85).
-      const recedeProgress = Math.min(Math.max((scrollProgress - 0.15) / 0.35, 0), 1);
-      const scale = 1 - recedeProgress * 0.02;
-      const opacity = 1 - recedeProgress * 0.20;
-
-      return {
-        zIndex: 30, // Initially in front of Card 2 (20) & Card 3 (10)
-        transform: `translateY(0px) scale(${scale})`,
-        opacity,
-        boxShadow: '0 8px 30px rgba(23,23,21,0.12)',
-      };
-    }
-
-    if (cardIndex === 1) {
-      // Card 2: Starts behind Card 1 (zIndex: 20) with y: basePeek.
-      // From progress 0.15 to 0.50, it rises to y: 0 and elevates to zIndex: 40 (ABOVE Card 1).
-      // Then from progress 0.55 to 0.90, Card 3 rises above it, so Card 2 slightly recedes.
-      const riseProgress = Math.min(Math.max((scrollProgress - 0.12) / 0.38, 0), 1);
-      const recedeProgress = Math.min(Math.max((scrollProgress - 0.58) / 0.35, 0), 1);
-
-      const y = (1 - riseProgress) * basePeek;
-      // Crucial forward stacking logic: Once rising begins, Card 2 is visually on top of Card 1
-      const isTopmost = riseProgress > 0.45;
-      const zIndex = isTopmost ? 40 : 20;
-
-      const scale = 1 - recedeProgress * 0.02;
-      const opacity = isTopmost ? 1 - recedeProgress * 0.15 : 0.9;
-
-      return {
-        zIndex,
-        transform: `translateY(${y}px) scale(${scale})`,
-        opacity,
-        boxShadow: isTopmost
-          ? '0 16px 40px rgba(23,23,21,0.18), 0 0 0 1px rgba(164,64,31,0.3)'
-          : '0 4px 20px rgba(23,23,21,0.08)',
-      };
-    }
-
-    if (cardIndex === 2) {
-      // Card 3: Starts behind Card 2 & Card 1 (zIndex: 10) with y: basePeek * 2.
-      // From progress 0.50 to 0.92, it rises to y: 0 and elevates to zIndex: 50 (ABOVE Card 2 & Card 1).
-      const riseProgress = Math.min(Math.max((scrollProgress - 0.48) / 0.44, 0), 1);
-
-      const y = (1 - riseProgress) * (basePeek * 2);
-      // Crucial forward stacking logic: At final state, Card 3 is at the very front
-      const isTopmost = riseProgress > 0.45;
-      const zIndex = isTopmost ? 50 : 10;
-
-      return {
-        zIndex,
-        transform: `translateY(${y}px) scale(1)`,
-        opacity: 1,
-        boxShadow: isTopmost
-          ? '0 20px 50px rgba(23,23,21,0.22), 0 0 0 1px rgba(164,64,31,0.4)'
-          : '0 4px 20px rgba(23,23,21,0.08)',
-      };
-    }
-
-    return {};
-  };
+  }, [selectedCard]);
 
   return (
     <section
       id="rooms"
-      ref={containerRef}
-      aria-label="Fashion Room: Look closer"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] overflow-clip scroll-mt-12 sm:scroll-mt-16 md:scroll-mt-20"
-      style={{
-        // 260vh height on desktop gives generous, smooth, responsive scroll-track for forward stacking
-        minHeight: prefersReducedMotion ? 'auto' : '260vh',
-      }}
+      aria-label="Look closer exhibition"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 sm:py-28 lg:py-32 scroll-mt-12 sm:scroll-mt-16 md:scroll-mt-20 overflow-hidden"
     >
-      {/* Subtle background tactile grid / texture */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-5 bg-[radial-gradient(#A4401F_1px,transparent_1px)] [background-size:24px_24px]"
-        aria-hidden="true"
-      />
-
-      {/* Sticky Stage Container: Pins in viewport while user scrolls through the 260vh container */}
-      <div
-        className={`${
-          prefersReducedMotion
-            ? 'relative py-16 md:py-24'
-            : 'sticky top-0 h-screen max-h-[1080px] flex flex-col justify-start pt-16 md:pt-24 pb-6'
-        } w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 overflow-hidden`}
-      >
+      <div className="w-full max-w-[1360px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
-            A. TOP INTRODUCTION: Sits horizontally ABOVE the stacked cards
+            DESKTOP STAGGERED LAYOUT (lg & above)
+            Reproduces exact reference arrangement:
+            - Text block: upper left
+            - Card 01: upper right
+            - Card 02: lower left (beneath text block)
+            - Card 03: lower right (beneath Card 01)
             ========================================================================= */}
-        <div className="w-full flex-shrink-0 mb-3 sm:mb-4 pt-1 sm:pt-2">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 items-end pb-3 sm:pb-4 border-b border-[#E3DED5]">
-            {/* Left side: Tag identifier + Headline */}
-            <div className="lg:col-span-7 flex flex-col items-start">
-              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-1.5 font-medium">
-                <span className="w-6 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
-                <span>FEATURED STORY</span>
-              </div>
-
-              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-[#171715] leading-[0.98] tracking-tight">
-                <span>Look </span>
-                <span className="italic text-[#A4401F] font-normal">closer.</span>
+        <div className="hidden lg:grid lg:grid-cols-2 gap-12 xl:gap-16 items-start">
+          {/* LEFT COLUMN: Text Block (Upper Left) + Card 02 (Lower Left) */}
+          <div className="flex flex-col">
+            {/* Introductory Text Block */}
+            <div className="max-w-[480px] mb-16 xl:mb-24 pt-2">
+              <p className="font-mono text-xs font-semibold tracking-[0.24em] uppercase text-[#A4401F] mb-3">
+                LOOK CLOSER
+              </p>
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-[52px] xl:text-[56px] text-[#171715] leading-[1.04] tracking-tight font-normal">
+                Discover the details that tell a bigger story.
               </h2>
+              <p className="font-sans text-[15px] sm:text-[16px] leading-[1.65] text-[#6B6B6B] mt-6 max-w-[440px]">
+                Every object, image and sound holds clues about the people, places and ideas that shaped Nigeria’s creative history.
+              </p>
             </div>
 
-            {/* Right side: Supporting narrative text aligned horizontally */}
-            <div className="lg:col-span-5 flex flex-col justify-end">
-              <p className="font-sans text-[14px] sm:text-[15px] md:text-[15.5px] leading-[1.6] text-[#6B6B6B] max-w-[420px]">
-                Every photograph holds more than a moment. Look closer at the people, places, and details that reveal the stories behind the image.
-              </p>
+            {/* Card 02: Lower Left (beneath text block) */}
+            <div className="w-full">
+              <CloserCardItem
+                card={CLOSER_CARDS[1]}
+                onExpand={handleOpenCard}
+              />
             </div>
           </div>
 
-          {/* Forward Stacking Progress Bar & Accessible Indicator */}
-          <div className="flex items-center justify-between mt-2.5 text-[11px] font-mono uppercase text-[#6B6B6B]">
-            <div className="flex items-center space-x-2">
-              <span className="text-[#A4401F] font-semibold">STAGE:</span>
-              <span className="text-[#171715]">
-                {activeCardIndex === 0 && '01 THE GARMENT (FRONT)'}
-                {activeCardIndex === 1 && '02 THE FÌLÀ (ADVANCED FORWARD)'}
-                {activeCardIndex === 2 && '03 THE MAKING (TOPMOST LEAD)'}
-              </span>
+          {/* RIGHT COLUMN: Card 01 (Upper Right) + Card 03 (Lower Right) */}
+          <div className="flex flex-col">
+            {/* Card 01: Upper Right */}
+            <div className="w-full mb-16 xl:mb-24">
+              <CloserCardItem
+                card={CLOSER_CARDS[0]}
+                onExpand={handleOpenCard}
+              />
             </div>
 
-            {/* Step navigation pills */}
-            <div className="flex items-center space-x-1" role="tablist" aria-label="Exhibit cards">
-              {EXHIBIT_CARDS.map((card, idx) => (
-                <button
-                  key={card.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeCardIndex === idx}
-                  onClick={() => jumpToCard(idx)}
-                  className={`px-2.5 py-1 text-[10px] tracking-wider transition-colors cursor-pointer border ${
-                    activeCardIndex === idx
-                      ? 'border-[#A4401F] bg-[#A4401F] text-[#FFFFFF] font-semibold'
-                      : 'border-[#E3DED5] bg-[#FAF8F4] text-[#6B6B6B] hover:border-[#A4401F] hover:text-[#171715]'
-                  }`}
-                  style={{ borderRadius: '0px' }}
-                >
-                  {card.seq}
-                </button>
-              ))}
+            {/* Card 03: Lower Right (beneath Card 01) */}
+            <div className="w-full">
+              <CloserCardItem
+                card={CLOSER_CARDS[2]}
+                onExpand={handleOpenCard}
+              />
             </div>
           </div>
         </div>
 
         {/* =========================================================================
-            B. THREE STACKED EXHIBIT CARDS: FORWARD SCROLL-DRIVEN STACKING
+            MOBILE & TABLET RESPONSIVE LAYOUT (< lg)
+            Clean single/double column flow without cramped spacing or horizontal overflow
             ========================================================================= */}
-        <div className="relative w-full mt-2 sm:mt-3 flex-1 min-h-[380px] md:min-h-[440px] max-h-[560px] pb-4">
-          <div className="relative w-full h-full">
-            {EXHIBIT_CARDS.map((card, idx) => {
-              const cardStyle = getCardStyle(idx);
+        <div className="block lg:hidden">
+          {/* Introductory Text Block */}
+          <div className="max-w-[540px] mb-12 sm:mb-14">
+            <p className="font-mono text-xs font-semibold tracking-[0.24em] uppercase text-[#A4401F] mb-3">
+              LOOK CLOSER
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-[#171715] leading-[1.06] tracking-tight font-normal">
+              Discover the details that tell a bigger story.
+            </h2>
+            <p className="font-sans text-[14.5px] sm:text-[15.5px] leading-[1.6] text-[#6B6B6B] mt-5">
+              Every object, image and sound holds clues about the people, places and ideas that shaped Nigeria’s creative history.
+            </p>
+          </div>
 
-              return (
-                <article
-                  key={card.id}
-                  id={`exhibit-card-${card.id}`}
-                  style={cardStyle}
-                  className="absolute inset-x-0 top-0 h-[360px] sm:h-[400px] md:h-[440px] lg:h-[470px] bg-[#FAF8F4] border border-[#E3DED5] transition-transform duration-300 ease-out will-change-transform flex flex-col md:flex-row overflow-hidden"
-                >
-                  {/* Left Column: Editorial Information (~38% width) */}
-                  <div className="w-full md:w-[40%] lg:w-[35%] p-6 sm:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#E3DED5] bg-[#FAF8F4] z-10 flex-shrink-0">
-                    <div>
-                      {/* Sequence Identifier */}
-                      <div className="flex items-center space-x-2 text-xs font-mono text-[#171715] mb-2 sm:mb-4">
-                        <span className="text-[#A4401F] font-semibold text-sm">{card.seq}</span>
-                        <span className="w-5 h-[1.5px] bg-[#A4401F]" aria-hidden="true" />
-                        <span className="text-[10px] tracking-[0.2em] uppercase text-[#6B6B6B] font-mono">
-                          EXHIBIT ARTEFACT
-                        </span>
-                      </div>
-
-                      {/* Card Title */}
-                      <h3 className="font-display text-3xl sm:text-4xl lg:text-[42px] text-[#171715] leading-[1.05] tracking-tight">
-                        {card.title}
-                      </h3>
-
-                      {/* Card Subtitle */}
-                      <p className="font-mono text-[11px] sm:text-[11.5px] tracking-[0.18em] uppercase text-[#6B6B6B] mt-2 pb-3 border-b border-[#E3DED5]">
-                        {card.subtitle}
-                      </p>
-
-                      {/* Editorial Narrative — Readable dark-ink text on warm paper */}
-                      <p className="font-sans text-xs sm:text-[13px] md:text-sm text-[#171715] mt-3 leading-relaxed hidden sm:block">
-                        {card.description}
-                      </p>
-                    </div>
-
-                    {/* Metadata Tags / Micro-spec */}
-                    <div className="pt-3 border-t border-[#E3DED5] flex flex-wrap gap-1.5 mt-2">
-                      {card.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider text-[#171715] bg-[#FAF8F4] border border-[#E3DED5]"
-                          style={{ borderRadius: '0px' }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right Column: Full-Bleed Authentic Photography (~62% width) */}
-                  <div className="relative w-full md:w-[60%] lg:w-[65%] h-full bg-[#171715] overflow-hidden flex-1">
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      className="w-full h-full object-cover object-center filter saturate-[1.05] contrast-[1.05] transition-transform duration-700 ease-out hover:scale-[1.02]"
-                      loading={idx === 0 ? 'eager' : 'lazy'}
-                    />
-
-                    {/* Subtle warm archival vignette */}
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#FAF8F4]/20 via-transparent to-transparent pointer-events-none"
-                      aria-hidden="true"
-                    />
-
-                    {/* Image Caption Watermark */}
-                    <div className="absolute bottom-3 right-4 z-10 bg-[#171715]/90 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/30 text-[9.5px] font-mono tracking-widest text-[#FAF8F4] uppercase">
-                      ARCHIVE NIGERIA · 0{idx + 1}
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+          {/* Cards 01, 02, 03 in logical sequence */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+            <div className="w-full">
+              <CloserCardItem
+                card={CLOSER_CARDS[0]}
+                onExpand={handleOpenCard}
+              />
+            </div>
+            <div className="w-full">
+              <CloserCardItem
+                card={CLOSER_CARDS[1]}
+                onExpand={handleOpenCard}
+              />
+            </div>
+            <div className="w-full md:col-span-2 md:max-w-[540px] md:mx-auto">
+              <CloserCardItem
+                card={CLOSER_CARDS[2]}
+                onExpand={handleOpenCard}
+              />
+            </div>
           </div>
         </div>
       </div>
+
+      {/* =========================================================================
+          EDITORIAL MODAL FOR CARD 1: "WHAT WE WEAR, WHAT WE CARRY"
+          Dedicated museum publication format with sharp edges & 3 scannable images
+          ========================================================================= */}
+      {selectedCard?.id === 'card-01' && (
+        <WhatWeWearModal
+          isOpen={true}
+          onClose={() => setSelectedCard(null)}
+          triggerElementRef={activeTriggerRef}
+        />
+      )}
+
+      {/* =========================================================================
+          EDITORIAL MODAL FOR CARD 2: "THE MAKING OF AṢỌ ÒKÈ"
+          Dedicated museum publication format with sharp edges & 3 scannable images
+          ========================================================================= */}
+      {selectedCard?.id === 'card-02' && (
+        <TheMakingOfAsoOkeModal
+          isOpen={true}
+          onClose={() => setSelectedCard(null)}
+          triggerElementRef={activeTriggerRef}
+        />
+      )}
+
+      {/* =========================================================================
+          EDITORIAL MODAL FOR CARD 3: "SKILLS ACROSS GENERATIONS"
+          Dedicated museum publication format with sharp edges & 4 documentary images
+          ========================================================================= */}
+      {selectedCard?.id === 'card-03' && (
+        <SkillsAcrossGenerationsModal
+          isOpen={true}
+          onClose={() => setSelectedCard(null)}
+          triggerElementRef={activeTriggerRef}
+        />
+      )}
     </section>
   );
 };
