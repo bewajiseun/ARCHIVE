@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 export interface CarryForwardStory {
   id: string;
@@ -14,7 +14,7 @@ export interface CarryForwardStory {
   curatorialPillars: { label: string; desc: string }[];
 }
 
-const CARRY_FORWARD_STORIES: CarryForwardStory[] = [
+export const CARRY_FORWARD_STORIES: CarryForwardStory[] = [
   {
     id: 'fashion',
     disciplineSeq: '01',
@@ -166,15 +166,14 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
       <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
             SECTION HEADER: Stationary above the card container
-            Eyebrow: FEATURED STORY
+            Eyebrow: FEATURED STORY in terracotta, no lines or dashes
             Headline: What We Carry Forward
             Supporting copy: Nigerian creativity is always evolving...
             ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 md:mb-16">
           {/* Left Column: Eyebrow + Headline */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-semibold">
-              <span className="w-7 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
+            <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-semibold">
               <span>FEATURED STORY</span>
             </div>
 
@@ -194,9 +193,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
         {/* =========================================================================
             CONTAINER FOR CARDS OR EXPANDED PANEL
-            CRITICAL REQUIREMENT:
             The expanded card replaces the four-card row in the exact same position.
-            It must never appear underneath the four cards.
             Either the 4-card grid OR the expanded panel is rendered — never both.
             ========================================================================= */}
         <div className="w-full">
@@ -232,8 +229,8 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                       aria-hidden="true"
                     />
                     <div className="absolute top-3 left-3 bg-[#171715]/80 backdrop-blur-xs px-2.5 py-1 border border-[#E3DED5]/20">
-                      <span className="font-mono text-[10px] tracking-widest text-[#FAF8F4] uppercase">
-                        {story.disciplineSeq} · {story.disciplineName}
+                      <span className="font-mono text-[10px] tracking-widest text-[#FAF8F4] uppercase font-medium">
+                        {story.disciplineName}
                       </span>
                     </div>
                   </div>
@@ -241,11 +238,6 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                   {/* Card Content Body */}
                   <div className="p-6 flex flex-col justify-between flex-1 bg-[#321F18]">
                     <div>
-                      {/* Discipline Number & Label */}
-                      <div className="flex items-center space-x-2 text-xs font-mono text-[#A4401F] mb-2.5 font-semibold">
-                        <span>{story.disciplineSeq} — {story.disciplineName}</span>
-                      </div>
-
                       {/* Story Title */}
                       <h3
                         onClick={() => handleExpand(story.id)}
@@ -273,14 +265,13 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                         className="inline-flex items-center text-xs font-mono font-medium tracking-wider text-[#A4401F] hover:text-[#FAF8F4] transition-colors cursor-pointer group/btn"
                       >
                         <span className="uppercase">SEE MORE</span>
-                        <span className="ml-2 transition-transform duration-200 group-hover/btn:translate-x-1.5" aria-hidden="true">
+                        <span
+                          className="ml-2 transition-transform duration-200 group-hover/btn:translate-x-1.5"
+                          aria-hidden="true"
+                        >
                           →
                         </span>
                       </button>
-
-                      <span className="font-mono text-[10px] text-[#D5D0C1]/50 uppercase tracking-widest">
-                        DISCIPLINE {story.disciplineSeq}
-                      </span>
                     </div>
                   </div>
                 </article>
@@ -302,7 +293,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
               <div className="flex flex-wrap items-center justify-between px-6 sm:px-8 md:px-10 py-4 bg-[#281812] border-b border-[#E3DED5]/20 gap-3">
                 <div className="flex items-center space-x-3">
                   <span className="font-mono text-xs font-semibold text-[#A4401F] tracking-[0.2em] uppercase">
-                    {currentExpandedStory.disciplineSeq} — {currentExpandedStory.disciplineName}
+                    {currentExpandedStory.disciplineName}
                   </span>
                   <span className="text-[#E3DED5]/30 font-mono text-xs hidden sm:inline">|</span>
                   <span className="font-mono text-xs text-[#D5D0C1]/70 tracking-wider hidden sm:inline">
@@ -312,9 +303,6 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
                 {/* Quick Switcher among all 4 Disciplines */}
                 <div className="flex items-center space-x-1 sm:space-x-2">
-                  <span className="font-mono text-[10.5px] text-[#D5D0C1]/60 uppercase tracking-wider mr-2 hidden md:inline">
-                    Discipline:
-                  </span>
                   {CARRY_FORWARD_STORIES.map((item) => (
                     <button
                       key={item.id}
@@ -326,7 +314,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                           : 'bg-transparent text-[#D5D0C1] border-[#E3DED5]/20 hover:border-[#A4401F]/60 hover:text-[#FAF8F4]'
                       }`}
                     >
-                      {item.disciplineSeq}
+                      {item.disciplineName}
                     </button>
                   ))}
 
@@ -350,9 +338,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                 <div className="lg:col-span-6 xl:col-span-6 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#E3DED5]/20">
                   <div>
                     {/* Discipline Badge */}
-                    <div className="flex items-center space-x-2 text-xs font-mono text-[#A4401F] mb-3 font-semibold">
-                      <span>DISCIPLINE {currentExpandedStory.disciplineSeq}</span>
-                      <span className="w-4 h-[1px] bg-[#A4401F]" />
+                    <div className="text-xs font-mono text-[#A4401F] mb-3 font-semibold tracking-wider uppercase">
                       <span>{currentExpandedStory.disciplineName}</span>
                     </div>
 
@@ -415,10 +401,8 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
 
                 {/* -----------------------------------------------------------------
                     RIGHT COLUMN: Prominent Image Plate (~52% on Desktop)
-                    Fills column without distortion + Period-inspired disclosure
                     ----------------------------------------------------------------- */}
                 <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-between bg-[#241510] min-h-[380px] sm:min-h-[460px] lg:min-h-full">
-                  {/* Full-bleed responsive image container */}
                   <div className="relative w-full flex-1 overflow-hidden min-h-[320px] sm:min-h-[420px] lg:min-h-[500px]">
                     <img
                       src={currentExpandedStory.imageUrl}
@@ -431,7 +415,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                     />
                   </div>
 
-                  {/* Image Plate Caption & Illustrative Disclosure */}
+                  {/* Image Plate Caption */}
                   <div className="p-5 sm:p-6 bg-[#241510] border-t border-[#E3DED5]/20">
                     <div className="flex items-center justify-between mb-1 text-[10px] font-mono tracking-widest text-[#A4401F] uppercase font-semibold">
                       <span>FIGURE {currentExpandedStory.disciplineSeq} · {currentExpandedStory.disciplineName}</span>
@@ -451,5 +435,4 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
   );
 };
 
-// Also export alias for convenient import under both names
 export const WhatWeCarryForwardSection = ThreadsOfGenerationsSection;

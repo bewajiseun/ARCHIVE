@@ -24,17 +24,9 @@ export const Footer: React.FC = () => {
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pt-16 md:pt-24 pb-12 md:pb-16">
         {/* =========================================================================
-            1. TOP IDENTIFICATION ROW
+            MAIN FOOTER CONTENT — STRICTLY ONE HORIZONTAL ROW ON DESKTOP
             ========================================================================= */}
-        <div className="pb-8 border-b border-[#E3DED5]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono tracking-[0.22em] uppercase">
-          <ArchiveLogo variant="light" size="sm" align="left" showSubtitle={false} />
-          <span className="text-[#D5D0C1] text-[11px] sm:text-xs">NIGERIA'S CREATIVE HISTORY LIVES HERE</span>
-        </div>
-
-        {/* =========================================================================
-            2. MAIN FOOTER CONTENT — STRICTLY ONE HORIZONTAL ROW ON DESKTOP
-            ========================================================================= */}
-        <div className="py-12 sm:py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 items-start">
+        <div className="pb-12 sm:pb-16 md:pb-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 items-start">
           {/* A. Left Group: ARCHIVE Brand Block (approx 42-45% width) */}
           <div className="md:col-span-6 lg:col-span-5 flex flex-col items-start">
             {/* Top label with short terracotta line — Retained deliberate terracotta brand accent */}

@@ -25,10 +25,9 @@ export const ContributeSection: React.FC = () => {
               LEFT COLUMN: Editorial Heading, Copy, CTAs & Value Propositions
               ========================================================================= */}
           <div className="lg:col-span-6 flex flex-col items-start pt-2">
-            {/* Section Label */}
-            <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-4">
-              <span className="w-6 h-[1.5px] bg-[#A4401F] inline-block" aria-hidden="true" />
-              <span>05 — CONTRIBUTE</span>
+            {/* Section Label in terracotta without numbers or lines */}
+            <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-4">
+              <span>CONTRIBUTE</span>
             </div>
 
             {/* Display Headline */}
@@ -129,18 +128,6 @@ export const ContributeSection: React.FC = () => {
               aria-hidden="true"
             />
 
-            {/* Terracotta Adire Swatch Accent at Lower-Left */}
-            <div
-              className="absolute bottom-12 left-4 sm:left-6 z-25 w-14 sm:w-16 h-20 sm:h-24 bg-[#A4401F]/15 border border-[#A4401F]/40 p-1 pointer-events-none overflow-hidden"
-              aria-hidden="true"
-            >
-              <div className="w-full h-full bg-[#A4401F] opacity-90 flex flex-col justify-around p-1 text-[7px] text-[#FAF8F4] font-mono select-none">
-                <span>ADIRE</span>
-                <span>YORUBA</span>
-                <span>TEXTILE</span>
-              </div>
-            </div>
-
             {/* 1. Dominant Center Photograph: Nigerian Photographer with Camera on Tripod */}
             <div className="relative z-20 w-[240px] sm:w-[280px] md:w-[310px] h-[340px] sm:h-[390px] md:h-[420px] bg-[#171715] border border-[#E3DED5] shadow-[0_16px_36px_rgba(23,23,21,0.22)] overflow-hidden group">
               <img
@@ -170,36 +157,6 @@ export const ContributeSection: React.FC = () => {
                 className="w-full h-full object-cover object-center filter grayscale contrast-[1.06] transition-transform duration-700 ease-out group-hover:scale-105"
                 loading="lazy"
               />
-            </div>
-
-            {/* 4. Circular Archival Seal (Upper-Left of Dominant Image) */}
-            <div
-              className="absolute top-6 sm:top-10 left-6 sm:left-10 z-30 w-20 sm:w-22 h-20 sm:h-22 rounded-full border border-[#171715] bg-[#FAF8F4] flex flex-col items-center justify-center p-1 shadow-md select-none pointer-events-none"
-              aria-hidden="true"
-            >
-              {/* Outer circular dotted ring */}
-              <div className="absolute inset-1 rounded-full border border-dashed border-[#6B6B6B]/60" />
-              {/* Seal text */}
-              <span className="font-mono text-[7px] tracking-[0.16em] uppercase text-[#171715] text-center font-bold">
-                PEOPLE · PLACES
-              </span>
-              {/* Terracotta center node */}
-              <span className="w-2 h-2 rounded-full bg-[#A4401F] my-0.5 inline-block" />
-              <span className="font-mono text-[6.5px] tracking-[0.2em] uppercase text-[#6B6B6B]">
-                ARCHIVE · 1974
-              </span>
-            </div>
-
-            {/* 5. Handwritten Cursive Script Notes along the Right Margin */}
-            <div
-              className="absolute right-[-10px] sm:right-[-20px] top-[28%] z-30 flex flex-col space-y-1 select-none pointer-events-none text-[#6B6B6B] opacity-80"
-              aria-hidden="true"
-            >
-              <span className="font-script text-lg sm:text-xl transform -rotate-6">People</span>
-              <span className="font-script text-lg sm:text-xl transform -rotate-3">Places</span>
-              <span className="font-script text-lg sm:text-xl transform -rotate-6">Ideas</span>
-              <span className="font-script text-lg sm:text-xl transform -rotate-3">Culture</span>
-              <span className="font-script text-lg sm:text-xl transform -rotate-6 text-[#A4401F]">Nigeria</span>
             </div>
           </div>
         </div>

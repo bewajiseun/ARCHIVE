@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { WhatWeWearModal } from './WhatWeWearModal';
-import { TheMakingOfAsoOkeModal } from './TheMakingOfAsoOkeModal';
-import { SkillsAcrossGenerationsModal } from './SkillsAcrossGenerationsModal';
+import { SectionTwoEditorialModal } from './SectionTwoEditorialModal';
 
 export interface CloserCardData {
   id: string;
@@ -277,37 +275,21 @@ export const FashionRoomSection: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          EDITORIAL MODAL FOR CARD 1: "WHAT WE WEAR, WHAT WE CARRY"
-          Dedicated museum publication format with sharp edges & 3 scannable images
+          NEWSPAPER EDITORIAL ARTICLE MODAL FOR SECTION 2 CARDS
+          Reproduces structural logic of reference 1000636475.png:
+          - Card 01: Dress, identity and heritage
+          - Card 02: Textiles and craftsmanship
+          - Card 03: Skills across generations
           ========================================================================= */}
-      {selectedCard?.id === 'card-01' && (
-        <WhatWeWearModal
+      {selectedCard && (
+        <SectionTwoEditorialModal
+          cardId={selectedCard.id}
           isOpen={true}
           onClose={() => setSelectedCard(null)}
-          triggerElementRef={activeTriggerRef}
-        />
-      )}
-
-      {/* =========================================================================
-          EDITORIAL MODAL FOR CARD 2: "THE MAKING OF AṢỌ ÒKÈ"
-          Dedicated museum publication format with sharp edges & 3 scannable images
-          ========================================================================= */}
-      {selectedCard?.id === 'card-02' && (
-        <TheMakingOfAsoOkeModal
-          isOpen={true}
-          onClose={() => setSelectedCard(null)}
-          triggerElementRef={activeTriggerRef}
-        />
-      )}
-
-      {/* =========================================================================
-          EDITORIAL MODAL FOR CARD 3: "SKILLS ACROSS GENERATIONS"
-          Dedicated museum publication format with sharp edges & 4 documentary images
-          ========================================================================= */}
-      {selectedCard?.id === 'card-03' && (
-        <SkillsAcrossGenerationsModal
-          isOpen={true}
-          onClose={() => setSelectedCard(null)}
+          onSelectCard={(id) => {
+            const nextCard = CLOSER_CARDS.find((c) => c.id === id);
+            if (nextCard) setSelectedCard(nextCard);
+          }}
           triggerElementRef={activeTriggerRef}
         />
       )}

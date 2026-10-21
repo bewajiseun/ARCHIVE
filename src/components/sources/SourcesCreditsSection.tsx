@@ -92,12 +92,9 @@ export const SourcesCreditsSection: React.FC = () => {
               ======================================================================= */}
           <div className="lg:col-span-5 flex flex-col items-start justify-between h-full pt-1">
             <div>
-              {/* Section Label: 06 — SOURCES & CREDITS */}
-              <div className="flex items-center space-x-2.5 text-[11px] font-mono tracking-[0.22em] uppercase text-[#171715] font-medium mb-6 md:mb-8">
-                <span className="text-[#A4401F] font-bold">06</span>
-                <span className="w-6 h-[1px] bg-[#E3DED5]" aria-hidden="true" />
-                <span className="text-[#171715]">SOURCES & CREDITS</span>
-                <span className="w-10 sm:w-16 h-[1px] bg-[#E3DED5] hidden sm:inline-block" aria-hidden="true" />
+              {/* Section Label in terracotta without numbers or lines */}
+              <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-6 md:mb-8">
+                <span>SOURCES & CREDITS</span>
               </div>
 
               {/* Large Editorial Headline */}

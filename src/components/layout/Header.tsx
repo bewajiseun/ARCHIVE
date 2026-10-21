@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigateSection, className = '
       </a>
 
       <header className={`relative z-30 w-full ${className}`}>
-        <div className="pt-6 md:pt-8 pb-4 px-6 md:px-12 lg:px-16 max-w-[1440px] mx-auto">
+        <div className="pt-6 md:pt-8 pb-4 px-6 md:px-12 lg:px-16 xl:px-20 w-full">
           <div className="grid grid-cols-3 items-center">
             {/* Left Navigation (Desktop) */}
             <nav aria-label="Primary desktop navigation" className="hidden md:flex items-center space-x-8 lg:space-x-12">

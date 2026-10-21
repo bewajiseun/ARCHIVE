@@ -518,11 +518,9 @@ export const ExploreRoomsSection: React.FC = () => {
             1. SHARED SECTION INTRODUCTION (Compact Shared Header)
             ========================================================================= */}
         <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
-          {/* Eyebrow flanked by subtle terracotta rules */}
-          <div className="flex items-center justify-center space-x-3 text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-2">
-            <span className="w-8 h-[1px] bg-[#A4401F]" aria-hidden="true" />
+          {/* Eyebrow in terracotta without flanking lines */}
+          <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-2 text-center">
             <span>EXPLORE THE ROOMS</span>
-            <span className="w-8 h-[1px] bg-[#A4401F]" aria-hidden="true" />
           </div>
 
           {/* Display Headline */}
