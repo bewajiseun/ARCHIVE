@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
+import { X, Maximize2 } from 'lucide-react';
+import { ArchivalSpecimenModal } from './ArchivalSpecimenModal';
 
 export interface RoomItem {
   id: string;
@@ -268,6 +269,111 @@ const HEADWEAR_COLLECTION_IMAGES: CarouselImageRecord[] = [
   },
 ];
 
+// =========================================================================
+// Jewellery & Beads Collection: Exact 9 curated archival specimens
+// =========================================================================
+const JEWELLERY_COLLECTION_IMAGES: CarouselImageRecord[] = [
+  {
+    id: 'jewel-01',
+    displayOrder: '01',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579327/1The_Hand_as_Ornament.jpg',
+    title: 'The Hand as Ornament',
+    shortDescription:
+      'The hand becomes part of the composition through jewellery that connects the fingers, hand, and wrist. Look closely at how placement, shape, and detail turn an accessory into a visual statement. Do not assign a specific cultural origin or traditional meaning without a reliable source.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Hand as Ornament — jewellery connecting fingers, hand, and wrist in sculpted metalwork',
+  },
+  {
+    id: 'jewel-02',
+    displayOrder: '02',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579328/2Rings_as_Small_Sculptures.jpg',
+    title: 'Rings as Small Sculptures',
+    shortDescription:
+      'Rings can be read as miniature sculptures. Their shapes, surfaces, and arrangement invite a closer look at how small objects create distinct visual identities. Do not assume the rings are historical or associated with a particular community.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Rings as Small Sculptures — close examination of tactile surfaces, geometry, and craftsmanship',
+  },
+  {
+    id: 'jewel-03',
+    displayOrder: '03',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579328/3The_Language_of_Metal.jpg',
+    title: 'The Language of Metal',
+    shortDescription:
+      'Multiple rings create a visual language through their forms, finishes, and arrangement. Notice how individual pieces work together to shape the overall composition. Do not claim a specific metal composition, maker, date, or cultural symbolism unless verified.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Language of Metal — ensemble of artisanal metal rings displaying textural interplay',
+  },
+  {
+    id: 'jewel-04',
+    displayOrder: '04',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579327/Yoruba_Beaded_Crowns_ARCHIVES_Nigeria.jpg',
+    title: 'A Crown Woven in Beads',
+    shortDescription:
+      'Intricate beadwork, vivid colours, layered geometric forms, and sculptural details give this crown its striking presence. Yoruba beaded crowns have important associations with kingship and royal authority. Explain that broader cultural context only where supported by reliable sources. Do not invent the identity of the maker, ruler, specific date, or ceremony associated with this particular object.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'A Crown Woven in Beads — intricate Yoruba beaded royal crown featuring geometric forms and vivid colours',
+  },
+  {
+    id: 'jewel-05',
+    displayOrder: '05',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579328/5Adornment_in_Gold.jpg',
+    title: 'Adornment in Gold',
+    shortDescription:
+      'Explore the relationship between neck adornment, headwear, and the body. Scale, placement, and repeated forms work together to create a striking visual composition. Do not assume the object is made from solid gold or attribute it to a particular Nigerian community without evidence.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Adornment in Gold — exploration of scale, placement, and repeated metallic forms on the body',
+  },
+  {
+    id: 'jewel-06',
+    displayOrder: '06',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579329/6The_Art_of_the_Bangle.jpg',
+    title: 'The Art of the Bangle',
+    shortDescription:
+      'Repeated circular forms create rhythm through colour, surface, and arrangement. Look at how multiple bangles build a visual statement through repetition and contrast. Avoid unsupported historical or cultural attribution.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Art of the Bangle — repeated circular bangles creating visual rhythm through contrast and surface',
+  },
+  {
+    id: 'jewel-07',
+    displayOrder: '07',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792579328/7Beads_Worn_in_Layers.jpg',
+    title: 'Beads Worn in Layers',
+    shortDescription:
+      'Layered bracelets bring together colour, texture, and repetition. Observe how the arrangement and combinations create a tactile and visual rhythm. Do not assign a specific cultural origin or traditional meaning without a reliable source.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Beads Worn in Layers — stacked beaded bracelets exhibiting colour harmony and tactile repetition',
+  },
+  {
+    id: 'jewel-08',
+    displayOrder: '08',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/Colour_Beads_and_Headwrap.jpg',
+    title: 'Glass Trade Beads & Patterned Accents',
+    shortDescription:
+      'A delicate cascade of monochrome and polychrome glass beads paired with patterned woven fabrics. The subtle contrast between glossy bead surfaces and matte handspun cloth highlights textural sophistication.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Layered monochrome beads paired with hand-dyed textile cloth',
+  },
+  {
+    id: 'jewel-09',
+    displayOrder: '09',
+    category: 'Jewellery & Beads',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/The_Dark_Silhouette.jpg',
+    title: 'The Sculpted Brass Cuff & Choker',
+    shortDescription:
+      'Solid cast brass wrist cuffs featuring incised geometric cross-hatching and raised studs. The metallic warmth anchors the dark silhouette of the wearer, speaking to enduring blacksmithing and lost-wax bronze traditions.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Cast brass wrist cuff and choker exhibiting geometric surface engravings',
+  },
+];
+
 const OTHER_ROOMS_DATA: Record<string, OtherRoomPreviewData> = {
   photography: {
     id: 'photography',
@@ -323,6 +429,8 @@ export const ExploreRoomsSection: React.FC = () => {
 
   // Active overlay ID for tap-to-inspect on mobile or keyboard
   const [activeOverlayId, setActiveOverlayId] = useState<string | null>(null);
+  // Active enlarged specimen ID for high-res Modal / Lightbox inspection
+  const [enlargedSpecimenId, setEnlargedSpecimenId] = useState<string | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
   const tabListRef = useRef<HTMLDivElement>(null);
 
@@ -367,14 +475,24 @@ export const ExploreRoomsSection: React.FC = () => {
   // =========================================================================
   const isHairstyles = activeCategory === 'Hairstyles & Hair Artistry';
   const isHeadwear = activeCategory === 'Headwear & Adornment';
+  const isJewellery = activeCategory === 'Jewellery & Beads';
 
   // Dominant Centerpiece:
-  const activeCenterImage = isHeadwear
+  const activeCenterImage = isJewellery
+    ? JEWELLERY_COLLECTION_IMAGES[0] // jewel-01: 'The Hand as Ornament'
+    : isHeadwear
     ? HEADWEAR_COLLECTION_IMAGES[0] // head-01: 'Wrapped in Pattern'
     : HAIRSTYLE_CAROUSEL_IMAGES[0]; // hair-01: 'Sculptural Woven Arch & Plaiting'
 
   // Four Images on the Left (arranged in 2 columns x 2 rows)
-  const activeLeftImages = isHeadwear
+  const activeLeftImages = isJewellery
+    ? [
+        JEWELLERY_COLLECTION_IMAGES[1], // jewel-02: 'Rings as Small Sculptures'
+        JEWELLERY_COLLECTION_IMAGES[2], // jewel-03: 'The Language of Metal'
+        JEWELLERY_COLLECTION_IMAGES[3], // jewel-04: 'A Crown Woven in Beads'
+        JEWELLERY_COLLECTION_IMAGES[4], // jewel-05: 'Adornment in Gold'
+      ]
+    : isHeadwear
     ? [
         HEADWEAR_COLLECTION_IMAGES[1], // head-02: 'Colour, Beads and Headwrap'
         HEADWEAR_COLLECTION_IMAGES[2], // head-03: 'The Sculptural Wrap'
@@ -389,7 +507,14 @@ export const ExploreRoomsSection: React.FC = () => {
       ];
 
   // Four Images on the Right (arranged in 2 columns x 2 rows)
-  const activeRightImages = isHeadwear
+  const activeRightImages = isJewellery
+    ? [
+        JEWELLERY_COLLECTION_IMAGES[5], // jewel-06: 'The Art of the Bangle'
+        JEWELLERY_COLLECTION_IMAGES[6], // jewel-07: 'Beads Worn in Layers'
+        JEWELLERY_COLLECTION_IMAGES[7], // jewel-08: 'Glass Trade Beads & Patterned Accents'
+        JEWELLERY_COLLECTION_IMAGES[8], // jewel-09: 'The Sculpted Brass Cuff & Choker'
+      ]
+    : isHeadwear
     ? [
         HEADWEAR_COLLECTION_IMAGES[5], // head-06: 'Pattern in Profile'
         HEADWEAR_COLLECTION_IMAGES[6], // head-07: 'The Wrapped Portrait'
@@ -402,6 +527,12 @@ export const ExploreRoomsSection: React.FC = () => {
         HAIRSTYLE_CAROUSEL_IMAGES[7], // hair-08: Concentric Coiled Waves
         HAIRSTYLE_CAROUSEL_IMAGES[8], // hair-09: Interlocking Basket-Weave Plaiting
       ];
+
+  const activeSpecimensList = isJewellery
+    ? JEWELLERY_COLLECTION_IMAGES
+    : isHeadwear
+    ? HEADWEAR_COLLECTION_IMAGES
+    : HAIRSTYLE_CAROUSEL_IMAGES.slice(0, 9);
 
   // NOTE: hair-10 ('Ascending Spiral Pillars', Image_6.jpg) is preserved in the underlying
   // HAIRSTYLE_CAROUSEL_IMAGES data array, but intentionally excluded from the initial
@@ -452,24 +583,39 @@ export const ExploreRoomsSection: React.FC = () => {
               : 'opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-visible:opacity-100 group-focus-visible:pointer-events-auto'
           }`}
         >
-          {/* Top: Category Tag & Dismiss Button */}
+          {/* Top: Category Tag & Quick Action Buttons (Enlarge + Dismiss) */}
           <div className="flex items-center justify-between pb-2 border-b border-[#FAF8F4]/15">
             <span className="font-mono text-[10px] sm:text-[10.5px] tracking-[0.2em] uppercase text-[#A4401F] font-semibold">
               {item.category.toUpperCase()}
             </span>
-            {isOverlayOpen && (
+            <div className="flex items-center space-x-1.5">
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setActiveOverlayId(null);
+                  setEnlargedSpecimenId(item.id);
                 }}
-                aria-label="Close information overlay"
-                className="w-6 h-6 rounded-none border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
+                aria-label={`Enlarge specimen ${item.title}`}
+                title="Enlarge high-resolution specimen"
+                className="px-2 py-1 rounded-none border border-[#FAF8F4]/30 hover:border-[#FAF8F4] bg-[#171715]/60 hover:bg-[#FAF8F4] text-[#D5D0C1] hover:text-[#171715] flex items-center space-x-1 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
               >
-                <X className="w-3.5 h-3.5" />
+                <Maximize2 className="w-3 h-3" />
+                <span className="hidden sm:inline">ENLARGE</span>
               </button>
-            )}
+              {isOverlayOpen && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveOverlayId(null);
+                  }}
+                  aria-label="Close information overlay"
+                  className="w-6 h-6 rounded-none border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Middle: Title & Visual Craft Description */}
@@ -488,10 +634,20 @@ export const ExploreRoomsSection: React.FC = () => {
             </p>
           </div>
 
-          {/* Bottom: Provenance / Working Attribution */}
+          {/* Bottom: Provenance & Click to Enlarge Link */}
           <div className="pt-2 border-t border-[#FAF8F4]/15 flex items-center justify-between text-[9.5px] sm:text-[10px] font-mono tracking-wider uppercase text-[#D5D0C1]/80">
-            <span className="truncate max-w-[180px]">{item.sourceCredit}</span>
-            <span className="text-[#A4401F] font-medium tracking-widest">ARCHIVE</span>
+            <span className="truncate max-w-[150px]">{item.sourceCredit}</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setEnlargedSpecimenId(item.id);
+              }}
+              className="text-[#FAF8F4] hover:text-[#A4401F] flex items-center space-x-1 font-mono text-[10px] uppercase tracking-wider cursor-pointer underline underline-offset-2"
+            >
+              <span>View Dossier</span>
+              <span>↗</span>
+            </button>
           </div>
         </div>
       </div>
@@ -671,8 +827,8 @@ export const ExploreRoomsSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* 3.2 Category Content: Hairstyles & Headwear (9-Image Compositions) vs Others (In Development) */}
-              {isHairstyles || isHeadwear ? (
+              {/* 3.2 Category Content: Hairstyles, Headwear, & Jewellery (9-Image Compositions) vs Others (In Development) */}
+              {isHairstyles || isHeadwear || isJewellery ? (
                 <div className="w-full mt-7 md:mt-8">
                   {/* Desktop & Tablet: Four-Left (2x2), One-Centre (dominant tall), Four-Right (2x2) */}
                   <div className="hidden md:grid md:grid-cols-5 gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5 w-full items-stretch">
@@ -747,7 +903,7 @@ export const ExploreRoomsSection: React.FC = () => {
                   </h4>
                   <p className="font-sans text-xs sm:text-[13px] text-[#6B6B6B] leading-relaxed mt-2.5 max-w-md">
                     Archival specimens, documentation, and verified provenance for this category are
-                    currently being catalogued. The Hairstyles &amp; Hair Artistry and Headwear &amp; Adornment collections are
+                    currently being catalogued. The Hairstyles &amp; Hair Artistry, Headwear &amp; Adornment, and Jewellery &amp; Beads collections are
                     currently available for viewing.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-2.5 justify-center">
@@ -767,6 +923,15 @@ export const ExploreRoomsSection: React.FC = () => {
                       style={{ borderRadius: '0px' }}
                     >
                       <span>View Headwear &amp; Adornment</span>
+                      <span className="ml-2">→</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveCategory('Jewellery & Beads')}
+                      className="inline-flex items-center px-4 py-2 bg-[#A4401F] text-[#FAF8F4] hover:bg-[#171715] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      style={{ borderRadius: '0px' }}
+                    >
+                      <span>View Jewellery &amp; Beads</span>
                       <span className="ml-2">→</span>
                     </button>
                   </div>
@@ -825,6 +990,20 @@ export const ExploreRoomsSection: React.FC = () => {
           ) : null}
         </div>
       </div>
+
+      {/* =========================================================================
+          4. ARCHIVAL SPECIMEN ENLARGEMENT MODAL (LIGHTBOX)
+          Enables high-resolution inspection, curatorial reading, and seamless browsing
+          across all specimens in the active category.
+          ========================================================================= */}
+      <ArchivalSpecimenModal
+        isOpen={enlargedSpecimenId !== null}
+        onClose={() => setEnlargedSpecimenId(null)}
+        specimens={activeSpecimensList}
+        activeSpecimenId={enlargedSpecimenId}
+        onSelectSpecimen={(id) => setEnlargedSpecimenId(id)}
+        categoryTitle={activeCategory}
+      />
     </section>
   );
 };
