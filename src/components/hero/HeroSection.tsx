@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Header } from '../layout/Header';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface HeroSectionProps {
   onCtaClick?: () => void;
@@ -145,44 +146,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           LAYER 2: CONTENT LAYER
           Positioned directly over the intentional empty cream space on the left.
           Sits above the animation layer in appropriate stacking order (relative z-10).
-          Spans full width edge-to-edge covering any gaps on left and right.
+          Spans standard container width aligned with all other sections.
           ========================================================================= */}
-      <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-20 pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-8 md:pb-12 flex-1 flex items-center">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pt-4 sm:pt-6 md:pt-8 lg:pt-10 pb-8 md:pb-12 flex-1 flex items-center">
         <div className="w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[530px] xl:max-w-[560px] flex flex-col items-start">
           
           {/* Display Headline: "The past is dressed to go out." */}
-          <h1
-            className="font-serif font-normal text-[#171715] leading-[0.92] tracking-[-0.03em] select-text text-[48px] sm:text-[60px] md:text-[68px] lg:text-[74px] xl:text-[80px]"
-            style={{ fontSize: 'clamp(46px, 5.4vw, 80px)' }}
-          >
-            <span className="block">The past is</span>
-            <span className="block italic text-[#A4401F] my-0.5 sm:my-1">
-              dressed
-            </span>
-            <span className="block">to go out.</span>
-          </h1>
+          <ScrollReveal delayMs={60}>
+            <h1
+              className="font-serif font-normal text-[#171715] leading-[0.92] tracking-[-0.03em] select-text text-[48px] sm:text-[60px] md:text-[68px] lg:text-[74px] xl:text-[80px]"
+              style={{ fontSize: 'clamp(46px, 5.4vw, 80px)' }}
+            >
+              <span className="block">The past is</span>
+              <span className="block italic text-[#A4401F] my-0.5 sm:my-1">
+                dressed
+              </span>
+              <span className="block">to go out.</span>
+            </h1>
+          </ScrollReveal>
 
           {/* Supporting Copy (Inter, 16px, line height 1.55, max-w-[380px]) */}
-          <p className="font-sans text-[15.5px] sm:text-[16px] md:text-[16.5px] leading-[1.55] text-[#6B6B6B] mt-6 md:mt-8 mb-8 md:mb-10 max-w-[380px]">
-            Explore real stories, people and objects from Nigeria’s creative history through photography, music, fashion and design.
-          </p>
+          <ScrollReveal delayMs={140}>
+            <p className="font-sans text-[15.5px] sm:text-[16px] md:text-[16.5px] leading-[1.55] text-[#6B6B6B] mt-6 md:mt-8 mb-8 md:mb-10 max-w-[380px]">
+              Explore real stories, people and objects from Nigeria’s creative history through photography, music, fashion and design.
+            </p>
+          </ScrollReveal>
 
           {/* Primary Action Button: ENTER ARCHIVE → (Natural width, tight icon spacing) */}
-          <div className="flex items-center">
-            <a
-              href="#rooms"
-              onClick={handleCta}
-              className="inline-flex items-center gap-3 bg-[#A4401F] hover:bg-[#853216] active:bg-[#6E2812] text-[#FAF8F4] font-sans text-[13px] md:text-[13.5px] font-medium tracking-[0.14em] uppercase px-7 sm:px-8 h-[50px] md:h-[52px] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#A4401F] shadow-xs cursor-pointer group rounded-none"
-            >
-              <span>ENTER ARCHIVE</span>
-              <span
-                className="text-base leading-none transition-transform duration-200 group-hover:translate-x-1"
-                aria-hidden="true"
+          <ScrollReveal delayMs={220}>
+            <div className="flex items-center">
+              <a
+                href="#rooms"
+                onClick={handleCta}
+                className="inline-flex items-center gap-3 bg-[#A4401F] hover:bg-[#853216] active:bg-[#6E2812] text-[#FAF8F4] font-sans text-[13px] md:text-[13.5px] font-medium tracking-[0.14em] uppercase px-7 sm:px-8 h-[50px] md:h-[52px] transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#A4401F] shadow-xs cursor-pointer group rounded-none"
               >
-                →
-              </span>
-            </a>
-          </div>
+                <span>ENTER ARCHIVE</span>
+                <span
+                  className="text-base leading-none transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </a>
+            </div>
+          </ScrollReveal>
 
         </div>
       </div>
@@ -190,29 +197,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* =========================================================================
           LAYER 3: BOTTOM SCROLL CUE (Left)
           ========================================================================= */}
-      <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 xl:px-20 pb-6 md:pb-8 flex items-end">
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 pb-6 md:pb-8 flex items-end">
         {/* Bottom Left: Scroll Cue */}
-        <div className="flex flex-col items-start">
-          <a
-            href="#rooms"
-            onClick={handleScrollToExplore}
-            className="inline-flex flex-col items-start text-[#6B6B6B] hover:text-[#171715] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] cursor-pointer group select-none"
-            aria-label="Scroll to explore exhibition"
-          >
-            <span className="font-mono text-[10px] sm:text-[10.5px] font-medium tracking-[0.22em] uppercase leading-tight">
-              SCROLL
-            </span>
-            <span className="font-mono text-[10px] sm:text-[10.5px] font-medium tracking-[0.22em] uppercase leading-tight">
-              TO EXPLORE
-            </span>
-            <span
-              className="mt-1 text-sm leading-none transition-transform duration-200 group-hover:translate-y-1"
-              aria-hidden="true"
+        <ScrollReveal delayMs={300}>
+          <div className="flex flex-col items-start">
+            <a
+              href="#rooms"
+              onClick={handleScrollToExplore}
+              className="inline-flex flex-col items-start text-[#6B6B6B] hover:text-[#171715] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] cursor-pointer group select-none"
+              aria-label="Scroll to explore exhibition"
             >
-              ↓
-            </span>
-          </a>
-        </div>
+              <span className="font-mono text-[10px] sm:text-[10.5px] font-medium tracking-[0.22em] uppercase leading-tight">
+                SCROLL
+              </span>
+              <span className="font-mono text-[10px] sm:text-[10.5px] font-medium tracking-[0.22em] uppercase leading-tight">
+                TO EXPLORE
+              </span>
+              <span
+                className="mt-1 text-sm leading-none transition-transform duration-200 group-hover:translate-y-1"
+                aria-hidden="true"
+              >
+                ↓
+              </span>
+            </a>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ScrollReveal } from '../motion/ScrollReveal';
 import { SectionTwoEditorialModal } from './SectionTwoEditorialModal';
 
 export interface CloserCardData {
@@ -100,9 +101,9 @@ const CloserCardItem: React.FC<CardItemProps> = ({ card, onExpand }) => {
               ref={cardButtonRef}
               type="button"
               onClick={handleTrigger}
-              aria-label={`Open ${card.title} editorial monograph`}
+              aria-label={`Open ${card.title}`}
               className="p-2 text-[#6B6B6B] hover:text-[#FAF8F4] hover:bg-[#171715] border border-[#E3DED5] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] transition-colors cursor-pointer mt-0.5 flex-shrink-0 rounded-none"
-              title="Open editorial monograph"
+              title="Open story"
             >
               <svg
                 className="w-3.5 h-3.5"
@@ -132,12 +133,9 @@ const CloserCardItem: React.FC<CardItemProps> = ({ card, onExpand }) => {
             onClick={handleTrigger}
             className="inline-flex items-center text-xs font-mono font-medium text-[#A4401F] hover:text-[#7F3018] transition-colors cursor-pointer group-hover:underline"
           >
-            <span>Read monograph story</span>
+            <span>Read story</span>
             <span className="ml-1.5 transition-transform duration-200 group-hover:translate-x-1">→</span>
           </button>
-          <span className="font-mono text-[10.5px] text-[#6B6B6B] uppercase tracking-wider">
-            {card.id === 'card-01' ? 'Exhibition Monograph' : 'Archival Monograph'}
-          </span>
         </div>
       </div>
     </article>
@@ -178,7 +176,7 @@ export const FashionRoomSection: React.FC = () => {
       aria-label="Look closer exhibition"
       className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 sm:py-28 lg:py-32 scroll-mt-12 sm:scroll-mt-16 md:scroll-mt-20 overflow-hidden"
     >
-      <div className="w-full max-w-[1360px] mx-auto px-6 md:px-12 lg:px-16">
+      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
         {/* =========================================================================
             DESKTOP STAGGERED LAYOUT (lg & above)
             Reproduces exact reference arrangement:
@@ -191,7 +189,7 @@ export const FashionRoomSection: React.FC = () => {
           {/* LEFT COLUMN: Text Block (Upper Left) + Card 02 (Lower Left) */}
           <div className="flex flex-col">
             {/* Introductory Text Block */}
-            <div className="max-w-[480px] mb-16 xl:mb-24 pt-2">
+            <ScrollReveal className="max-w-[480px] mb-16 xl:mb-24 pt-2" delayMs={50}>
               <p className="font-mono text-xs font-semibold tracking-[0.24em] uppercase text-[#A4401F] mb-3">
                 LOOK CLOSER
               </p>
@@ -201,34 +199,34 @@ export const FashionRoomSection: React.FC = () => {
               <p className="font-sans text-[15px] sm:text-[16px] leading-[1.65] text-[#6B6B6B] mt-6 max-w-[440px]">
                 Every object, image and sound holds clues about the people, places and ideas that shaped Nigeria’s creative history.
               </p>
-            </div>
+            </ScrollReveal>
 
             {/* Card 02: Lower Left (beneath text block) */}
-            <div className="w-full">
+            <ScrollReveal className="w-full" delayMs={160}>
               <CloserCardItem
                 card={CLOSER_CARDS[1]}
                 onExpand={handleOpenCard}
               />
-            </div>
+            </ScrollReveal>
           </div>
 
           {/* RIGHT COLUMN: Card 01 (Upper Right) + Card 03 (Lower Right) */}
           <div className="flex flex-col">
             {/* Card 01: Upper Right */}
-            <div className="w-full mb-16 xl:mb-24">
+            <ScrollReveal className="w-full mb-16 xl:mb-24" delayMs={100}>
               <CloserCardItem
                 card={CLOSER_CARDS[0]}
                 onExpand={handleOpenCard}
               />
-            </div>
+            </ScrollReveal>
 
             {/* Card 03: Lower Right (beneath Card 01) */}
-            <div className="w-full">
+            <ScrollReveal className="w-full" delayMs={220}>
               <CloserCardItem
                 card={CLOSER_CARDS[2]}
                 onExpand={handleOpenCard}
               />
-            </div>
+            </ScrollReveal>
           </div>
         </div>
 

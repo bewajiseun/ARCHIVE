@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 export interface CarryForwardStory {
   id: string;
@@ -172,7 +173,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
             ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end mb-12 md:mb-16">
           {/* Left Column: Eyebrow + Headline */}
-          <div className="lg:col-span-7 flex flex-col items-start">
+          <ScrollReveal className="lg:col-span-7 flex flex-col items-start" delayMs={50}>
             <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] mb-3 font-semibold">
               <span>FEATURED STORY</span>
             </div>
@@ -181,14 +182,14 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
               <span>What We Carry </span>
               <span className="italic text-[#A4401F] font-normal">Forward</span>
             </h2>
-          </div>
+          </ScrollReveal>
 
           {/* Right Column: Supporting Copy */}
-          <div className="lg:col-span-5 flex flex-col justify-end">
+          <ScrollReveal className="lg:col-span-5 flex flex-col justify-end" delayMs={120}>
             <p className="font-sans text-[14.5px] sm:text-[15.5px] md:text-[16px] leading-[1.62] text-[#D5D0C1] max-w-[480px]">
               Nigerian creativity is always evolving. Earlier influences find new expression in the clothes we wear, the sounds we create, the images we preserve, and the visual languages we reinterpret.
             </p>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* =========================================================================
@@ -207,7 +208,8 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
               role="region"
               aria-label="What We Carry Forward Stories Grid"
             >
-              {CARRY_FORWARD_STORIES.map((story) => (
+              {CARRY_FORWARD_STORIES.map((story, idx) => (
+                <ScrollReveal key={story.id} delayMs={80 + idx * 70} className="h-full">
                 <article
                   key={story.id}
                   className="group relative flex flex-col justify-between bg-[#321F18] border border-[#E3DED5]/20 hover:border-[#A4401F]/80 transition-all duration-300 rounded-none overflow-hidden"
@@ -275,6 +277,7 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
                     </div>
                   </div>
                 </article>
+                </ScrollReveal>
               ))}
             </div>
           ) : (

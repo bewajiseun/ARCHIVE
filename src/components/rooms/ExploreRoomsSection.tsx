@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Maximize2 } from 'lucide-react';
-import { ArchivalSpecimenModal } from './ArchivalSpecimenModal';
+import { ScrollReveal } from '../motion/ScrollReveal';
+import { ChevronRight } from 'lucide-react';
 
 export interface RoomItem {
   id: string;
@@ -39,18 +39,17 @@ const ROOM_TABS: RoomItem[] = [
   { id: 'design', title: 'Design' },
 ];
 
-const FASHION_CATEGORIES_ROW_1 = [
-  'Hairstyles & Hair Artistry',
-  'Headwear & Adornment',
-  'Jewellery & Beads',
+const FASHION_SUBCATEGORIES = [
+  { id: 'hairstyles', label: 'Hairstyle & Hair Artistry', isDeveloped: true },
+  { id: 'headwear', label: 'Headwear & Adornment', isDeveloped: true },
+  { id: 'jewellery', label: 'Jewelry & Beads', isDeveloped: true },
+  { id: 'clothing', label: 'Clothing & Textiles', isDeveloped: true },
+  { id: 'grooming', label: 'Grooming & Beauty', isDeveloped: true },
 ];
 
-const FASHION_CATEGORIES_ROW_2 = [
-  'Clothing & Textiles',
-  'Grooming, Beauty & Personal Style',
-];
-
-// All 10 exact Cloudinary image records in exact preserved order
+// =========================================================================
+// Hairstyles & Hair Artistry Collection: 9 verified archival specimens
+// =========================================================================
 const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
   {
     id: 'hair-01',
@@ -59,7 +58,7 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_8.jpg',
     title: 'Sculptural Woven Arch & Plaiting',
     shortDescription:
-      'A master study in architectural hair geometry, featuring elevated vertical arches constructed through meticulous narrow-section braiding. The intricate cornrow foundation anchors arched loops rising above the crown, illustrating the sculptural balance between structural tension and personal adornment.',
+      'An elaborate updo combines raised braided sections and curved forms, creating a sculptural arrangement viewed from behind.',
     sourceCredit: 'Archival Collection Specimen',
     alt: 'Sculptural Nigerian archival hairstyle featuring woven arched loops and precise cornrow foundation',
   },
@@ -70,7 +69,7 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/Image1.jpg',
     title: 'Radiating Threaded Crest',
     shortDescription:
-      'Fine black thread binding techniques utilized to sculpt elongated curved spires ascending upward from radiating scalp partings. The smooth, lustrous density of the wrapped forms highlights the artisanal skill of traditional Nigerian hair threading, transforming hair into three-dimensional living sculpture.',
+      "Long, curved strands rise and fan outward from the scalp, creating a striking silhouette. The image invites closer examination of the hairstyle's shape and construction.",
     sourceCredit: 'Archival Collection Specimen',
     alt: 'Nigerian threaded crest hairstyle with ascending spires and radiating scalp geometric lines',
   },
@@ -79,22 +78,22 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
     displayOrder: '03',
     category: 'Hairstyles & Hair Artistry',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/image9.jpg',
-    title: 'Layered Ribbed Cornrow Geometry',
+    title: 'Sculpted Loops & Curved Sections',
     shortDescription:
-      'Geometric scalp mapping defined by parallel curving cornrows that sweep symmetrically across the temples toward a central apex. The rhythmic repetition of raised ridges demonstrates meticulous tension control and spatial harmony, celebrating hair as an enduring medium of graphic and cultural expression.',
+      'Curved, looped sections create a sculptural hairstyle with contrasting shapes and textures. The arrangement draws attention to the visual possibilities of hair styling.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Symmetrical ribbed cornrow hairstyle curving across the scalp toward a central apex',
+    alt: 'Portrait of a smiling woman with hair styled in curved looped sections',
   },
   {
     id: 'hair-04',
     displayOrder: '04',
     category: 'Hairstyles & Hair Artistry',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/Image_5.jpg',
-    title: 'Volumetric Tiered Crown',
+    title: 'The Sculpted Flat Top',
     shortDescription:
-      'A multi-tiered sculptural hairstyle combining concentric cornrow foundations with dramatic ascending coiled loops. The composition balances substantial cranial volume with delicate tactile texture, showcasing the craftsperson’s ability to manipulate hair into stately, dignified crests for celebratory and everyday occasions.',
+      'A high, squared-off hairstyle creates a strong geometric silhouette. The clean outline and carefully shaped volume highlight the role of precision in hair styling.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Multi-tiered Nigerian sculptural hairstyle featuring concentric cornrows and raised coils',
+    alt: 'Studio portrait of a man in formal attire with a high, precision-shaped flat top hairstyle',
   },
   {
     id: 'hair-05',
@@ -104,9 +103,9 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
       'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/hairstyles-01-braided-crown-natural-puff.jpg',
     title: 'Braided Crown with Natural Volume',
     shortDescription:
-      'An intricate circular halo braid enclosing a voluminous natural textured puff. The clean division between tightly flat-laid perimeter plaiting and expansive crown fullness demonstrates the versatility of African natural hair textures, uniting protective technique with ceremonial elegance.',
+      'A braided section at the back of the head leads into a full natural puff, combining close scalp braiding with a contrasting volume of textured hair.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Circular halo perimeter braid surrounding a full natural textured crown puff',
+    alt: 'Braided section at the back of the head ascending into a full natural textured puff',
   },
   {
     id: 'hair-06',
@@ -116,7 +115,7 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
       'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422082/hairstyles-02-starburst-cornrow-knots.jpg',
     title: 'Starburst Cornrow Knots',
     shortDescription:
-      'A dynamic starburst pattern radiating outwards from a central scalp coordinate into segmented raised cornrows terminating in sculpted sculptural knots. The razor-sharp linear grid reveals mathematical precision in parting and execution, underscoring hair styling as high visual artistry.',
+      'Cornrows radiate from a central point and extend outward into small raised knots, creating a distinctive starburst pattern across the scalp.',
     sourceCredit: 'Archival Collection Specimen',
     alt: 'Starburst radiating cornrows originating from a central point and terminating in sculpted knots',
   },
@@ -136,37 +135,28 @@ const HAIRSTYLE_CAROUSEL_IMAGES: CarouselImageRecord[] = [
     displayOrder: '08',
     category: 'Hairstyles & Hair Artistry',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_7.png',
-    title: 'Concentric Coiled Waves',
+    title: 'Cornrows and Sculpted Braids',
     shortDescription:
-      'Curvilinear cornrows swooping in concentric wave-like contours around the ear and occipital bone. The fluid, undulating tracks create a continuous visual rhythm across the head, demonstrating supreme thumb dexterity and intuitive understanding of cranial contours.',
+      'Closely arranged cornrows follow the scalp and meet thicker braided sections, creating a hairstyle defined by contrasting braid sizes, direction, and structure.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Concentric curving cornrow waves following the ear and cranial contour in fluid harmony',
+    alt: 'Closely arranged cornrows along the scalp meeting thicker sculpted braided sections',
   },
   {
     id: 'hair-09',
     displayOrder: '09',
     category: 'Hairstyles & Hair Artistry',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image3.jpg',
-    title: 'Interlocking Basket-Weave Plaiting',
+    title: 'The Afro Silhouette',
     shortDescription:
-      'An elaborate cross-hatched surface created through overlapping three-strand plaiting and flat interlocking braids. Resembling hand-woven cane and textile structures, this style illustrates the deep cross-pollination between Nigerian textile weaving and hair craft.',
+      'A rounded Afro hairstyle creates a distinctive silhouette, drawing attention to the volume, shape, and texture of natural hair.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Elaborate cross-hatched interlocking plaiting resembling artisanal basketry and woven textile',
-  },
-  {
-    id: 'hair-10',
-    displayOrder: '10',
-    category: 'Hairstyles & Hair Artistry',
-    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792422083/Image_6.jpg',
-    title: 'Ascending Spiral Pillars',
-    shortDescription:
-      'Vertical spiral columns wound with dark cord, rising in symmetrical formation above a base of micro-cornrows. The architectural purity of the vertical pillars highlights the dialogue between head adornment, personal posture, and statuesque presence in Nigerian creative history.',
-    sourceCredit: 'Archival Collection Specimen',
-    alt: 'Vertical ascending spiral columns wrapped in dark cord rising above symmetrical micro-cornrows',
+    alt: 'Studio portrait of a man with a rounded Afro hairstyle creating a distinctive silhouette',
   },
 ];
 
-// Headwear & Adornment Collection: 9 exact verified archival specimens
+// =========================================================================
+// Headwear & Adornment Collection: 9 approved archival specimens
+// =========================================================================
 const HEADWEAR_COLLECTION_IMAGES: CarouselImageRecord[] = [
   {
     id: 'head-01',
@@ -270,7 +260,7 @@ const HEADWEAR_COLLECTION_IMAGES: CarouselImageRecord[] = [
 ];
 
 // =========================================================================
-// Jewellery & Beads Collection: Exact 9 curated archival specimens
+// Jewellery & Beads Collection: 9 approved archival specimens
 // =========================================================================
 const JEWELLERY_COLLECTION_IMAGES: CarouselImageRecord[] = [
   {
@@ -355,22 +345,232 @@ const JEWELLERY_COLLECTION_IMAGES: CarouselImageRecord[] = [
     displayOrder: '08',
     category: 'Jewellery & Beads',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430891/Colour_Beads_and_Headwrap.jpg',
-    title: 'Glass Trade Beads & Patterned Accents',
+    title: 'Strung with Intention',
     shortDescription:
-      'A delicate cascade of monochrome and polychrome glass beads paired with patterned woven fabrics. The subtle contrast between glossy bead surfaces and matte handspun cloth highlights textural sophistication.',
+      'A cascade of colourful beads and layered neck adornment created with deliberate rhythm, spacing, and personal intent. Look at how individual glass and stone beads come together to form an intricate composition.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Layered monochrome beads paired with hand-dyed textile cloth',
+    alt: 'Strung with Intention — colourful layered bead strands framing the neck in rhythmic balance',
   },
   {
     id: 'jewel-09',
     displayOrder: '09',
     category: 'Jewellery & Beads',
     imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792430892/The_Dark_Silhouette.jpg',
-    title: 'The Sculpted Brass Cuff & Choker',
+    title: 'Apo Ifa — The Beadwork of a Diviner',
     shortDescription:
-      'Solid cast brass wrist cuffs featuring incised geometric cross-hatching and raised studs. The metallic warmth anchors the dark silhouette of the wearer, speaking to enduring blacksmithing and lost-wax bronze traditions.',
+      'Intricate beadwork in ceremonial regalia referencing the sacred bag of a Yoruba babalawo (diviner). In Yoruba tradition, beaded bags (àpò Ifá) carry sacred divination instruments and signify spiritual authority and visual mastery. Do not claim the displayed image depicts the exact Metropolitan Museum of Art object (accession 1978.412.729) without direct archival verification.',
     sourceCredit: 'Archival Collection Specimen',
-    alt: 'Cast brass wrist cuff and choker exhibiting geometric surface engravings',
+    alt: 'Apo Ifa — The Beadwork of a Diviner — ceremonial beaded regalia celebrating sacred craft and visual mastery',
+  },
+];
+
+// =========================================================================
+// Clothing & Textiles Collection: 9 approved archival specimens
+// =========================================================================
+const CLOTHING_COLLECTION_IMAGES: CarouselImageRecord[] = [
+  {
+    id: 'cloth-01',
+    displayOrder: '01',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673318/Threads_of_Tradition.jpg',
+    title: 'The Hands Behind the Cloth',
+    shortDescription:
+      'An artisan works at a wooden loom, interlacing coloured threads to create patterned cloth. The image draws attention to the manual skill and labour involved in textile production.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Hands Behind the Cloth — an artisan weaving patterned cloth at a traditional wooden loom',
+  },
+  {
+    id: 'cloth-02',
+    displayOrder: '02',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673318/Authentic_Handwoven_Akwete_Fabric.jpg',
+    title: 'Akwete: Patterns in the Weave',
+    shortDescription:
+      'A patterned woven textile displays repeated geometric arrangements and contrasting colours. The image introduces Akwete as a named Nigerian weaving tradition.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Akwete: Patterns in the Weave — handwoven Akwete textile displaying geometric patterns and contrasting colours',
+  },
+  {
+    id: 'cloth-03',
+    displayOrder: '03',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673317/Ikaki_Akwete_Cloth.jpg',
+    title: 'Ikaki: A Distinctive Textile Motif',
+    shortDescription:
+      'A textile identified as Ikaki Akwete cloth presents a distinctive patterned surface. The image invites closer attention to the relationship between textile design, pattern, and weaving.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Ikaki: A Distinctive Textile Motif — handwoven Ikaki Akwete cloth showing intricate patterned motifs',
+  },
+  {
+    id: 'cloth-04',
+    displayOrder: '04',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673479/Yoruba_Tunic___Nigeria.jpg',
+    title: 'Cloth Becomes Clothing',
+    shortDescription:
+      'A complete tunic, trousers, and matching cap demonstrate how patterned cloth comes together as a coordinated outfit. The image focuses on garment form and the relationship between fabric and dress.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Cloth Becomes Clothing — complete coordinated Nigerian tunic, trousers, and matching cap ensemble',
+  },
+  {
+    id: 'cloth-05',
+    displayOrder: '05',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673525/Hausa_embroidery_detail.jpg',
+    title: 'The Art of Embroidery',
+    shortDescription:
+      'A close view of decorative embroidery reveals contrasting colours, carefully arranged shapes, and the detail applied to a garment. The image focuses on embellishment as part of clothing craftsmanship.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Art of Embroidery — close-up of intricate hand embroidery showing geometric stitchwork',
+  },
+  {
+    id: 'cloth-06',
+    displayOrder: '06',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673525/2919D.jpg',
+    title: 'Garments as Cultural Expression',
+    shortDescription:
+      'A traditionally styled robe features a flowing silhouette and prominent geometric decorative panels. The image invites visitors to examine how garment shape, fabric, and ornamentation contribute to visual identity.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Garments as Cultural Expression — flowing robe with decorative embroidered geometric chest panels',
+  },
+  {
+    id: 'cloth-07',
+    displayOrder: '07',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673527/Aso_oke_people.png',
+    title: 'Clothing and Community',
+    shortDescription:
+      'A group wears coordinated purple garments and complementary adornments. The image illustrates how clothing can be experienced collectively, providing a starting point for exploring dress, belonging, and shared occasions.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'Clothing and Community — gathering in coordinated ceremonial attire celebrating shared identity',
+  },
+  {
+    id: 'cloth-08',
+    displayOrder: '08',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673526/Stacked_Ankara_cloth_patterns.jpg',
+    title: 'The Variety of Printed Cloth',
+    shortDescription:
+      'A stack of colourful printed fabrics displays contrasting patterns, shapes, and colour combinations. The image introduces the visual variety of printed cloth used in contemporary clothing.',
+    sourceCredit: 'Archival Collection Specimen',
+    alt: 'The Variety of Printed Cloth — stack of vibrant printed cotton fabrics displaying diverse geometric motifs',
+  },
+  {
+    id: 'cloth-09',
+    displayOrder: '09',
+    category: 'Clothing & Textiles',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792673699/Indigo_The_art_of_resist.png',
+    title: 'Indigo: The Art of Resist Dyeing',
+    shortDescription:
+      'An illustrative scene shows a textile artisan lifting indigo-dyed cloth from a dye vat, revealing contrasting patterns created through resist-dyeing techniques. The image evokes the craft behind patterned textiles.',
+    sourceCredit: 'Illustrative Reconstruction (AI-Generated Scene)',
+    alt: 'Indigo: The Art of Resist Dyeing — illustrative scene of artisan drawing patterned cloth from an indigo dye vat',
+  },
+];
+
+// =========================================================================
+// Grooming, Beauty & Personal Style Collection: 9 curated archival specimens
+// =========================================================================
+const GROOMING_COLLECTION_IMAGES: CarouselImageRecord[] = [
+  {
+    id: 'groom-01',
+    displayOrder: '01',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792682847/Elegant_Coral_Bead_Portrait.png',
+    title: 'Individuality & Self-Expression',
+    shortDescription:
+      'A woman’s sculptural hairstyle, coral-coloured adornments, jewellery, and carefully coordinated clothing come together in a distinctive portrait. The image explores how beauty and personal presentation can become forms of individual expression.',
+    sourceCredit: 'Illustrative Reconstruction (AI-Generated Portrait)',
+    alt: 'Individuality & Self-Expression — illustrative portrait of a woman with sculptural hairstyle, coral adornments, and coordinated clothing',
+  },
+  {
+    id: 'groom-02',
+    displayOrder: '02',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792682098/Regal_African_Headwrap_Portrait.png',
+    title: 'The Art of Adornment',
+    shortDescription:
+      'An elaborate headwrap, layered beads, statement earrings, and coordinated traditional-style clothing create a richly detailed portrait. The image invites visitors to examine how headwear, jewellery, colour, and ornamentation work together in personal presentation.',
+    sourceCredit: 'Illustrative Reconstruction (AI-Generated Portrait)',
+    alt: 'The Art of Adornment — illustrative portrait featuring elaborate headwrap, layered beads, statement earrings, and traditional-style clothing',
+  },
+  {
+    id: 'groom-03',
+    displayOrder: '03',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792681547/Brenda_Holloway_1967.jpg',
+    title: 'Beauty Through Time',
+    shortDescription:
+      'A vintage-looking image of a beauty practitioner applying makeup captures an intimate moment in the process of getting ready. It provides an entry point for exploring changing beauty practices, professional techniques, and the people who helped shape them.',
+    sourceCredit: 'Archival Collection Specimen (Mid-20th-Century Vintage Photograph)',
+    alt: 'Beauty Through Time — vintage photograph showing a beauty practitioner applying makeup at a dressing table',
+  },
+  {
+    id: 'groom-04',
+    displayOrder: '04',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792682730/1960s_Salon_Styling_Moment.png',
+    title: 'The Hands Behind Beauty',
+    shortDescription:
+      'A stylist carefully arranges a seated woman’s hair inside a vintage salon. The scene highlights the hands-on skill, attention, and personal interaction involved in beauty work, while offering a glimpse into an earlier salon environment.',
+    sourceCredit: 'Illustrative Reconstruction (AI-Generated Salon Scene)',
+    alt: 'The Hands Behind Beauty — illustrative scene of a hair stylist arranging hair in a mid-century salon',
+  },
+  {
+    id: 'groom-05',
+    displayOrder: '05',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792681547/beauty_reimagined.jpg',
+    title: 'Beauty Reimagined',
+    shortDescription:
+      'A contemporary beauty portrait uses expressive makeup, bold colour, and striking styling to create an unconventional visual identity. The image explores beauty as experimentation, creativity, and the freedom to interpret personal style.',
+    sourceCredit: 'Contemporary Editorial Creative Archive',
+    alt: 'Beauty Reimagined — contemporary beauty portrait displaying expressive makeup, vibrant colour, and bold styling',
+  },
+  {
+    id: 'groom-06',
+    displayOrder: '06',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792681547/What_Is_African_Black_Soap_Made_Of__Baraka_Guide_-_Baraka_Impact.jpg',
+    title: 'The Making of Black Soap',
+    shortDescription:
+      'An image associated with African black soap introduces the materials and production processes behind a familiar beauty product. It invites visitors to look beyond the finished product and consider the knowledge, ingredients, and labour involved in making it.',
+    sourceCredit: 'Material Craft Documentation (Baraka Impact / Archival Guide)',
+    alt: 'The Making of Black Soap — raw ingredients, materials, and traditional craftsmanship behind artisanal black soap',
+  },
+  {
+    id: 'groom-07',
+    displayOrder: '07',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792681547/Did_you_know__Shea_butter_is_extracted_from_the.jpg',
+    title: 'The People Behind Beauty Ingredients',
+    shortDescription:
+      'The production of shea butter offers a way to explore the people, processes, and materials behind beauty ingredients. The image shifts attention from the finished product to the work and knowledge involved in its preparation.',
+    sourceCredit: 'Agricultural & Material Documentation',
+    alt: 'The People Behind Beauty Ingredients — artisanal extraction, processing, and preparation of natural shea butter',
+  },
+  {
+    id: 'groom-08',
+    displayOrder: '08',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792682285/324962929381242977.jpg',
+    title: 'Preparing for the Occasion',
+    shortDescription:
+      'A woman applies lipstick while preparing her appearance at a dressing table surrounded by cosmetics and personal accessories. The scene captures the intimate process of getting ready and the choices involved in presenting oneself for an occasion.',
+    sourceCredit: 'Archival Collection Specimen (Intimate Dressing Table Study)',
+    alt: 'Preparing for the Occasion — woman applying lipstick at a dressing table surrounded by cosmetics and accessories',
+  },
+  {
+    id: 'groom-09',
+    displayOrder: '09',
+    category: 'Grooming & Beauty',
+    imageUrl: 'https://res.cloudinary.com/jlggrwhm/image/upload/v1792681549/Artisanal_African-Inspired_Beauty_Still_Life.png',
+    title: 'The Tools and Products of Beauty',
+    shortDescription:
+      'A carefully arranged still life brings together soaps, oils, creams, powders, brushes, combs, and natural-looking materials. The composition highlights the tools and products used in beauty practices and invites visitors to examine the objects behind personal care and presentation.',
+    sourceCredit: 'Illustrative Reconstruction (AI-Generated Still Life)',
+    alt: 'The Tools and Products of Beauty — illustrative still life arrangement of soaps, oils, wooden combs, and beauty vessels',
   },
 ];
 
@@ -423,494 +623,404 @@ const OTHER_ROOMS_DATA: Record<string, OtherRoomPreviewData> = {
 };
 
 export const ExploreRoomsSection: React.FC = () => {
-  // Fashion is selected by default as required
-  const [activeRoomId, setActiveRoomId] = useState<string>('fashion');
-  const [activeCategory, setActiveCategory] = useState<string>('Hairstyles & Hair Artistry');
+  // Four Creative Disciplines: Fashion, Photography, Music, Design (Fashion default)
+  const [activeDisciplineId, setActiveDisciplineId] = useState<string>('fashion');
+  // Fashion subcategory filters
+  const [activeFashionSubId, setActiveFashionSubId] = useState<string>('hairstyles');
+  // Slide index: 0 (Images 1-3), 1 (Images 4-6), 2 (Images 7-9)
+  const [slideIndex, setSlideIndex] = useState<number>(0);
+  // Crossfade transition state for slide pagination
+  const [isCrossfading, setIsCrossfading] = useState<boolean>(false);
+  // Expandable description per card (See more / See less)
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
 
-  // Active overlay ID for tap-to-inspect on mobile or keyboard
-  const [activeOverlayId, setActiveOverlayId] = useState<string | null>(null);
-  // Active enlarged specimen ID for high-res Modal / Lightbox inspection
-  const [enlargedSpecimenId, setEnlargedSpecimenId] = useState<string | null>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
-  const tabListRef = useRef<HTMLDivElement>(null);
+  const toggleExpand = (cardId: string) => {
+    setExpandedCards((prev) => ({
+      ...prev,
+      [cardId]: !prev[cardId],
+    }));
+  };
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
+  // Switch discipline tab
+  const handleDisciplineChange = (discId: string) => {
+    setActiveDisciplineId(discId);
+    setSlideIndex(0);
+    setExpandedCards({});
+  };
 
-  // Accessible keyboard tab navigation
-  const handleTabKeyDown = (e: React.KeyboardEvent, roomId: string) => {
-    const currentIndex = ROOM_TABS.findIndex((r) => r.id === roomId);
-    let nextIndex = currentIndex;
+  // Switch fashion subcategory
+  const handleFashionSubChange = (subId: string) => {
+    setActiveFashionSubId(subId);
+    setSlideIndex(0);
+    setExpandedCards({});
+  };
 
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      nextIndex = (currentIndex + 1) % ROOM_TABS.length;
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      nextIndex = (currentIndex - 1 + ROOM_TABS.length) % ROOM_TABS.length;
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      nextIndex = 0;
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      nextIndex = ROOM_TABS.length - 1;
-    }
-
-    if (nextIndex !== currentIndex) {
-      const nextRoom = ROOM_TABS[nextIndex];
-      setActiveRoomId(nextRoom.id);
-      setActiveOverlayId(null);
-      const tabButton = document.getElementById(`room-tab-${nextRoom.id}`);
-      if (tabButton) tabButton.focus();
+  // Active collection for Fashion
+  const getActiveFashionSpecimens = (): CarouselImageRecord[] => {
+    switch (activeFashionSubId) {
+      case 'headwear':
+        return HEADWEAR_COLLECTION_IMAGES;
+      case 'jewellery':
+        return JEWELLERY_COLLECTION_IMAGES;
+      case 'clothing':
+        return CLOTHING_COLLECTION_IMAGES;
+      case 'grooming':
+        return GROOMING_COLLECTION_IMAGES;
+      case 'hairstyles':
+      default:
+        return HAIRSTYLE_CAROUSEL_IMAGES;
     }
   };
 
-  // =========================================================================
-  // CURATED IMAGES FOR FASHION EXHIBITIONS (Hairstyles & Headwear)
-  // =========================================================================
-  const isHairstyles = activeCategory === 'Hairstyles & Hair Artistry';
-  const isHeadwear = activeCategory === 'Headwear & Adornment';
-  const isJewellery = activeCategory === 'Jewellery & Beads';
+  const isCurrentSubcategoryDeveloped =
+    activeFashionSubId === 'hairstyles' ||
+    activeFashionSubId === 'headwear' ||
+    activeFashionSubId === 'jewellery' ||
+    activeFashionSubId === 'clothing' ||
+    activeFashionSubId === 'grooming';
 
-  // Dominant Centerpiece:
-  const activeCenterImage = isJewellery
-    ? JEWELLERY_COLLECTION_IMAGES[0] // jewel-01: 'The Hand as Ornament'
-    : isHeadwear
-    ? HEADWEAR_COLLECTION_IMAGES[0] // head-01: 'Wrapped in Pattern'
-    : HAIRSTYLE_CAROUSEL_IMAGES[0]; // hair-01: 'Sculptural Woven Arch & Plaiting'
+  const currentSpecimens = getActiveFashionSpecimens();
 
-  // Four Images on the Left (arranged in 2 columns x 2 rows)
-  const activeLeftImages = isJewellery
-    ? [
-        JEWELLERY_COLLECTION_IMAGES[1], // jewel-02: 'Rings as Small Sculptures'
-        JEWELLERY_COLLECTION_IMAGES[2], // jewel-03: 'The Language of Metal'
-        JEWELLERY_COLLECTION_IMAGES[3], // jewel-04: 'A Crown Woven in Beads'
-        JEWELLERY_COLLECTION_IMAGES[4], // jewel-05: 'Adornment in Gold'
-      ]
-    : isHeadwear
-    ? [
-        HEADWEAR_COLLECTION_IMAGES[1], // head-02: 'Colour, Beads and Headwrap'
-        HEADWEAR_COLLECTION_IMAGES[2], // head-03: 'The Sculptural Wrap'
-        HEADWEAR_COLLECTION_IMAGES[3], // head-04: 'A Crown of Folds'
-        HEADWEAR_COLLECTION_IMAGES[4], // head-05: 'The Art of Shaping'
-      ]
-    : [
-        HAIRSTYLE_CAROUSEL_IMAGES[1], // hair-02: Radiating Threaded Crest
-        HAIRSTYLE_CAROUSEL_IMAGES[2], // hair-03: Layered Ribbed Cornrow Geometry
-        HAIRSTYLE_CAROUSEL_IMAGES[3], // hair-04: Volumetric Tiered Crown
-        HAIRSTYLE_CAROUSEL_IMAGES[4], // hair-05: Braided Crown with Natural Volume
-      ];
+  // Exactly 3 cards per screen (Slide 0: 1-3, Slide 1: 4-6, Slide 2: 7-9)
+  const slideCards = currentSpecimens.slice(slideIndex * 3, slideIndex * 3 + 3);
+  const cardLeft = slideCards[0] || currentSpecimens[0];
+  const cardCenter = slideCards[1] || currentSpecimens[1];
+  const cardRight = slideCards[2] || currentSpecimens[2];
 
-  // Four Images on the Right (arranged in 2 columns x 2 rows)
-  const activeRightImages = isJewellery
-    ? [
-        JEWELLERY_COLLECTION_IMAGES[5], // jewel-06: 'The Art of the Bangle'
-        JEWELLERY_COLLECTION_IMAGES[6], // jewel-07: 'Beads Worn in Layers'
-        JEWELLERY_COLLECTION_IMAGES[7], // jewel-08: 'Glass Trade Beads & Patterned Accents'
-        JEWELLERY_COLLECTION_IMAGES[8], // jewel-09: 'The Sculpted Brass Cuff & Choker'
-      ]
-    : isHeadwear
-    ? [
-        HEADWEAR_COLLECTION_IMAGES[5], // head-06: 'Pattern in Profile'
-        HEADWEAR_COLLECTION_IMAGES[6], // head-07: 'The Wrapped Portrait'
-        HEADWEAR_COLLECTION_IMAGES[7], // head-08: 'Adornment in Celebration'
-        HEADWEAR_COLLECTION_IMAGES[8], // head-09: 'The Dark Silhouette'
-      ]
-    : [
-        HAIRSTYLE_CAROUSEL_IMAGES[5], // hair-06: Starburst Cornrow Knots
-        HAIRSTYLE_CAROUSEL_IMAGES[6], // hair-07: Cantilevered Spires & Wrapped Crests
-        HAIRSTYLE_CAROUSEL_IMAGES[7], // hair-08: Concentric Coiled Waves
-        HAIRSTYLE_CAROUSEL_IMAGES[8], // hair-09: Interlocking Basket-Weave Plaiting
-      ];
-
-  const activeSpecimensList = isJewellery
-    ? JEWELLERY_COLLECTION_IMAGES
-    : isHeadwear
-    ? HEADWEAR_COLLECTION_IMAGES
-    : HAIRSTYLE_CAROUSEL_IMAGES.slice(0, 9);
-
-  // NOTE: hair-10 ('Ascending Spiral Pillars', Image_6.jpg) is preserved in the underlying
-  // HAIRSTYLE_CAROUSEL_IMAGES data array, but intentionally excluded from the initial
-  // 9-image hairstyle presentation to avoid visual repetition.
-
-  const otherRoom = OTHER_ROOMS_DATA[activeRoomId];
-
-  // Helper renderer for clean, frameless editorial image cards with hover/tap overlay
-  const renderImageCard = (
-    item: CarouselImageRecord,
-    heightClass: string,
-    isCenter: boolean = false
-  ) => {
-    const isOverlayOpen = activeOverlayId === item.id;
-
-    return (
-      <div
-        key={item.id}
-        tabIndex={0}
-        role="button"
-        aria-label={`${item.title}. Click or press Enter to reveal historical and craft details.`}
-        aria-expanded={isOverlayOpen}
-        onClick={() => setActiveOverlayId(isOverlayOpen ? null : item.id)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setActiveOverlayId(isOverlayOpen ? null : item.id);
-          }
-        }}
-        className={`group relative w-full overflow-hidden bg-[#171715] cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${heightClass}`}
-        style={{ borderRadius: '0px' }}
-      >
-        {/* Unobstructed Archival Photograph in resting state (No titles, numbers, or labels) */}
-        <img
-          src={item.imageUrl}
-          alt={item.alt}
-          className={`w-full h-full object-cover object-center transition-transform duration-500 ease-out ${
-            prefersReducedMotion ? '' : 'group-hover:scale-[0.98]'
-          } ${isOverlayOpen ? 'scale-[0.98]' : ''}`}
-          loading="lazy"
-        />
-
-        {/* Deep Espresso Information Overlay (#321F18) revealed on Hover, Tap, or Focus */}
-        <div
-          className={`absolute inset-0 bg-[#321F18]/95 p-4 sm:p-5 md:p-6 flex flex-col justify-between transition-opacity duration-300 z-20 ${
-            isOverlayOpen
-              ? 'opacity-100 pointer-events-auto'
-              : 'opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-visible:opacity-100 group-focus-visible:pointer-events-auto'
-          }`}
-        >
-          {/* Top: Category Tag & Quick Action Buttons (Enlarge + Dismiss) */}
-          <div className="flex items-center justify-between pb-2 border-b border-[#FAF8F4]/15">
-            <span className="font-mono text-[10px] sm:text-[10.5px] tracking-[0.2em] uppercase text-[#A4401F] font-semibold">
-              {item.category.toUpperCase()}
-            </span>
-            <div className="flex items-center space-x-1.5">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setEnlargedSpecimenId(item.id);
-                }}
-                aria-label={`Enlarge specimen ${item.title}`}
-                title="Enlarge high-resolution specimen"
-                className="px-2 py-1 rounded-none border border-[#FAF8F4]/30 hover:border-[#FAF8F4] bg-[#171715]/60 hover:bg-[#FAF8F4] text-[#D5D0C1] hover:text-[#171715] flex items-center space-x-1 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                <Maximize2 className="w-3 h-3" />
-                <span className="hidden sm:inline">ENLARGE</span>
-              </button>
-              {isOverlayOpen && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveOverlayId(null);
-                  }}
-                  aria-label="Close information overlay"
-                  className="w-6 h-6 rounded-none border border-[#FAF8F4]/30 flex items-center justify-center text-[#D5D0C1] hover:text-[#FAF8F4] cursor-pointer"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Middle: Title & Visual Craft Description */}
-          <div className="my-auto py-2">
-            <h5
-              className={`font-display text-[#FAF8F4] leading-[1.14] tracking-tight ${
-                isCenter
-                  ? 'text-xl sm:text-2xl md:text-3xl'
-                  : 'text-base sm:text-lg md:text-xl'
-              }`}
-            >
-              {item.title}
-            </h5>
-            <p className="font-sans text-xs md:text-[12.5px] leading-relaxed text-[#D5D0C1] mt-2 line-clamp-4">
-              {item.shortDescription}
-            </p>
-          </div>
-
-          {/* Bottom: Provenance & Click to Enlarge Link */}
-          <div className="pt-2 border-t border-[#FAF8F4]/15 flex items-center justify-between text-[9.5px] sm:text-[10px] font-mono tracking-wider uppercase text-[#D5D0C1]/80">
-            <span className="truncate max-w-[150px]">{item.sourceCredit}</span>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setEnlargedSpecimenId(item.id);
-              }}
-              className="text-[#FAF8F4] hover:text-[#A4401F] flex items-center space-x-1 font-mono text-[10px] uppercase tracking-wider cursor-pointer underline underline-offset-2"
-            >
-              <span>View Dossier</span>
-              <span>↗</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const otherRoom = OTHER_ROOMS_DATA[activeDisciplineId];
 
   return (
     <section
       id="explore-rooms"
       aria-label="Explore the Rooms Exhibition"
-      className="relative w-full bg-[#FAF8F4] text-[#171715] py-16 md:py-24 overflow-hidden select-none"
+      className="relative w-full bg-[#FAF8F4] text-[#171715] py-20 sm:py-24 lg:py-28 overflow-hidden select-none"
     >
-      {/* Subtle deckled archival paper slips behind section background */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-40 select-none overflow-hidden"
-        aria-hidden="true"
-      >
-        <div className="absolute top-[48%] left-[8%] w-[84%] h-[240px] bg-[#E3DED5]/40 border border-[#E3DED5]/80 -rotate-1 transform pointer-events-none" />
-        <div className="absolute top-[52%] left-[12%] w-[78%] h-[200px] bg-[#D5D0C1]/30 border border-[#D5D0C1]/60 rotate-1 transform pointer-events-none" />
-      </div>
 
-      <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center">
+
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col items-center">
         {/* =========================================================================
-            1. SHARED SECTION INTRODUCTION (Compact Shared Header)
+            1. TOP INTRODUCTORY AREA
+            - Eyebrow: EXPLORE THE ROOMS
+            - Display Headline: Four rooms. Many stories.
+            - Supporting text
+            - Centered horizontally without redundant top buttons
             ========================================================================= */}
-        <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
-          {/* Eyebrow in terracotta without flanking lines */}
-          <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-2 text-center">
-            <span>EXPLORE THE ROOMS</span>
-          </div>
-
-          {/* Display Headline */}
-          <h2 className="font-display text-4xl sm:text-5xl md:text-[54px] text-[#171715] leading-[1.04] tracking-tight">
+        <ScrollReveal className="w-full max-w-2xl mx-auto flex flex-col items-center text-center" delayMs={50}>
+          <span className="font-mono text-[11px] font-semibold tracking-[0.24em] uppercase text-[#A4401F] mb-3 block">
+            EXPLORE THE ROOMS
+          </span>
+          <h2 className="font-display text-4xl sm:text-5xl md:text-[54px] lg:text-[58px] text-[#171715] leading-[1.04] tracking-tight">
             <span>Four rooms. </span>
             <span className="italic text-[#A4401F] font-normal">Many stories.</span>
           </h2>
-
-          {/* Compact Supporting Copy */}
-          <p className="font-sans text-[14px] sm:text-[15px] leading-[1.55] text-[#6B6B6B] mt-2.5 max-w-[540px]">
+          <p className="font-sans text-[14px] sm:text-[15px] leading-[1.6] text-[#6B6B6B] mt-3 max-w-[540px]">
             Explore Nigeria’s creative history through the people, practices, and ideas that continue
             to shape how we see, hear, wear, and make.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* =========================================================================
-            2. FOUR SELECTABLE ROOM TABS (Compact, Understated Editorial Tabs)
+            2. FOUR CREATIVE DISCIPLINE NAVIGATION TABS
+            - Fashion | Photography | Music | Design
+            - Evenly distributed navigation with bottom divider
+            - Active tab underline matching text width
             ========================================================================= */}
-        <div
-          ref={tabListRef}
-          role="tablist"
+        <ScrollReveal
+          className="w-full mt-10 md:mt-12 border-b border-[#E3DED5]"
+          delayMs={120}
+        >
+        <nav
           aria-label="Creative discipline exhibition rooms"
-          className="mt-6 md:mt-8 flex items-center justify-center flex-wrap gap-2 sm:gap-4 md:gap-8 border-b border-[#E3DED5] pb-3 w-full max-w-3xl mx-auto"
+          className="w-full"
         >
-          {ROOM_TABS.map((room) => {
-            const isSelected = activeRoomId === room.id;
-            return (
-              <button
-                key={room.id}
-                role="tab"
-                id={`room-tab-${room.id}`}
-                aria-controls={`room-panel-${room.id}`}
-                aria-selected={isSelected}
-                tabIndex={isSelected ? 0 : -1}
-                onClick={() => {
-                  setActiveRoomId(room.id);
-                  setActiveOverlayId(null);
-                }}
-                onKeyDown={(e) => handleTabKeyDown(e, room.id)}
-                className={`relative px-4 sm:px-5 py-2 font-mono text-xs sm:text-[13px] tracking-[0.16em] uppercase transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
-                  isSelected
-                    ? 'text-[#171715] font-semibold'
-                    : 'text-[#6B6B6B] hover:text-[#171715]'
-                }`}
-                style={{ borderRadius: '0px' }}
-              >
-                <span className="flex items-center space-x-2">
-                  {isSelected && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#A4401F]" aria-hidden="true" />
+          <div className="flex items-center justify-between sm:justify-center sm:gap-12 md:gap-20">
+            {ROOM_TABS.map((disc) => {
+              const isActive = activeDisciplineId === disc.id;
+              return (
+                <button
+                  key={disc.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => handleDisciplineChange(disc.id)}
+                  className={`group relative pb-3.5 pt-1 font-mono text-xs sm:text-[13px] tracking-[0.16em] uppercase transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                    isActive
+                      ? 'text-[#171715] font-semibold'
+                      : 'text-[#6B6B6B] hover:text-[#171715]'
+                  }`}
+                  style={{ borderRadius: '0px' }}
+                >
+                  <span>{disc.title}</span>
+                  {isActive && (
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#171715]"
+                      aria-hidden="true"
+                    />
                   )}
-                  <span>{room.title}</span>
-                </span>
-                {isSelected && (
-                  <span
-                    className="absolute -bottom-[13px] left-0 right-0 h-[2px] bg-[#A4401F]"
-                    aria-hidden="true"
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+        </ScrollReveal>
 
         {/* =========================================================================
-            3. ROOM EXHIBITION CONTENT PANEL
+            3. DISCIPLINE CONTENT PANEL
+            - If Fashion: displays Category Heading, Description, and Subcategory Filters
+            - If Photography, Music, Design: displays approved Room Preview layout with 1 representative image
             ========================================================================= */}
-        <div
-          role="tabpanel"
-          id={`room-panel-${activeRoomId}`}
-          aria-labelledby={`room-tab-${activeRoomId}`}
-          className="w-full max-w-[1380px] mx-auto mt-8 md:mt-10"
-        >
-          {activeRoomId === 'fashion' ? (
+        <div className="w-full mt-10 md:mt-12">
+          {activeDisciplineId === 'fashion' ? (
             /* =====================================================================
-               FASHION ROOM: Two-Column Header & 9-Image Editorial Composition
+               FASHION ROOM
                ===================================================================== */
-            <div className="w-full flex flex-col items-center">
-              {/* 3.1 Two-Column Fashion Header: Text on Left, Filters on Right */}
-              <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-8 lg:gap-12">
-                {/* Left column: Fashion heading and short supporting paragraph */}
-                <div className="w-full md:max-w-md lg:max-w-lg flex flex-col items-start text-left">
-                  <h3 className="font-display text-2xl sm:text-[28px] md:text-3xl lg:text-[32px] text-[#171715] leading-[1.12] tracking-tight">
-                    Fashion is more than what we wear.
-                  </h3>
-                  <p className="font-sans text-xs sm:text-[13.5px] leading-relaxed text-[#6B6B6B] mt-2 sm:mt-2.5 max-w-[420px]">
-                    Explore how hairstyles, clothing, jewellery, and textiles express identity,
-                    craft, and creativity across Nigerian life.
-                  </p>
-                </div>
+            <div className="w-full flex flex-col items-start text-left">
+              <h3 className="font-display text-2xl sm:text-3xl md:text-[34px] text-[#171715] leading-[1.12] tracking-tight">
+                Fashion is more than what we wear.
+              </h3>
+              <p className="font-sans text-xs sm:text-[13.5px] leading-relaxed text-[#6B6B6B] mt-2 max-w-[520px]">
+                Explore how hairstyles, clothing, jewellery, and textiles express identity, craft, and
+                creativity across Nigerian life.
+              </p>
 
-                {/* Right column: Five Category Filters in 2 clean rows (no horizontal scrollbar) */}
-                <div
-                  role="group"
-                  aria-label="Fashion collection categories"
-                  className="w-full md:w-auto flex flex-col items-start md:items-end gap-2 shrink-0"
-                >
-                  {/* First row: Hairstyles & Hair Artistry, Headwear & Adornment, Jewellery & Beads */}
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {FASHION_CATEGORIES_ROW_1.map((category) => {
-                      const isActive = activeCategory === category;
-                      return (
-                        <button
-                          key={category}
-                          type="button"
-                          aria-pressed={isActive}
-                          onClick={() => {
-                            setActiveCategory(category);
-                            setActiveOverlayId(null);
-                          }}
-                          className={`px-3 py-1.5 font-mono text-[10.5px] sm:text-[11px] tracking-wider uppercase transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
-                            isActive
-                              ? 'bg-[#171715] text-[#FAF8F4] border border-[#171715]'
-                              : 'bg-transparent text-[#171715] border border-[#E3DED5] hover:border-[#171715]'
-                          }`}
-                          style={{ borderRadius: '0px' }}
-                        >
-                          <span>{category}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Second row: Clothing & Textiles, Grooming, Beauty & Personal Style */}
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {FASHION_CATEGORIES_ROW_2.map((category) => {
-                      const isActive = activeCategory === category;
-                      return (
-                        <button
-                          key={category}
-                          type="button"
-                          aria-pressed={isActive}
-                          onClick={() => {
-                            setActiveCategory(category);
-                            setActiveOverlayId(null);
-                          }}
-                          className={`px-3 py-1.5 font-mono text-[10.5px] sm:text-[11px] tracking-wider uppercase transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
-                            isActive
-                              ? 'bg-[#171715] text-[#FAF8F4] border border-[#171715]'
-                              : 'bg-transparent text-[#171715] border border-[#E3DED5] hover:border-[#171715]'
-                          }`}
-                          style={{ borderRadius: '0px' }}
-                        >
-                          <span>{category}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+              {/* Subcategory Filter Buttons */}
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                {FASHION_SUBCATEGORIES.map((sub) => {
+                  const isSelected = activeFashionSubId === sub.id;
+                  return (
+                    <button
+                      key={sub.id}
+                      type="button"
+                      onClick={() => handleFashionSubChange(sub.id)}
+                      className={`px-3.5 py-1.5 font-mono text-[10.5px] sm:text-[11px] tracking-wider uppercase transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                        isSelected
+                          ? 'bg-[#171715] text-[#FAF8F4] border border-[#171715]'
+                          : 'bg-transparent text-[#171715] border border-[#E3DED5] hover:border-[#171715]'
+                      }`}
+                      style={{ borderRadius: '0px' }}
+                    >
+                      {sub.label}
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* 3.2 Category Content: Hairstyles, Headwear, & Jewellery (9-Image Compositions) vs Others (In Development) */}
-              {isHairstyles || isHeadwear || isJewellery ? (
-                <div className="w-full mt-7 md:mt-8">
-                  {/* Desktop & Tablet: Four-Left (2x2), One-Centre (dominant tall), Four-Right (2x2) */}
-                  <div className="hidden md:grid md:grid-cols-5 gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5 w-full items-stretch">
-                    {/* Column 1: Left Group Col 1 (LEFT[0], LEFT[2]) */}
-                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
-                      {renderImageCard(activeLeftImages[0], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                      {renderImageCard(activeLeftImages[2], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                    </div>
+              {/* 3.1 Content: 3-Card Asymmetric Gallery (for Hairstyles, Headwear, Jewellery) vs Minimal In-Development State */}
+              {isCurrentSubcategoryDeveloped ? (
+                <div
+                  role="region"
+                  aria-label={`Fashion gallery slide ${slideIndex + 1} of 3`}
+                  className="w-full mt-12 md:mt-14"
+                >
+                  {/* Desktop & Tablet 3-Card Row with subtle crossfade */}
+                  <div
+                    className="hidden md:grid md:grid-cols-[303fr_301fr_301fr] gap-[64px] lg:gap-[88px] w-full items-stretch min-h-[510px] transition-opacity duration-300 ease-out"
+                    style={{ opacity: isCrossfading ? 0 : 1 }}
+                  >
+                    {/* ---------------- CARD 1: LEFT ---------------- */}
+                    <article className="flex flex-col justify-between h-[510px] w-full bg-transparent">
+                      <div
+                        className="relative w-full h-[360px] bg-[#E3DED5] overflow-hidden"
+                        style={{ borderRadius: '0px' }}
+                      >
+                        <img
+                          src={cardLeft.imageUrl}
+                          alt={cardLeft.alt}
+                          className="w-full h-full object-cover object-center transition-transform duration-500 ease-out hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                      </div>
 
-                    {/* Column 2: Left Group Col 2 (LEFT[1], LEFT[3]) */}
-                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
-                      {renderImageCard(activeLeftImages[1], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                      {renderImageCard(activeLeftImages[3], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                    </div>
+                      <div className="pt-3.5 flex flex-col justify-start flex-1">
+                        <h4 className="font-display text-xl lg:text-[22px] text-[#171715] leading-[1.15] tracking-tight">
+                          {cardLeft.title}
+                        </h4>
+                        <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-[#6B6B6B] mt-1.5">
+                          {expandedCards[cardLeft.id]
+                            ? cardLeft.shortDescription
+                            : `${cardLeft.shortDescription.slice(0, 110)}...`}
+                        </p>
+                        {cardLeft.shortDescription.length > 110 && (
+                          <button
+                            type="button"
+                            onClick={() => toggleExpand(cardLeft.id)}
+                            className="mt-1 text-left font-mono text-[10.5px] uppercase tracking-wider text-[#A4401F] hover:text-[#171715] font-semibold cursor-pointer"
+                          >
+                            {expandedCards[cardLeft.id] ? 'See less' : 'See more'}
+                          </button>
+                        )}
+                      </div>
+                    </article>
 
-                    {/* Column 3: Centre Dominant Image (Spans the height of both side rows!) */}
-                    <div className="flex flex-col h-full">
-                      {renderImageCard(
-                        activeCenterImage,
-                        'h-full min-h-[392px] lg:min-h-[496px] xl:min-h-[556px]',
-                        true
-                      )}
-                    </div>
+                    {/* ---------------- CARD 2: CENTRE ---------------- */}
+                    <article className="relative flex flex-col h-[510px] w-full overflow-hidden bg-[#E3DED5]">
+                      <img
+                        src={cardCenter.imageUrl}
+                        alt={cardCenter.alt}
+                        className="w-full h-full object-cover object-center transition-transform duration-500 ease-out hover:scale-[1.02]"
+                        loading="lazy"
+                      />
 
-                    {/* Column 4: Right Group Col 1 (RIGHT[0], RIGHT[2]) */}
-                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
-                      {renderImageCard(activeRightImages[0], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                      {renderImageCard(activeRightImages[2], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                    </div>
+                      {/* Inset White Content Card */}
+                      <div
+                        className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-xs p-4 sm:p-5 shadow-sm border border-[#E3DED5]/80 z-10"
+                        style={{ borderRadius: '0px' }}
+                      >
+                        <h4 className="font-display text-lg lg:text-[20px] text-[#171715] leading-[1.15] tracking-tight">
+                          {cardCenter.title}
+                        </h4>
+                        <p className="font-sans text-[12px] sm:text-[12.5px] leading-relaxed text-[#6B6B6B] mt-1">
+                          {expandedCards[cardCenter.id]
+                            ? cardCenter.shortDescription
+                            : `${cardCenter.shortDescription.slice(0, 95)}...`}
+                        </p>
+                        {cardCenter.shortDescription.length > 95 && (
+                          <button
+                            type="button"
+                            onClick={() => toggleExpand(cardCenter.id)}
+                            className="mt-1 text-left font-mono text-[10.5px] uppercase tracking-wider text-[#A4401F] hover:text-[#171715] font-semibold cursor-pointer"
+                          >
+                            {expandedCards[cardCenter.id] ? 'See less' : 'See more'}
+                          </button>
+                        )}
+                      </div>
+                    </article>
 
-                    {/* Column 5: Right Group Col 2 (RIGHT[1], RIGHT[3]) */}
-                    <div className="flex flex-col gap-3 sm:gap-3.5 lg:gap-4 xl:gap-5">
-                      {renderImageCard(activeRightImages[1], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                      {renderImageCard(activeRightImages[3], 'h-[190px] lg:h-[240px] xl:h-[270px]')}
-                    </div>
+                    {/* ---------------- CARD 3: RIGHT ---------------- */}
+                    <article className="flex flex-col justify-between h-[510px] w-full bg-transparent">
+                      <div className="pb-3 flex flex-col justify-start">
+                        <h4 className="font-display text-xl lg:text-[22px] text-[#171715] leading-[1.15] tracking-tight">
+                          {cardRight.title}
+                        </h4>
+                        <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-[#6B6B6B] mt-1.5">
+                          {expandedCards[cardRight.id]
+                            ? cardRight.shortDescription
+                            : `${cardRight.shortDescription.slice(0, 110)}...`}
+                        </p>
+                        {cardRight.shortDescription.length > 110 && (
+                          <button
+                            type="button"
+                            onClick={() => toggleExpand(cardRight.id)}
+                            className="mt-1 text-left font-mono text-[10.5px] uppercase tracking-wider text-[#A4401F] hover:text-[#171715] font-semibold cursor-pointer"
+                          >
+                            {expandedCards[cardRight.id] ? 'See less' : 'See more'}
+                          </button>
+                        )}
+                      </div>
+
+                      <div
+                        className="relative w-full h-[360px] bg-[#E3DED5] overflow-hidden"
+                        style={{ borderRadius: '0px' }}
+                      >
+                        <img
+                          src={cardRight.imageUrl}
+                          alt={cardRight.alt}
+                          className="w-full h-full object-cover object-center transition-transform duration-500 ease-out hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                      </div>
+                    </article>
                   </div>
 
-                  {/* Mobile Reflow: Prioritises Centrepiece, followed by Supporting 8 Images */}
-                  <div className="md:hidden w-full flex flex-col items-center">
-                    {/* Dominant Centrepiece Image on Mobile */}
-                    <div className="w-full max-w-sm mx-auto">
-                      {renderImageCard(
-                        activeCenterImage,
-                        'w-full aspect-[3/4] max-h-[440px]',
-                        true
-                      )}
-                    </div>
+                  {/* Mobile & Small Screen Vertical Presentation */}
+                  <div
+                    className="md:hidden flex flex-col gap-8 w-full transition-opacity duration-300 ease-out"
+                    style={{ opacity: isCrossfading ? 0 : 1 }}
+                  >
+                    {slideCards.map((card) => (
+                      <article key={card.id} className="flex flex-col bg-transparent w-full">
+                        <div
+                          className="relative w-full h-[320px] bg-[#E3DED5] overflow-hidden"
+                          style={{ borderRadius: '0px' }}
+                        >
+                          <img
+                            src={card.imageUrl}
+                            alt={card.alt}
+                            className="w-full h-full object-cover object-center"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="pt-3">
+                          <h4 className="font-display text-xl text-[#171715] leading-[1.15]">
+                            {card.title}
+                          </h4>
+                          <p className="font-sans text-xs text-[#6B6B6B] mt-1.5 leading-relaxed">
+                            {expandedCards[card.id]
+                              ? card.shortDescription
+                              : `${card.shortDescription.slice(0, 120)}...`}
+                          </p>
+                          {card.shortDescription.length > 120 && (
+                            <button
+                              type="button"
+                              onClick={() => toggleExpand(card.id)}
+                              className="mt-1 font-mono text-[10.5px] uppercase tracking-wider text-[#A4401F] hover:text-[#171715] font-semibold cursor-pointer"
+                            >
+                              {expandedCards[card.id] ? 'See less' : 'See more'}
+                            </button>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
 
-                    {/* Supporting 8 Images in Clean 2-Column Grid */}
-                    <div className="w-full max-w-sm mx-auto grid grid-cols-2 gap-2.5 sm:gap-3 mt-2.5 sm:mt-3">
-                      {[
-                        activeLeftImages[0],
-                        activeLeftImages[1],
-                        activeLeftImages[2],
-                        activeLeftImages[3],
-                        activeRightImages[0],
-                        activeRightImages[1],
-                        activeRightImages[2],
-                        activeRightImages[3],
-                      ].map((item) => renderImageCard(item, 'w-full aspect-[4/5]'))}
+                  {/* Bottom Slide Indicators: 3 bars on lower-right */}
+                  <div className="w-full flex items-center justify-end mt-12 md:mt-14">
+                    <div
+                      role="tablist"
+                      aria-label="Gallery slides pagination"
+                      className="flex items-center gap-[15px]"
+                    >
+                      {[0, 1, 2].map((idx) => {
+                        const isActive = slideIndex === idx;
+                        return (
+                          <button
+                            key={idx}
+                            type="button"
+                            role="tab"
+                            aria-selected={isActive}
+                            aria-label={`Go to slide ${idx + 1} of 3`}
+                            onClick={() => {
+                              setSlideIndex(idx);
+                              setExpandedCards({});
+                            }}
+                            className={`transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F] ${
+                              isActive ? 'bg-[#171715]' : 'bg-[#D5D0C1] hover:bg-[#B3ADA0]'
+                            }`}
+                            style={{
+                              width: '38px',
+                              height: '5px',
+                              borderRadius: '0px',
+                            }}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
               ) : (
-                /* OTHER FASHION CATEGORIES (Honest In-Development State) */
-                <div className="mt-8 p-8 sm:p-12 bg-[#FAF8F4] border border-[#E3DED5] text-center max-w-xl mx-auto flex flex-col items-center">
-                  <span className="font-mono text-[10.5px] tracking-[0.2em] uppercase text-[#A4401F] font-semibold">
+                /* Honest In-Development State for Clothing & Textiles or Grooming & Beauty */
+                <div
+                  className="w-full mt-10 p-8 sm:p-12 md:p-16 border border-[#E3DED5] bg-[#FAF8F4] flex flex-col items-center justify-center text-center"
+                  style={{ borderRadius: '0px' }}
+                >
+                  <span className="font-mono text-[10.5px] tracking-[0.24em] uppercase text-[#A4401F] font-semibold">
                     CURATORIAL CATALOGUING IN PROGRESS
                   </span>
-                  <h4 className="font-display text-2xl text-[#171715] mt-2.5">
-                    {activeCategory}
+                  <h4 className="font-display text-2xl sm:text-3xl text-[#171715] mt-3">
+                    {activeFashionSubId === 'clothing'
+                      ? 'Clothing & Textiles'
+                      : 'Grooming, Beauty & Personal Style'}
                   </h4>
-                  <p className="font-sans text-xs sm:text-[13px] text-[#6B6B6B] leading-relaxed mt-2.5 max-w-md">
+                  <p className="font-sans text-xs sm:text-[13.5px] text-[#6B6B6B] leading-relaxed mt-2.5 max-w-md">
                     Archival specimens, documentation, and verified provenance for this category are
-                    currently being catalogued. The Hairstyles &amp; Hair Artistry, Headwear &amp; Adornment, and Jewellery &amp; Beads collections are
-                    currently available for viewing.
+                    currently being catalogued. The Hairstyles &amp; Hair Artistry, Headwear &amp; Adornment,
+                    Jewellery &amp; Beads, and Clothing &amp; Textiles collections are currently available for viewing.
                   </p>
-                  <div className="mt-5 flex flex-wrap gap-2.5 justify-center">
+                  <div className="mt-6 flex flex-wrap gap-2.5 justify-center">
                     <button
                       type="button"
-                      onClick={() => setActiveCategory('Hairstyles & Hair Artistry')}
-                      className="inline-flex items-center px-4 py-2 bg-[#171715] text-[#FAF8F4] hover:bg-[#A4401F] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      onClick={() => setActiveFashionSubId('hairstyles')}
+                      className="inline-flex items-center px-4 py-2 bg-transparent text-[#171715] border border-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer"
                       style={{ borderRadius: '0px' }}
                     >
                       <span>View Hairstyles &amp; Hair Artistry</span>
@@ -918,8 +1028,8 @@ export const ExploreRoomsSection: React.FC = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setActiveCategory('Headwear & Adornment')}
-                      className="inline-flex items-center px-4 py-2 bg-transparent text-[#171715] border border-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      onClick={() => setActiveFashionSubId('headwear')}
+                      className="inline-flex items-center px-4 py-2 bg-transparent text-[#171715] border border-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer"
                       style={{ borderRadius: '0px' }}
                     >
                       <span>View Headwear &amp; Adornment</span>
@@ -927,11 +1037,20 @@ export const ExploreRoomsSection: React.FC = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setActiveCategory('Jewellery & Beads')}
-                      className="inline-flex items-center px-4 py-2 bg-[#A4401F] text-[#FAF8F4] hover:bg-[#171715] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                      onClick={() => setActiveFashionSubId('jewellery')}
+                      className="inline-flex items-center px-4 py-2 bg-transparent text-[#171715] border border-[#171715] hover:bg-[#171715] hover:text-[#FAF8F4] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer"
                       style={{ borderRadius: '0px' }}
                     >
                       <span>View Jewellery &amp; Beads</span>
+                      <span className="ml-2">→</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveFashionSubId('clothing')}
+                      className="inline-flex items-center px-4 py-2 bg-[#A4401F] text-[#FAF8F4] hover:bg-[#171715] text-xs font-mono uppercase tracking-wider transition-colors duration-200 cursor-pointer"
+                      style={{ borderRadius: '0px' }}
+                    >
+                      <span>View Clothing &amp; Textiles</span>
                       <span className="ml-2">→</span>
                     </button>
                   </div>
@@ -940,13 +1059,15 @@ export const ExploreRoomsSection: React.FC = () => {
             </div>
           ) : otherRoom ? (
             /* =====================================================================
-               PHOTOGRAPHY, MUSIC, OR DESIGN: Unified Editorial Room Preview
+               PHOTOGRAPHY, MUSIC, OR DESIGN ROOM PREVIEW
+               - Preserves approved room preview layout:
+               - Heading and supporting paragraph on left
+               - Terracotta accent dot & uppercase preview label on right
+               - Exactly 1 representative image spanning content width
                ===================================================================== */
             <div className="w-full flex flex-col items-center">
-              {/* Content Header Row: Heading & Description on Left, Accent + Preview Label on Right */}
-              <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-8 lg:gap-12">
-                {/* Left Column: Room Heading & Supporting Text */}
-                <div className="w-full md:max-w-xl lg:max-w-2xl flex flex-col items-start text-left">
+              <div className="w-full flex flex-col md:flex-row md:items-start md:justify-between gap-6 md:gap-8 lg:gap-12">
+                <div className="w-full md:max-w-md lg:max-w-lg flex flex-col items-start text-left">
                   <h3 className="font-display text-2xl sm:text-[28px] md:text-3xl lg:text-[34px] text-[#171715] leading-[1.12] tracking-tight">
                     {otherRoom.heading}
                   </h3>
@@ -955,7 +1076,6 @@ export const ExploreRoomsSection: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Right Column: Small Terracotta Accent & Uppercase Room-Preview Label */}
                 <div className="w-full md:w-auto flex items-center md:justify-end shrink-0 pt-1 md:pt-2">
                   <div className="flex items-center space-x-2.5">
                     <span className="w-2 h-2 rounded-full bg-[#A4401F] shrink-0" aria-hidden="true" />
@@ -966,7 +1086,7 @@ export const ExploreRoomsSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* One Large Representative Archival Image Spanning Full Content Width */}
+              {/* One Representative Archival Image */}
               <div className="w-full mt-7 md:mt-8">
                 <div
                   className="relative w-full overflow-hidden bg-[#171715] select-none"
@@ -990,20 +1110,6 @@ export const ExploreRoomsSection: React.FC = () => {
           ) : null}
         </div>
       </div>
-
-      {/* =========================================================================
-          4. ARCHIVAL SPECIMEN ENLARGEMENT MODAL (LIGHTBOX)
-          Enables high-resolution inspection, curatorial reading, and seamless browsing
-          across all specimens in the active category.
-          ========================================================================= */}
-      <ArchivalSpecimenModal
-        isOpen={enlargedSpecimenId !== null}
-        onClose={() => setEnlargedSpecimenId(null)}
-        specimens={activeSpecimensList}
-        activeSpecimenId={enlargedSpecimenId}
-        onSelectSpecimen={(id) => setEnlargedSpecimenId(id)}
-        categoryTitle={activeCategory}
-      />
     </section>
   );
 };

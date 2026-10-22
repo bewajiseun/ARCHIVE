@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, X, ExternalLink } from 'lucide-react';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 export interface SourceEntry {
   id: string;
@@ -93,38 +94,46 @@ export const SourcesCreditsSection: React.FC = () => {
           <div className="lg:col-span-5 flex flex-col items-start justify-between h-full pt-1">
             <div>
               {/* Section Label in terracotta without numbers or lines */}
-              <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-6 md:mb-8">
-                <span>SOURCES & CREDITS</span>
-              </div>
+              <ScrollReveal delayMs={40}>
+                <div className="text-[11px] font-mono tracking-[0.24em] uppercase text-[#A4401F] font-semibold mb-6 md:mb-8">
+                  <span>SOURCES & CREDITS</span>
+                </div>
+              </ScrollReveal>
 
               {/* Large Editorial Headline */}
-              <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] text-[#171715] leading-[0.92] tracking-tight">
-                <span className="block">Every story</span>
-                <span className="block">
-                  has <span className="italic text-[#A4401F] font-normal">a source.</span>
-                </span>
-              </h2>
+              <ScrollReveal delayMs={80}>
+                <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] text-[#171715] leading-[0.92] tracking-tight">
+                  <span className="block">Every story</span>
+                  <span className="block">
+                    has <span className="italic text-[#A4401F] font-normal">a source.</span>
+                  </span>
+                </h2>
+              </ScrollReveal>
 
               {/* Supporting Copy */}
-              <p className="font-sans text-[15.5px] sm:text-[16.5px] md:text-[17.5px] leading-[1.62] text-[#171715]/90 mt-8 md:mt-10 max-w-[460px]">
-                ARCHIVE brings together photographs, objects, records, and research from people, institutions, and collections. We credit the sources behind each story and distinguish documented history from interpretation.
-              </p>
+              <ScrollReveal delayMs={140}>
+                <p className="font-sans text-[15.5px] sm:text-[16.5px] md:text-[17.5px] leading-[1.62] text-[#171715]/90 mt-8 md:mt-10 max-w-[460px]">
+                  ARCHIVE brings together photographs, objects, records, and research from people, institutions, and collections. We credit the sources behind each story and distinguish documented history from interpretation.
+                </p>
+              </ScrollReveal>
 
               {/* Single Primary CTA */}
-              <div className="mt-8 md:mt-10">
-                <button
-                  type="button"
-                  onClick={() => setIsFullCreditsOpen(true)}
-                  className="inline-flex items-center justify-center bg-[#A4401F] hover:bg-[#7F3018] text-[#FAF8F4] font-sans text-[13px] md:text-[13.5px] font-medium tracking-[0.06em] uppercase px-6 py-3 transition-colors duration-200 cursor-pointer shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
-                  style={{
-                    height: '52px',
-                    borderRadius: '0px',
-                  }}
-                >
-                  <span>View full credits</span>
-                  <span className="ml-3 text-base leading-none" aria-hidden="true">→</span>
-                </button>
-              </div>
+              <ScrollReveal delayMs={190}>
+                <div className="mt-8 md:mt-10">
+                  <button
+                    type="button"
+                    onClick={() => setIsFullCreditsOpen(true)}
+                    className="inline-flex items-center justify-center bg-[#A4401F] hover:bg-[#7F3018] text-[#FAF8F4] font-sans text-[13px] md:text-[13.5px] font-medium tracking-[0.06em] uppercase px-6 py-3 transition-colors duration-200 cursor-pointer shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A4401F]"
+                    style={{
+                      height: '52px',
+                      borderRadius: '0px',
+                    }}
+                  >
+                    <span>View full credits</span>
+                    <span className="ml-3 text-base leading-none" aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </ScrollReveal>
             </div>
           </div>
 
@@ -134,49 +143,50 @@ export const SourcesCreditsSection: React.FC = () => {
           <div className="lg:col-span-7 flex flex-col justify-between">
             {/* The Five-Row Source Register */}
             <div className="border-t border-[#E3DED5] divide-y divide-[#E3DED5]">
-              {SOURCES_DATA.map((source) => (
-                <article
-                  key={source.id}
-                  onClick={() => setActiveModalSource(source)}
-                  className="group py-6 sm:py-7 md:py-8 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-[#E3DED5]/30 px-2 sm:px-4"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveModalSource(source);
-                    }
-                  }}
-                  aria-label={`${source.seq} — ${source.title}: ${source.description}`}
-                >
-                  <div className="flex items-start space-x-4 sm:space-x-6 pr-4 flex-1">
-                    {/* Sequence Number with connecting hairline */}
-                    <div className="flex items-center space-x-2 pt-1 flex-shrink-0">
-                      <span className="font-mono text-xs sm:text-sm font-semibold text-[#A4401F]">
-                        {source.seq}
-                      </span>
-                      <span className="w-5 sm:w-7 h-[1px] bg-[#E3DED5] group-hover:bg-[#A4401F] transition-colors" aria-hidden="true" />
-                    </div>
-
-                    {/* Source Title & Description */}
-                    <div className="flex-1">
-                      <h3 className="font-display text-2xl sm:text-3xl md:text-[32px] text-[#171715] leading-tight tracking-tight group-hover:text-[#A4401F] transition-colors">
-                        {source.title}
-                      </h3>
-                      <p className="font-sans text-xs sm:text-[13.5px] md:text-[14px] text-[#6B6B6B] mt-1.5 leading-relaxed max-w-lg">
-                        {source.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Outlined Circular Arrow Control at Far Right */}
-                  <div
-                    aria-hidden="true"
-                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#171715] flex items-center justify-center flex-shrink-0 text-[#171715] group-hover:border-[#A4401F] group-hover:text-[#A4401F] group-hover:bg-[#A4401F]/5 transition-all duration-200"
+              {SOURCES_DATA.map((source, idx) => (
+                <ScrollReveal key={source.id} delayMs={80 + idx * 55}>
+                  <article
+                    onClick={() => setActiveModalSource(source)}
+                    className="group py-6 sm:py-7 md:py-8 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-[#E3DED5]/30 px-2 sm:px-4"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setActiveModalSource(source);
+                      }
+                    }}
+                    aria-label={`${source.seq} — ${source.title}: ${source.description}`}
                   >
-                    <ArrowRight className="w-4 h-4 stroke-[1.75] transition-transform duration-200 group-hover:translate-x-0.5" />
-                  </div>
-                </article>
+                    <div className="flex items-start space-x-4 sm:space-x-6 pr-4 flex-1">
+                      {/* Sequence Number with connecting hairline */}
+                      <div className="flex items-center space-x-2 pt-1 flex-shrink-0">
+                        <span className="font-mono text-xs sm:text-sm font-semibold text-[#A4401F]">
+                          {source.seq}
+                        </span>
+                        <span className="w-5 sm:w-7 h-[1px] bg-[#E3DED5] group-hover:bg-[#A4401F] transition-colors" aria-hidden="true" />
+                      </div>
+
+                      {/* Source Title & Description */}
+                      <div className="flex-1">
+                        <h3 className="font-display text-2xl sm:text-3xl md:text-[32px] text-[#171715] leading-tight tracking-tight group-hover:text-[#A4401F] transition-colors">
+                          {source.title}
+                        </h3>
+                        <p className="font-sans text-xs sm:text-[13.5px] md:text-[14px] text-[#6B6B6B] mt-1.5 leading-relaxed max-w-lg">
+                          {source.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Outlined Circular Arrow Control at Far Right */}
+                    <div
+                      aria-hidden="true"
+                      className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-[#171715] flex items-center justify-center flex-shrink-0 text-[#171715] group-hover:border-[#A4401F] group-hover:text-[#A4401F] group-hover:bg-[#A4401F]/5 transition-all duration-200"
+                    >
+                      <ArrowRight className="w-4 h-4 stroke-[1.75] transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </div>
+                  </article>
+                </ScrollReveal>
               ))}
             </div>
           </div>

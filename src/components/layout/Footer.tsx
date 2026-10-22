@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArchiveLogo } from './ArchiveLogo';
 import { X } from 'lucide-react';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 export const Footer: React.FC = () => {
   const [modalType, setModalType] = useState<'privacy' | 'contact' | 'credits' | null>(null);
@@ -29,23 +30,25 @@ export const Footer: React.FC = () => {
         <div className="pb-12 sm:pb-16 md:pb-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 items-start">
           {/* A. Left Group: ARCHIVE Brand Block (approx 42-45% width) */}
           <div className="md:col-span-6 lg:col-span-5 flex flex-col items-start">
-            {/* Top label with short terracotta line — Retained deliberate terracotta brand accent */}
-            <div className="flex items-center space-x-3 mb-5">
-              <span className="w-8 h-[2px] bg-[#A4401F]" aria-hidden="true" />
-              <span className="font-mono text-[11px] tracking-[0.24em] uppercase text-[#A4401F] font-medium">
-                PEOPLE. PLACES. IDEAS. LEGACIES.
-              </span>
-            </div>
+            <ScrollReveal delayMs={40}>
+              {/* Top label with short terracotta line — Retained deliberate terracotta brand accent */}
+              <div className="flex items-center space-x-3 mb-5">
+                <span className="w-8 h-[2px] bg-[#A4401F]" aria-hidden="true" />
+                <span className="font-mono text-[11px] tracking-[0.24em] uppercase text-[#A4401F] font-medium">
+                  PEOPLE. PLACES. IDEAS. LEGACIES.
+                </span>
+              </div>
 
-            {/* Official ARCHIVE Brand Logo */}
-            <div className="my-1">
-              <ArchiveLogo variant="light" size="xl" align="left" />
-            </div>
+              {/* Official ARCHIVE Brand Logo */}
+              <div className="my-1">
+                <ArchiveLogo variant="light" size="xl" align="left" />
+              </div>
 
-            {/* Restrained Tagline */}
-            <p className="font-display text-lg sm:text-xl md:text-[22px] text-[#FAF8F4] mt-4 leading-snug max-w-sm">
-              A growing home for Nigeria's creative history.
-            </p>
+              {/* Restrained Tagline */}
+              <p className="font-display text-lg sm:text-xl md:text-[22px] text-[#FAF8F4] mt-4 leading-snug max-w-sm">
+                A growing home for Nigeria's creative history.
+              </p>
+            </ScrollReveal>
           </div>
 
           {/* Vertical Divider between Brand and Navigation (Desktop) */}
@@ -53,111 +56,119 @@ export const Footer: React.FC = () => {
 
           {/* B. Middle Group: EXPLORE Navigation */}
           <div className="md:col-span-3 lg:col-span-2 flex flex-col items-start">
-            <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#FAF8F4] font-semibold mb-6">
-              <span>EXPLORE</span>
-              <span className="w-5 h-[1px] bg-[#FAF8F4]/40" aria-hidden="true" />
-            </div>
+            <ScrollReveal delayMs={100}>
+              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#FAF8F4] font-semibold mb-6">
+                <span>EXPLORE</span>
+                <span className="w-5 h-[1px] bg-[#FAF8F4]/40" aria-hidden="true" />
+              </div>
 
-            <nav aria-label="Footer Explore Navigation" className="flex flex-col space-y-3.5">
-              <a
-                href="#explore-rooms"
-                onClick={(e) => handleNavScroll('explore-rooms', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Photography
-              </a>
-              <a
-                href="#rooms"
-                onClick={(e) => handleNavScroll('rooms', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Music
-              </a>
-              <a
-                href="#rooms"
-                onClick={(e) => handleNavScroll('rooms', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Fashion
-              </a>
-              <a
-                href="#explore-rooms"
-                onClick={(e) => handleNavScroll('explore-rooms', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Design
-              </a>
-            </nav>
+              <nav aria-label="Footer Explore Navigation" className="flex flex-col space-y-3.5">
+                <a
+                  href="#explore-rooms"
+                  onClick={(e) => handleNavScroll('explore-rooms', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Photography
+                </a>
+                <a
+                  href="#rooms"
+                  onClick={(e) => handleNavScroll('rooms', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Music
+                </a>
+                <a
+                  href="#rooms"
+                  onClick={(e) => handleNavScroll('rooms', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Fashion
+                </a>
+                <a
+                  href="#explore-rooms"
+                  onClick={(e) => handleNavScroll('explore-rooms', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Design
+                </a>
+              </nav>
+            </ScrollReveal>
           </div>
 
           {/* C. Right Group: ABOUT Navigation */}
           <div className="md:col-span-3 lg:col-span-2 flex flex-col items-start">
-            <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#FAF8F4] font-semibold mb-6">
-              <span>ABOUT</span>
-              <span className="w-5 h-[1px] bg-[#FAF8F4]/40" aria-hidden="true" />
-            </div>
+            <ScrollReveal delayMs={160}>
+              <div className="flex items-center space-x-2 text-[11px] font-mono tracking-[0.22em] uppercase text-[#FAF8F4] font-semibold mb-6">
+                <span>ABOUT</span>
+                <span className="w-5 h-[1px] bg-[#FAF8F4]/40" aria-hidden="true" />
+              </div>
 
-            <nav aria-label="Footer About Navigation" className="flex flex-col space-y-3.5">
-              <a
-                href="#hero"
-                onClick={(e) => handleNavScroll('hero', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Our Story
-              </a>
-              <a
-                href="#sources"
-                onClick={(e) => handleNavScroll('sources', e)}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
-              >
-                Sources & Credits
-              </a>
-              <button
-                type="button"
-                onClick={() => setModalType('contact')}
-                className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200 text-left cursor-pointer"
-              >
-                Contact
-              </button>
-            </nav>
+              <nav aria-label="Footer About Navigation" className="flex flex-col space-y-3.5">
+                <a
+                  href="#hero"
+                  onClick={(e) => handleNavScroll('hero', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Our Story
+                </a>
+                <a
+                  href="#sources"
+                  onClick={(e) => handleNavScroll('sources', e)}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200"
+                >
+                  Sources & Credits
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setModalType('contact')}
+                  className="text-sm font-sans text-[#FAF8F4] hover:text-[#D5D0C1] transition-colors duration-200 text-left cursor-pointer"
+                >
+                  Contact
+                </button>
+              </nav>
+            </ScrollReveal>
           </div>
 
           {/* D. Far Right: Subtle Epilogue Typography (From reference) */}
           <div className="hidden lg:flex lg:col-span-2 pl-6 border-l border-[#E3DED5]/20 flex-col justify-center h-44">
-            <p className="font-display italic text-2xl text-[#FAF8F4] leading-[1.25]">
-              Stories that
-              <span className="block not-italic text-lg text-[#D5D0C1] my-1">keep creating</span>
-              <span className="text-[#FAF8F4]">tomorrow.</span>
-            </p>
+            <ScrollReveal delayMs={220}>
+              <p className="font-display italic text-2xl text-[#FAF8F4] leading-[1.25]">
+                Stories that
+                <span className="block not-italic text-lg text-[#D5D0C1] my-1">keep creating</span>
+                <span className="text-[#FAF8F4]">tomorrow.</span>
+              </p>
+            </ScrollReveal>
           </div>
         </div>
 
         {/* =========================================================================
             3. BOTTOM BAR: Copyright, Privacy & Credits
             ========================================================================= */}
-        <div className="pt-8 border-t border-[#E3DED5]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#D5D0C1]">
-          <div>
-            <span>© {currentYear} ARCHIVE. All rights reserved.</span>
-          </div>
+        <ScrollReveal delayMs={260}>
+          <div className="pt-8 border-t border-[#E3DED5]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#D5D0C1]">
+            <div>
+              <span>© {currentYear} ARCHIVE. All rights reserved.</span>
+            </div>
 
-          <div className="flex items-center space-x-4">
-            <button
-              type="button"
-              onClick={() => setModalType('privacy')}
-              className="hover:text-[#FAF8F4] transition-colors cursor-pointer"
-            >
-              Privacy
-            </button>
-            <span className="text-[#E3DED5]/30" aria-hidden="true">|</span>
-            <button
-              type="button"
-              onClick={() => setModalType('credits')}
-              className="hover:text-[#FAF8F4] transition-colors cursor-pointer"
-            >
-              Credits
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                type="button"
+                onClick={() => setModalType('privacy')}
+                className="hover:text-[#FAF8F4] transition-colors cursor-pointer"
+              >
+                Privacy
+              </button>
+              <span className="text-[#E3DED5]/30" aria-hidden="true">|</span>
+              <button
+                type="button"
+                onClick={() => setModalType('credits')}
+                className="hover:text-[#FAF8F4] transition-colors cursor-pointer"
+              >
+                Credits
+              </button>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* Accessible Modals for Privacy & Contact */}
