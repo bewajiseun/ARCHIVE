@@ -209,10 +209,10 @@ export const ThreadsOfGenerationsSection: React.FC = () => {
               aria-label="What We Carry Forward Stories Grid"
             >
               {CARRY_FORWARD_STORIES.map((story, idx) => (
-                <ScrollReveal key={story.id} delayMs={80 + idx * 70} className="h-full">
+                <ScrollReveal key={story.id} delayMs={80 + idx * 70} className="h-full flex flex-col">
                 <article
                   key={story.id}
-                  className="group relative flex flex-col justify-between bg-[#321F18] border border-[#E3DED5]/20 hover:border-[#A4401F]/80 transition-all duration-300 rounded-none overflow-hidden"
+                  className="h-full w-full group relative flex flex-col justify-between bg-[#321F18] border border-[#E3DED5]/20 hover:border-[#A4401F]/80 transition-all duration-300 rounded-none overflow-hidden"
                 >
                   {/* Top Image Container */}
                   <div
